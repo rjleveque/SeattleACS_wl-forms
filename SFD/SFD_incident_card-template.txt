@@ -1,0 +1,37 @@
+Form: sfd1-form.html
+To: <var tocall>
+Subj: SFD Card <var cardid> --- ACS Message # <var acsno>
+Msg:
+
+<var IsExer>
+
+Seattle Fire Department Incident Card <var cardid>
+
+========================
+CO: <var company>   TIME: <var time>
+
+------------------------
+LOCATION: <var location>
+
+------------------------
+CONDITIONS:
+Fire: <var IsFire>
+Flood: <var IsFlood>
+Other: <var IsOther> <var other_desc>
+
+------------------------
+LEVELS (resource needs):
+CITY: <var levels_city>    BATTALION: <var levels_bat>    COMPANY: <var levels_company>
+
+------------------------
+ACTIONS & NEEDS:
+<var actions>
+
+------------------------
+CARD NUMBER: <var cardid>
+
+========================
+
+Sent by: <var mycall>
+---
+Program version:<ProgramVersion>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>RMS Express Form</title>
+        <style type='text/css'>
+            body {
+                font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+                font-size: 1.2em;
+            }
+
+            form {
+                background:#22ddff;
+                border-radius: 10px;
+                padding: .4em;
+            }
+
+            input {
+                margin: .2em;
+            }
+
+            section {
+                display: flex;
+                justify-content: flex-end;
+                padding: .2em;
+            }
+
+            #main-container {
+                max-width: 500px;
+                padding: 1em;
+                background: linear-gradient(#11ccee, #11aaff);
+                border-radius: 20px;
+            }
+
+            #submit-container {
+                display: flex;
+                justify-content: flex-end;
+                padding: .2em;
+            }
+
+            .input-container {
+                width: 100%;
+                margin: auto;
+                text-align: center;
+                padding: .2em;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="main-container">
+            <form
+                id="RMS_Express_form"
+                method="post"
+                action="http://{FormServer}:{FormPort}"
+                enctype="multipart/form-data"
+            >
+                <div class="section">
+                    <b>Winlink message data:</b>
+                </div>
+            <div class="input-container">
+                    <label for="mycall">Your callsign:</label>
+                    <input type="text" name="mycall" id="myCallsign" />
+                </div>
+                <div class="input-container">
+                    <label for="tocall">Recipients callsign:</label>
+                    <input type="text" name="tocall" id="yourCallsign"
+                    placeholder="W7ACS" value=""/>
+                </div>
+                <div class="input-container">
+                    <label for="acsno">ACS Message Number:</label>
+                    <input type="text" name="acsno" id="ACSno" value="STN00-0000"/>
+                </div>
+                 <div class="input-container">
+                    <label for="Exer">This is an exercise:</label>
+                    <input type="checkbox" name="Exer"  value="Exer"
+                     onclick="if(document.getElementById('IsExer').value =='')
+                     {document.getElementById('IsExer').value = '** THIS IS AN EXERCISE **'}
+                     else { document.getElementById('IsExer').value = '';}"/>
+                    <input type="hidden" name="IsExer" id="IsExer" />
+                </div>
+                <div class="section">
+                    <b>Form data:</b>
+                </div>
+                <div class="input-container">
+                    <label for="company">CO (company):</label>
+                    <input type="text" name="company" id="company" value=""/>
+                </div>
+                <div class="input-container">
+                    <label for="time">TIME:</label>
+                    <input type="text" name="time" id="Time" value=""/>
+                </div>
+                 <div class="input-container">
+                    <label for="location">LOCATION:</label>
+                    <input type="text" name="location" id="location" value=""/>
+                </div>
+                 <div class="section">
+                    CONDITIONS:
+                </div>
+                <div class="input-container">
+                    <label for="fire">Fire:</label>
+                    <input type="checkbox" name="fire"  value="fire"
+                     onclick="if(document.getElementById('IsFire').value =='')
+                     {document.getElementById('IsFire').value = 'X'}
+                     else { document.getElementById('IsFire').value = '';}"/>
+                    <input type="hidden" name="IsFire" id="IsFire" />
+                </div>
+                <div class="input-container">
+                    <label for="flood">Flood:</label>
+                    <input type="checkbox" name="flood"  value="flood"
+                     onclick="if(document.getElementById('IsFlood').value =='')
+                     {document.getElementById('IsFlood').value = 'X'}
+                     else { document.getElementById('IsFlood').value = '';}"/>
+                    <input type="hidden" name="IsFlood" id="IsFlood" />
+                </div>
+                <div class="input-container">
+                    <label for="other">Other:</label>
+                    <input type="checkbox" name="other"  value="other"
+                     onclick="if(document.getElementById('IsOther').value =='')
+                     {document.getElementById('IsOther').value = 'X'}
+                     else { document.getElementById('Isother').value = '';}"/>
+                    <input type="hidden" name="IsOther" id="IsOther" />
+                    <label for="other_desc">Other description:</label>
+                    <input type="text" name="other_desc" id="other_desc" value=""/>
+                </div>
+                  <div class="input-container">
+                    <label for="levels_city">LEVELS (resource needs)-- CITY:</label>
+                    <input type="text" name="levels_city" id="levels_city" value=""/>
+                    <label for="levels_bat">BATTALION:</label>
+                    <input type="text" name="levels_bat" id="levels_bat" value=""/>
+                    <label for="levels_company">COMPANY:</label>
+                    <input type="text" name="levels_company" id="levels_company" value=""/>
+                </div>
+                <div class="input-container">
+                    <label for="actions">ACTIONS & NEEDS:</label>
+                    <input type="text" name="actions" id="actions" value=""/>
+                </div>
+                <div class="input-container">
+                    <label for="cardid">SFD card ID:</label>
+                    <input type="text" name="cardid" id="CardID" value="B0-000"/>
+                </div>
+
+                <div id="submit-container">
+                    <input type="submit" name="Submit" value="Submit" />
+                </div>
+            </form>
+
+            <section>
+                <input type="button" name="SaveButton" id="saveButton" value="Save Data" />
+            </section>
+        </div>
+
+        <script>
+            function saveToLocalStorage(itemKey, itemValue) {
+                var existingItem = localStorage.getItem(itemKey);
+
+                if (existingItem.length > 0) {
+                    localStorage.removeItem(itemKey);
+                }
+
+                console.log('Storing item to browser memory:', itemKey, itemValue);
+                localStorage.setItem(itemKey, itemValue);
+            }
+
+            function normalizeCallsign(callsign) {
+                var callsignTrimmed = callsign.trim();
+                var callsignUpper = callsignTrimmed.toUpperCase();
+                console.log("Upper-casing callsign:", callsignUpper);
+                return callsignUpper;
+            }
+
+            var myCallsignElement = document.getElementById('myCallsign');
+            myCallsignElement.addEventListener('blur', function () {
+                this.value = normalizeCallsign(this.value);
+            });
+
+            var yourCallsignElement = document.getElementById('yourCallsign');
+            yourCallsignElement.addEventListener('blur', function () {
+                this.value = normalizeCallsign(this.value);
+            });
+
+            function getDateTimeStamp() {
+                let d = new Date();
+                let thisYear = d.getFullYear();
+                let thisMonth = d.getMonth() + 1;
+                let thisDay = d.getDate();
+                let hours = (d.getHours() < 10 ? '0' : '') + d.getHours();
+                let minutes = (d.getMinutes() < 10 ? '0' : '') + d.getMinutes();
+
+                thisMonth = thisMonth < 10 ? thisMonth = '0' + thisMonth : thisMonth;
+                thisDay = thisDay < 10 ? thisDay = '0' + thisDay : thisDay;
+
+                var dateTimeStamp = `${thisYear}-${thisMonth}-${thisDay} ${hours}_${minutes}`;
+                console.log('returning date-time stamp: ', dateTimeStamp);
+                return dateTimeStamp;
+            }
+
+            function createJsonObjectFromFormElements() {
+                const jsonObject = {
+                    MyCallsign: document.getElementById('myCallsign').value,
+                    YourCallsign: document.getElementById('yourCallsign').value
+                };
+
+                console.log('returning jsonobject:', jsonObject);
+                return jsonObject;
+            }
+
+            function saveFormInputElementsToFile() {
+                let dateTimeStamp = getDateTimeStamp();
+                let filenameToSaveAs = `Form-saved-data ${dateTimeStamp}.txt`;
+
+                let formElementsAsJson = createJsonObjectFromFormElements();
+                let textToWrite = JSON.stringify(formElementsAsJson, null, 2);
+                let textFileAsBlob = new Blob([textToWrite], {type: 'application/json'});
+
+                let downloadLink = document.createElement('a');
+                downloadLink.download = filenameToSaveAs;
+                downloadLink.href = URL.createObjectURL(textFileAsBlob);
+
+                downloadLink.onclick = function (e) {
+                    document.body.removeChild(e.target);
+                };
+
+                downloadLink.style.display = 'none';
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+            }
+
+            document.getElementById('saveButton').addEventListener('click', () => {
+                saveFormInputElementsToFile();
+            });
+        </script>
+    </body>
+</html>
