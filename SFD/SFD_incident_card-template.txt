@@ -1,4 +1,4 @@
-Form: sfd1-form.html
+Form: SFD_incident_card-form.html
 To: <var tocall>
 Subj: SFD Card <var cardid> --- ACS Message # <var acsno>
 Msg:
@@ -19,7 +19,7 @@ CONDITIONS:
 
 Collapse -- 
     risk: <var IsCollapse-risk>
-    partial: <varIsCollapse-partial>
+    partial: <var IsCollapse-partial>
     full: <var IsCollapse-full>
 
 Fire: <var IsFire>
