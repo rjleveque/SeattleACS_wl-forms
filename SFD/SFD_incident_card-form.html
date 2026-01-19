@@ -47,39 +47,6 @@
             }
 
 
-        /* Pop-up content shifted off-screen when not in view. Still readable by screen-reader software. When targeted it fills the browser window. */
-        .pop-up {
-            position: absolute;
-            top: 0em;
-            left: -500em;
-        }
-
-        .pop-up:target {
-            position: static;
-            left: 0em;
-        }
-
-        /* The pop-up itself */
-        .popBox {
-            background: rgb(240, 240, 240);
-            position: absolute;
-            left: 2em;
-            right: 2em;
-            top: 2em;
-            bottom: 2em;
-            z-index: 10;
-            border: 3px solid rgb(150, 150, 150);
-            border-radius: 1rem;
-            box-shadow: 0.4rem 0.4rem 0.5rem 0.8rem rgb(150, 150, 150);
-            opacity: 0;
-            transition: opacity 0.8s ease-out;
-        }
-
-        :target .popBox {
-            position: fixed;
-            opacity: 1;
-        }
-
         </style>
     </head>
 
@@ -250,20 +217,6 @@
             <section>
                 <input type="button" name="SaveButton" id="saveButton" value="Save Data" />
             </section>
-
-        <section id="pop1" class="pop-up">
-        <!-- The pop-up block -->
-
-        <div class="popBox">
-            <!-- If the content becomes larger than the pop-up this div will scroll the content -->
-            <input type="button" id="closePopBtn" value="Click to close this help" class="close" />
-
-            <div class="popScroll">
-                <h2>Winlink Operator Instructions</h2>
-
-                <h3>About This Form</h3>
-
-            </div>
         </div>
 
         <script>
@@ -346,19 +299,6 @@
                 saveFormInputElementsToFile();
             });
 
-        // Add event listeners for "Form Information - READ" and "Close Pop-up" buttons
-        document.getElementById('formInfoReadBtn').addEventListener('click', function () {
-            getFocusableElements('pop1').forEach(el => {
-                el.removeAttribute('tabindex');
-            });
-            location.href = '#pop1';
-        });
-        document.getElementById('closePopBtn').addEventListener('click', function () {
-            getFocusableElements('pop1').forEach(el => {
-                el.setAttribute('tabindex', '-1');
-            });
-            location.href = '#close';
-        });
         </script>
     </body>
 </html>
