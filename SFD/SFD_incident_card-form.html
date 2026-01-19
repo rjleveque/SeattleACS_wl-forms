@@ -103,7 +103,7 @@
                         size="5" value=""/>
                 </div>
                  <div class="input-container">
-                    <label for="location">LOCATION:<br></label>
+                    <label for="location"><b>LOCATION:</b><br></label>
                     <textarea rows="3" cols="50"
                            name="location" id="location"></textarea>
                 </div>
@@ -118,7 +118,7 @@
                         {document.getElementById('IsCollapse-risk').value = 'X'}
                         else { document.getElementById('IsCollapse-risk').value = '';}"/>
                     <input type="hidden" name="IsCollapse-risk"
-                    id="IsCollapse-risk" />
+                        id="IsCollapse-risk" />
 
                     <label for="collapse-partial">partial:</label>
                     <input type="checkbox" name="collapse-partial"
@@ -128,7 +128,7 @@
                         else { document.getElementById('IsCollapse-partial').value = '';}"/>
                     <input type="hidden" name="IsCollapse-partial"
 
-                    id="IsCollapse-full" />
+                        id="IsCollapse-full" />
                     <label for="collapse-full">full:</label>
                     <input type="checkbox" name="collapse-full"
                         value="collapse-full"
@@ -136,7 +136,7 @@
                         {document.getElementById('IsCollapse-full').value = 'X'}
                         else { document.getElementById('IsCollapse-full').value = '';}"/>
                     <input type="hidden" name="IsCollapse-full"
-                    id="IsCollapse-full" />
+                        id="IsCollapse-full" />
                 </div>
                 <div class="input-container">
                     <label for="fire">Fire:</label>
@@ -200,9 +200,14 @@
                            name="actions" id="actions"></textarea>
                 </div>
                 <div class="input-container">
-                    <label for="cardid">SFD incident card Number:</label>
-                    <input type="text" name="cardid" id="CardID"
-                    placeholder="BX-XXX" value=""/>
+                    <label for="cardid">SFD incident card number:</label>
+                    &nbsp;&nbsp;
+                    <b>B</b><input type="text" name="cardB" id="CardB" size="1"
+                        value=""/>
+                    -<input type="text" name="cardid" id="CardID" size="3"
+                        value=""/>
+                     <input type="text" name="cardid2" id="CardID2" size="1"
+                        value=""/>
                 </div>
 
             </form>
