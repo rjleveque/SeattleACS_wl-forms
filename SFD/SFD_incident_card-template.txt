@@ -11,12 +11,21 @@ Seattle Fire Department Incident Card <var cardid>
 CO: <var company>   TIME: <var time>
 
 ------------------------
-LOCATION: <var location>
+LOCATION:
+<var location>
 
 ------------------------
 CONDITIONS:
+
+Collapse -- 
+    risk: <var IsCollapse-risk>
+    partial: <varIsCollapse-partial>
+    full: <var IsCollapse-full>
+
 Fire: <var IsFire>
-Flood: <var IsFlood>
+Fuel/Gas/Water: <var IsFGW>
+HAZMAT: <var IsHazmat>
+Landslide: <var IsLandslide>
 Other: <var IsOther> <var other_desc>
 
 ------------------------
