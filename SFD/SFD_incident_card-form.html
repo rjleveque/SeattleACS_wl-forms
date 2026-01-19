@@ -69,18 +69,19 @@
                 </div>
 
                 <div class="input-container">
-                    <label for="mycall">Your callsign:</label>
-                    <input type="text" name="mycall" id="myCallsign" />
+                    <label for="mycall">From (TACTICAL/MYCALL):</label>
+                    <input type="text" name="mycall" id="myCallsign"
+                        placeholder="Station 00 / AA7XXX"/>
                 </div>
                 <div class="input-container">
-                    <label for="tocall">Recipients callsign:</label>
+                    <label for="tocall">To (Winlink address):</label>
                     <input type="text" name="tocall" id="yourCallsign"
-                    placeholder="W7ACS" value=""/>
+                        placeholder="W7ACS" value=""/>
                 </div>
                 <div class="input-container">
                     <label for="acsno">ACS Message Number:</label>
                     <input type="text" name="acsno" id="ACSno"
-                    placeholder="STN00-0001" value=""/>
+                        placeholder="STN00-0001" value=""/>
                 </div>
                  <div class="input-container">
                     <label for="Exer">This is an exercise:</label>
@@ -95,11 +96,11 @@
                 </div>
                 <div class="input-container">
                     <label for="company">CO:</label>
-                    <input type="text" name="company" id="company" value=""/>
-                </div>
-                <div class="input-container">
+                    <input type="text" name="company" id="company"
+                        size="5" value=""/>
                     <label for="time">TIME:</label>
-                    <input type="text" name="time" id="Time" value=""/>
+                    <input type="text" name="time" id="Time"
+                        size="5" value=""/>
                 </div>
                  <div class="input-container">
                     <label for="location">LOCATION:<br></label>
@@ -184,19 +185,18 @@
                 </div>
                   <div class="input-container">
                     <label for="levels_city">CITY:</label>
-                    <input type="text" name="levels_city" id="levels_city" value=""/>
-                </div>
-                  <div class="input-container">
+                    <input type="text" name="levels_city" id="levels_city"
+                        size="5" value=""/>
                     <label for="levels_bat">BATTALION:</label>
-                    <input type="text" name="levels_bat" id="levels_bat" value=""/>
-                </div>
-                  <div class="input-container">
+                    <input type="text" name="levels_bat" id="levels_bat"
+                        size="5" value=""/>
                     <label for="levels_company">COMPANY:</label>
-                    <input type="text" name="levels_company" id="levels_company" value=""/>
+                    <input type="text" name="levels_company" id="levels_company"
+                        size="5" value=""/>
                 </div>
                 <div class="input-container">
                     <label for="actions"><b>ACTIONS & NEEDS:<br></b></label>
-                    <textarea rows="5" cols="50"
+                    <textarea rows="5" cols="55"
                            name="actions" id="actions"></textarea>
                 </div>
                 <div class="input-container">
@@ -205,13 +205,14 @@
                     placeholder="BX-XXX" value=""/>
                 </div>
 
-                <div id="submit-container">
-                    <input type="submit" name="Submit" value="Submit" />
-                </div>
             </form>
 
             <section>
-                <input type="button" name="SaveButton" id="saveButton" value="Save Data" />
+                <input type="submit" name="Submit" value="Submit" />
+                <input type="button" name="SaveButton" id="saveButton" 
+                    value="Save Data" />
+                <input type="button" name="LoadButton" id="loadButton"
+                    value="Load Data" />
             </section>
         </div>
 
