@@ -47,39 +47,6 @@
             }
 
 
-        /* Pop-up content shifted off-screen when not in view. Still readable by screen-reader software. When targeted it fills the browser window. */
-        .pop-up {
-            position: absolute;
-            top: 0em;
-            left: -500em;
-        }
-
-        .pop-up:target {
-            position: static;
-            left: 0em;
-        }
-
-        /* The pop-up itself */
-        .popBox {
-            background: rgb(240, 240, 240);
-            position: absolute;
-            left: 2em;
-            right: 2em;
-            top: 2em;
-            bottom: 2em;
-            z-index: 10;
-            border: 3px solid rgb(150, 150, 150);
-            border-radius: 1rem;
-            box-shadow: 0.4rem 0.4rem 0.5rem 0.8rem rgb(150, 150, 150);
-            opacity: 0;
-            transition: opacity 0.8s ease-out;
-        }
-
-        :target .popBox {
-            position: fixed;
-            opacity: 1;
-        }
-
         </style>
     </head>
 
@@ -96,32 +63,29 @@
                     Incident Card</h2>
                 </div>
 
-                <div class="formReadVersion">
-                    <input type="button" value="Form Information - READ" id="formInfoReadBtn" />
-                    <label id="thisVersion"></label>
-                </div>
 
                 <div class="section">
                     <h3>Winlink message data:</h3>
                 </div>
 
                 <div class="input-container">
-                    <label for="mycall">Your callsign:</label>
-                    <input type="text" name="mycall" id="myCallsign" />
+                    <label for="mycall">From (TACTICAL/MYCALL):</label>
+                    <input type="text" name="mycall" id="myCallsign"
+                        placeholder="Station 00 / AA7XXX"/>
                 </div>
                 <div class="input-container">
-                    <label for="tocall">Recipients callsign:</label>
+                    <label for="tocall">To (Winlink address):</label>
                     <input type="text" name="tocall" id="yourCallsign"
-                    placeholder="W7ACS" value=""/>
+                        placeholder="W7ACS" value=""/>
                 </div>
                 <div class="input-container">
                     <label for="acsno">ACS Message Number:</label>
                     <input type="text" name="acsno" id="ACSno"
-                    placeholder="STN00-0001" value=""/>
+                        placeholder="STN00-0001" value=""/>
                 </div>
                  <div class="input-container">
                     <label for="Exer">This is an exercise:</label>
-                    <input type="checkbox" name="Exer"  value="Exer"
+                    <input type="checkbox" name="Exer"  value="Exer" checked
                      onclick="if(document.getElementById('IsExer').value =='')
                      {document.getElementById('IsExer').value = '** THIS IS AN EXERCISE **'}
                      else { document.getElementById('IsExer').value = '';}"/>
@@ -132,15 +96,15 @@
                 </div>
                 <div class="input-container">
                     <label for="company">CO:</label>
-                    <input type="text" name="company" id="company" value=""/>
-                </div>
-                <div class="input-container">
+                    <input type="text" name="company" id="company"
+                        size="5" value=""/>
                     <label for="time">TIME:</label>
-                    <input type="text" name="time" id="Time" value=""/>
+                    <input type="text" name="time" id="Time"
+                        size="5" value=""/>
                 </div>
                  <div class="input-container">
-                    <label for="location">LOCATION:<br></label>
-                    <textarea rows="3" cols="50"
+                    <label for="location"><b>LOCATION:</b><br></label>
+                    <textarea rows="3" cols="55"
                            name="location" id="location"></textarea>
                 </div>
                  <div class="section">
@@ -154,7 +118,7 @@
                         {document.getElementById('IsCollapse-risk').value = 'X'}
                         else { document.getElementById('IsCollapse-risk').value = '';}"/>
                     <input type="hidden" name="IsCollapse-risk"
-                    id="IsCollapse-risk" />
+                        id="IsCollapse-risk" />
 
                     <label for="collapse-partial">partial:</label>
                     <input type="checkbox" name="collapse-partial"
@@ -164,7 +128,7 @@
                         else { document.getElementById('IsCollapse-partial').value = '';}"/>
                     <input type="hidden" name="IsCollapse-partial"
 
-                    id="IsCollapse-full" />
+                        id="IsCollapse-full" />
                     <label for="collapse-full">full:</label>
                     <input type="checkbox" name="collapse-full"
                         value="collapse-full"
@@ -172,7 +136,7 @@
                         {document.getElementById('IsCollapse-full').value = 'X'}
                         else { document.getElementById('IsCollapse-full').value = '';}"/>
                     <input type="hidden" name="IsCollapse-full"
-                    id="IsCollapse-full" />
+                        id="IsCollapse-full" />
                 </div>
                 <div class="input-container">
                     <label for="fire">Fire:</label>
@@ -221,49 +185,40 @@
                 </div>
                   <div class="input-container">
                     <label for="levels_city">CITY:</label>
-                    <input type="text" name="levels_city" id="levels_city" value=""/>
-                </div>
-                  <div class="input-container">
+                    <input type="text" name="levels_city" id="levels_city"
+                        size="5" value=""/>
                     <label for="levels_bat">BATTALION:</label>
-                    <input type="text" name="levels_bat" id="levels_bat" value=""/>
-                </div>
-                  <div class="input-container">
+                    <input type="text" name="levels_bat" id="levels_bat"
+                        size="5" value=""/>
                     <label for="levels_company">COMPANY:</label>
-                    <input type="text" name="levels_company" id="levels_company" value=""/>
+                    <input type="text" name="levels_company" id="levels_company"
+                        size="5" value=""/>
                 </div>
                 <div class="input-container">
                     <label for="actions"><b>ACTIONS & NEEDS:<br></b></label>
-                    <textarea rows="5" cols="50"
+                    <textarea rows="5" cols="55"
                            name="actions" id="actions"></textarea>
                 </div>
                 <div class="input-container">
-                    <label for="cardid">SFD incident card Number:</label>
-                    <input type="text" name="cardid" id="CardID"
-                    placeholder="BX-XXX" value=""/>
+                    <label for="cardid">SFD incident card number:</label>
+                    &nbsp;&nbsp;
+                    <b>B</b><input type="text" name="cardB" id="CardB" size="1"
+                        value=""/>
+                    -<input type="text" name="cardid" id="CardID" size="3"
+                        value=""/>
+                     <input type="text" name="cardid2" id="CardID2" size="1"
+                        value=""/>
                 </div>
 
-                <div id="submit-container">
-                    <input type="submit" name="Submit" value="Submit" />
-                </div>
             </form>
 
             <section>
-                <input type="button" name="SaveButton" id="saveButton" value="Save Data" />
+                <input type="submit" name="Submit" value="Submit" />
+                <input type="button" name="SaveButton" id="saveButton" 
+                    value="Save Data" />
+                <input type="button" name="LoadButton" id="loadButton"
+                    value="Load Data" />
             </section>
-
-        <section id="pop1" class="pop-up">
-        <!-- The pop-up block -->
-
-        <div class="popBox">
-            <!-- If the content becomes larger than the pop-up this div will scroll the content -->
-            <input type="button" id="closePopBtn" value="Click to close this help" class="close" />
-
-            <div class="popScroll">
-                <h2>Winlink Operator Instructions</h2>
-
-                <h3>About This Form</h3>
-
-            </div>
         </div>
 
         <script>
@@ -346,19 +301,6 @@
                 saveFormInputElementsToFile();
             });
 
-        // Add event listeners for "Form Information - READ" and "Close Pop-up" buttons
-        document.getElementById('formInfoReadBtn').addEventListener('click', function () {
-            getFocusableElements('pop1').forEach(el => {
-                el.removeAttribute('tabindex');
-            });
-            location.href = '#pop1';
-        });
-        document.getElementById('closePopBtn').addEventListener('click', function () {
-            getFocusableElements('pop1').forEach(el => {
-                el.setAttribute('tabindex', '-1');
-            });
-            location.href = '#close';
-        });
         </script>
     </body>
 </html>
