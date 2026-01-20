@@ -6,7 +6,7 @@ Msg:
 <var IsExer>
 
 Seattle Fire Department
-Batallion <var cardB> Incident Card <var cardid><var cardid2>
+Batallion <var cardB> Incident Card <var cardid><var cardid2>  --- ACS msg # <var acsno>
 
 ========================
 CO: <var company>   TIME: <var time>

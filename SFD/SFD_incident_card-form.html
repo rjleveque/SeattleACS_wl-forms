@@ -85,12 +85,13 @@
                 </div>
                  <div class="input-container">
                     <label for="Exer">This is an exercise:</label>
-                    <input type="checkbox" name="Exer"  value="Exer" checked
+                    <input type="checkbox" name="Exer"  value="Exer"
                      onclick="if(document.getElementById('IsExer').value =='')
                      {document.getElementById('IsExer').value = '** THIS IS AN EXERCISE **'}
                      else { document.getElementById('IsExer').value = '';}"/>
                     <input type="hidden" name="IsExer" id="IsExer" />
                 </div>
+
                 <div class="section">
                     <h3>Form data:</h3>
                 </div>
@@ -111,7 +112,7 @@
                     <b>CONDITIONS:</b>
                 </div>
                 <div class="input-container">
-                    <label for="collapse-risk">Collapse - risk:</label>
+                    <label for="collapse-risk">Collapse - &nbsp;&nbsp;&nbsp;&nbsp;risk:</label>
                     <input type="checkbox" name="collapse-risk"
                         value="collapse-risk"
                         onclick="if(document.getElementById('IsCollapse-risk').value =='')
@@ -120,16 +121,16 @@
                     <input type="hidden" name="IsCollapse-risk"
                         id="IsCollapse-risk" />
 
-                    <label for="collapse-partial">partial:</label>
+                    <label for="collapse-partial">&nbsp;&nbsp;&nbsp;&nbsp;partial:</label>
                     <input type="checkbox" name="collapse-partial"
                         value="collapse-partial"
                         onclick="if(document.getElementById('IsCollapse-partial').value =='')
                         {document.getElementById('IsCollapse-partial').value = 'X'}
                         else { document.getElementById('IsCollapse-partial').value = '';}"/>
                     <input type="hidden" name="IsCollapse-partial"
+                        id="IsCollapse-partial" />
 
-                        id="IsCollapse-full" />
-                    <label for="collapse-full">full:</label>
+                    <label for="collapse-full">&nbsp;&nbsp;&nbsp;&nbsp;full:</label>
                     <input type="checkbox" name="collapse-full"
                         value="collapse-full"
                         onclick="if(document.getElementById('IsCollapse-full').value =='')
@@ -206,14 +207,18 @@
                         value=""/>
                     -<input type="text" name="cardid" id="CardID" size="3"
                         value=""/>
+                     &nbsp;&nbsp;
                      <input type="text" name="cardid2" id="CardID2" size="1"
                         value=""/>
                 </div>
+	        <div class="input-container">
+                    <input type="submit" name="Submit" value="Submit" />
+	        </div>
 
             </form>
 
+
             <section>
-                <input type="submit" name="Submit" value="Submit" />
                 <input type="button" name="SaveButton" id="saveButton" 
                     value="Save Data" />
                 <input type="button" name="LoadButton" id="loadButton"
