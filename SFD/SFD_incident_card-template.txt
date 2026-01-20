@@ -3,7 +3,9 @@ To: <var tocall>
 Subj: Batallion <var cardB> Incident Card <var cardid><var cardid2> --- ACS msg # <var acsno>
 Msg:
 
-<var IsExer>
+IsExer: <var IsExer>
+
+IsExer2: <var IsExer2>
 
 Seattle Fire Department
 Batallion <var cardB> Incident Card <var cardid><var cardid2>
