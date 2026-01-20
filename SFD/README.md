@@ -12,7 +12,7 @@ Exercise:
 
 ### Form input:
 
-![](images/draft1_form.jpg)
+<img src="images/draft1_form.jpg" width=300/>
 
 ### Resulting Winlink message:
 
@@ -58,7 +58,7 @@ Exercise:
     Continuing route.
 
     ------------------------
-    CARD NUMBER: 001
+    CARD NUMBER: B5-001
 
     ========================
 
@@ -80,7 +80,7 @@ Then compose a new message, selecting the template under `General Templates`.
 ## Notes:
 
 - This is a draft. I'm soliciting input, see
-  issue #1 for some specific questions and more
+  [issue #1](https://github.com/rjleveque/SeattleACS_wl-forms/issues/1) for some specific questions and more
   about this draft.
 
 - The Submit button should work if you install
