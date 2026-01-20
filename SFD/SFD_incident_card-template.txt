@@ -38,7 +38,7 @@ ACTIONS & NEEDS:
 <var actions>
 
 ------------------------
-CARD NUMBER: <var cardid>
+CARD NUMBER: B<var cardB>-<var cardid><var cardid2>
 
 ========================
 
