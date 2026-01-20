@@ -312,7 +312,7 @@
                 // ref hidden element
                 const isExerElement = document.getElementById('IsExer');
                 // checkbox.checked has a non-boolean startup state of 'undefined'
-                if(this.checked || this.checked == undefined) {
+                if(this.checked || this.checked === undefined) {
                     this.checked = false;
                     // hidden element value is text (a string)
                     isExerElement.value = NotAnExerciseText;
