@@ -85,10 +85,7 @@
                 </div>
                  <div class="input-container">
                     <label for="Exer">This is an exercise:</label>
-                    <input type="checkbox" name="Exer"  value="Exer"
-                     onclick="if(document.getElementById('IsExer').value =='')
-                     {document.getElementById('IsExer').value = '** THIS IS AN EXERCISE **'}
-                     else { document.getElementById('IsExer').value = '';}"/>
+                    <input type="checkbox" name="Exer" id="ExerciseCheckbox" checked />
                     <input type="hidden" name="IsExer" id="IsExer" />
                 </div>
 
@@ -274,7 +271,8 @@
             function createJsonObjectFromFormElements() {
                 const jsonObject = {
                     MyCallsign: document.getElementById('myCallsign').value,
-                    YourCallsign: document.getElementById('yourCallsign').value
+                    YourCallsign: document.getElementById('yourCallsign').value,
+                    IsAnExerciseText: document.getElementById('IsExer').value
                 };
 
                 console.log('returning jsonobject:', jsonObject);
@@ -306,6 +304,27 @@
                 saveFormInputElementsToFile();
             });
 
+            // constant values for repeated use
+            const IsAnExerciseText = "*** THIS IS AN EXERCISE ***";
+            const NotAnExerciseText = "";
+            
+            document.getElementById('ExerciseCheckbox').addEventListener('click', () => {
+                // ref hidden element
+                const isExerElement = document.getElementById('IsExer');
+                // checkbox.checked has a non-boolean startup state of 'undefined'
+                if(this.checked || this.checked === undefined) {
+                    this.checked = false;
+                    // hidden element value is text (a string)
+                    isExerElement.value = NotAnExerciseText;
+                } else {
+                    this.checked = true;
+                    isExerElement.value = IsAnExerciseText;
+                }
+            });
+
+            window.addEventListener('load', function () {
+                document.getElementById('IsExer').value = IsAnExerciseText;
+            });
         </script>
     </body>
 </html>
