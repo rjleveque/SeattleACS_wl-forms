@@ -1,330 +1,1153 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>RMS Express Form</title>
-        <style type='text/css'>
-            body {
-                font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
-                font-size: 1.2em;
-            }
 
-            form {
-                background:#ffcccc;
-                border-radius: 10px;
-                padding: .4em;
-            }
+<head>
+    <meta charset="utf-8" />
+    <meta name="author" content="Randy KJ7WLT" />
+    <meta name="author" content="Jo KK7VCS" />
+    <meta name="description"
+        content="Seattle Fire Department Incident Card, adapted from forms created by K7RMZ for Bigfoot ultra marathon comms-support events and additional examples." />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="" />
+    <title>SFD Incident Card</title>
 
-            input {
-                margin: .2em;
-            }
+    <script language="javascript" type="text/javascript">
 
-            section {
-                display: flex;
-                justify-content: flex-end;
-                padding: .2em;
-            }
+        // Utility function gets focusable elements inside #pop1
+        function getFocusableElements(elName) {
+            const pop1 = document.getElementById(elName);
+            return pop1 ? pop1.querySelectorAll('input, select, textarea, button') : [];
+        }
 
-            #main-container {
-                max-width: 500px;
-                padding: 1em;
-                background:#ff0000;
-                border-radius: 20px;
-            }
+        // get data in TheCsvData and clean it up and set the count of entries
+        function cleanAndCountCsvData() {
+            let csvData = GetElementById('TheCsvData').value;
+            let csvDataArray = csvData.split('\n');
+            let nonEmptyLinesCount = 0;
 
-            #submit-container {
-                display: flex;
-                justify-content: flex-end;
-                padding: .2em;
-            }
+            let cleanCsvDataArray = csvDataArray.map(item => {
+                if (item !== undefined && item.length > 0) {
+                    nonEmptyLinesCount++;
+                    return item.replace(/ *\, */g, ', ');
+                }
+            });
 
-            .input-container {
-                width: 100%;
-                margin: auto;
-                text-align: left;
-                padding: .2em;
-            }
+            let rejoinedCsvData = cleanCsvDataArray.join('\n');
+            GetElementById('TheCsvData').value = rejoinedCsvData;
+            GetElementById('entryCount').value = nonEmptyLinesCount;
+        }
 
+        // converts bib records from csv-delimited and returns tab-delimited version
+        function convertCsvRecordsToTabbed() {
+            let csvData = GetElementById('TheCsvData').value;
+            return csvData.replace(/, /g, '\t');
+        }
 
-        </style>
-    </head>
+        // updates both csv and tabbed bib records into their respective elements
+        function updateCsvAndTabRecordsElement(riderNum, bibAction, time, dayOfMonth, shortLoc) {
+            let previousRecordsComma = GetElementById('TheCsvData').value;
+            let previousRecordsTab = convertCsvRecordsToTabbed();
+            GetElementById('TheCsvData').value = formatBibRecord(previousRecordsComma, riderNum, bibAction, time, dayOfMonth, shortLoc, ', ');
+            GetElementById('TheData').value = formatBibRecord(previousRecordsTab, riderNum, bibAction, time, dayOfMonth, shortLoc, '\t');
+        }
 
-    <body>
-        <div id="main-container">
-            <form
-                id="RMS_Express_form"
-                method="post"
-                action="http://{FormServer}:{FormPort}"
-                enctype="multipart/form-data"
-            >
-                <div class="section">
-                    <h2>Seattle Fire Department<br>
-                    Incident Card</h2>
-                </div>
+        // pluck the top record from the csv data and return to the caller
+        function getTopRecordFromCsvData() {
+            let csvData = GetElementById('TheCsvData').value;
+            let csvDataArray = csvData.split('\n');
+            let topRecord = csvDataArray[0];
+            return topRecord;
+        }
 
+        // copy csv data and convert it to tabbed then set tabbed data to tabbed data element
+        function handleCsvDataEdited() {
+            let csvData = GetElementById('TheCsvData').value;
+            let tabbedData = convertCsvRecordsToTabbed();
+            GetElementById('TheData').value = tabbedData;
+            let lastEnteredBibRecord = getTopRecordFromCsvData();
+            // force a comma-space delimiter for readability
+            let lastEnteredBibRecordParts = lastEnteredBibRecord.split(', ');
+            storePreviousRecord(lastEnteredBibRecordParts[0], lastEnteredBibRecordParts[1], lastEnteredBibRecordParts[2], lastEnteredBibRecordParts[3], lastEnteredBibRecordParts[4]);
+        }
 
-                <div class="section">
-                    <h3>Winlink message data:</h3>
-                </div>
+        // gets an element by id
+        function GetElementById(id) {
+            return document.getElementById(id);
+        }
 
-                <div class="input-container">
-                    <label for="mycall">From (TACTICAL/MYCALL):</label>
-                    <input type="text" name="mycall" id="myCallsign"
-                        placeholder="Station 00 / AA7XXX"/>
-                </div>
-                <div class="input-container">
-                    <label for="tocall">To (Winlink address):</label>
-                    <input type="text" name="tocall" id="yourCallsign"
-                        placeholder="W7ACS" value=""/>
-                </div>
-                <div class="input-container">
-                    <label for="acsno">ACS Message Number:</label>
-                    <input type="text" name="acsno" id="ACSno"
-                        placeholder="STN00-0001" value=""/>
-                </div>
-                 <div class="input-container">
-                    <label for="Exer">This is an exercise:</label>
-                    <input type="checkbox" name="Exer" id="ExerciseCheckbox" checked />
-                    <input type="hidden" name="IsExer" id="IsExer" />
-                </div>
+        // calculate most likely hours characters returning a best-effort hours value
+        function getHoursFromTimeString(timeString) {
+            var ghColonIndex = timeString.indexOf(':');
+            var ghHoursResult = "00";
 
-                <div class="section">
-                    <h3>Form data:</h3>
-                </div>
-                <div class="input-container">
-                    <label for="company">CO:</label>
-                    <input type="text" name="company" id="company"
-                        size="5" value=""/>
-                    <label for="time">TIME:</label>
-                    <input type="text" name="time" id="Time"
-                        size="5" value=""/>
-                </div>
-                 <div class="input-container">
-                    <label for="location"><b>LOCATION:</b><br></label>
-                    <textarea rows="3" cols="55"
-                           name="location" id="location"></textarea>
-                </div>
-                 <div class="section">
-                    <b>CONDITIONS:</b>
-                </div>
-                <div class="input-container">
-                    <label for="collapse-risk">Collapse - &nbsp;&nbsp;&nbsp;&nbsp;risk:</label>
-                    <input type="checkbox" name="collapse-risk"
-                        value="collapse-risk"
-                        onclick="if(document.getElementById('IsCollapse-risk').value =='')
-                        {document.getElementById('IsCollapse-risk').value = 'X'}
-                        else { document.getElementById('IsCollapse-risk').value = '';}"/>
-                    <input type="hidden" name="IsCollapse-risk"
-                        id="IsCollapse-risk" />
-
-                    <label for="collapse-partial">&nbsp;&nbsp;&nbsp;&nbsp;partial:</label>
-                    <input type="checkbox" name="collapse-partial"
-                        value="collapse-partial"
-                        onclick="if(document.getElementById('IsCollapse-partial').value =='')
-                        {document.getElementById('IsCollapse-partial').value = 'X'}
-                        else { document.getElementById('IsCollapse-partial').value = '';}"/>
-                    <input type="hidden" name="IsCollapse-partial"
-                        id="IsCollapse-partial" />
-
-                    <label for="collapse-full">&nbsp;&nbsp;&nbsp;&nbsp;full:</label>
-                    <input type="checkbox" name="collapse-full"
-                        value="collapse-full"
-                        onclick="if(document.getElementById('IsCollapse-full').value =='')
-                        {document.getElementById('IsCollapse-full').value = 'X'}
-                        else { document.getElementById('IsCollapse-full').value = '';}"/>
-                    <input type="hidden" name="IsCollapse-full"
-                        id="IsCollapse-full" />
-                </div>
-                <div class="input-container">
-                    <label for="fire">Fire:</label>
-                    <input type="checkbox" name="fire"  value="fire"
-                     onclick="if(document.getElementById('IsFire').value =='')
-                     {document.getElementById('IsFire').value = 'X'}
-                     else { document.getElementById('IsFire').value = '';}"/>
-                    <input type="hidden" name="IsFire" id="IsFire" />
-                </div>
-                <div class="input-container">
-                    <label for="fuel-gas-water">Fuel/Gas/Water:</label>
-                    <input type="checkbox" name="fuel-gas-water" value="fuel-gas-water"
-                     onclick="if(document.getElementById('IsFGW').value =='')
-                     {document.getElementById('IsFGW').value = 'X'}
-                     else { document.getElementById('IsFGW').value = '';}"/>
-                    <input type="hidden" name="IsFGW" id="IsFGW" />
-                </div>
-                <div class="input-container">
-                    <label for="hazmat">HAZMAT:</label>
-                    <input type="checkbox" name="hazmat" value="hazmat"
-                     onclick="if(document.getElementById('IsHazmat').value =='')
-                     {document.getElementById('IsHazmat').value = 'X'}
-                     else { document.getElementById('IsHazmat').value = '';}"/>
-                    <input type="hidden" name="IsHazmat" id="IsHazmat" />
-                </div>
-                <div class="input-container">
-                    <label for="hazmat">Landslide:</label>
-                    <input type="checkbox" name="landslide" value="landslide"
-                     onclick="if(document.getElementById('IsLandslide').value =='')
-                     {document.getElementById('IsLandslide').value = 'X'}
-                     else { document.getElementById('IsLandslide').value = '';}"/>
-                    <input type="hidden" name="IsLandslide" id="IsLandslide" />
-                </div>
-                <div class="input-container">
-                    <label for="other">Other:</label>
-                    <input type="checkbox" name="other"  value="other"
-                     onclick="if(document.getElementById('IsOther').value =='')
-                     {document.getElementById('IsOther').value = 'X'}
-                     else { document.getElementById('Isother').value = '';}"/>
-                    <input type="hidden" name="IsOther" id="IsOther" />
-                    <label for="other_desc"></label>
-                    <input type="text" name="other_desc" id="other_desc" value=""/>
-                </div>
-                 <div class="section">
-                    <b>LEVELS (resource needs):</b>
-                </div>
-                  <div class="input-container">
-                    <label for="levels_city">CITY:</label>
-                    <input type="text" name="levels_city" id="levels_city"
-                        size="5" value=""/>
-                    <label for="levels_bat">BATTALION:</label>
-                    <input type="text" name="levels_bat" id="levels_bat"
-                        size="5" value=""/>
-                    <label for="levels_company">COMPANY:</label>
-                    <input type="text" name="levels_company" id="levels_company"
-                        size="5" value=""/>
-                </div>
-                <div class="input-container">
-                    <label for="actions"><b>ACTIONS & NEEDS:<br></b></label>
-                    <textarea rows="5" cols="55"
-                           name="actions" id="actions"></textarea>
-                </div>
-                <div class="input-container">
-                    <label for="cardid">SFD incident card number:</label>
-                    &nbsp;&nbsp;
-                    <b>B</b><input type="text" name="cardB" id="CardB" size="1"
-                        value=""/>
-                    -<input type="text" name="cardid" id="CardID" size="3"
-                        value=""/>
-                     &nbsp;&nbsp;
-                     <input type="text" name="cardid2" id="CardID2" size="1"
-                        value=""/>
-                </div>
-	        <div class="input-container">
-                    <input type="submit" name="Submit" value="Submit" />
-	        </div>
-
-            </form>
-
-
-            <section>
-                <input type="button" name="SaveButton" id="saveButton" 
-                    value="Save Data" />
-                <input type="button" name="LoadButton" id="loadButton"
-                    value="Load Data" />
-            </section>
-        </div>
-
-        <script>
-            function saveToLocalStorage(itemKey, itemValue) {
-                var existingItem = localStorage.getItem(itemKey);
-
-                if (existingItem.length > 0) {
-                    localStorage.removeItem(itemKey);
+            // if there is a colon, take character(s) just before it
+            if (ghColonIndex > -1) {
+                if (ghColonIndex > 2) {
+                    var ghHourIndex = ghColonIndex - 2;
+                    ghHoursResult = timeString.slice(ghHourIndex, ghColonIndex);
                 }
 
-                console.log('Storing item to browser memory:', itemKey, itemValue);
-                localStorage.setItem(itemKey, itemValue);
+                if (ghColonIndex > 0 && ghColonIndex <= 2) {
+                    ghHoursResult = timeString.slice(0, ghColonIndex);
+                }
+            }
+            else {
+                // if there is no colon take up to 2 leftmost characters depending on timeString size
+                if (timeString.length >= 4) {
+                    ghHoursResult = timeString.slice(timeString.length - 4, timeString.length - 2);
+                }
+
+                if (timeString.length === 3) {
+                    ghHoursResult = timeString.slice(0, 1);
+                }
+
+                if (timeString.length <= 2) {
+                    console.log('Info: TIME value character cound is less than 3. No action required.');
+                }
             }
 
-            function normalizeCallsign(callsign) {
-                var callsignTrimmed = callsign.trim();
-                var callsignUpper = callsignTrimmed.toUpperCase();
-                console.log("Upper-casing callsign:", callsignUpper);
-                return callsignUpper;
+            return ghHoursResult;
+        }
+
+        // calculate most likely minutes characters returning a best-effort minutes value
+        function getMinutesFromTimeString(gmTimeString) {
+            var gmColonIndex = gmTimeString.indexOf(':');
+            var gmMinutesResult = "00";
+
+            // if there is a colon, take up to 2 characters after it, adding zero(s) to get 2 characters total
+            if (gmColonIndex > -1) {
+                if (gmColonIndex < gmTimeString.length - 1) {
+                    // if input :01 then result 01, if input :001 then result 00, etc
+                    gmMinutesResult = gmTimeString.slice(gmColonIndex + 1, gmColonIndex + 3);
+                }
+
+                while (gmMinutesResult.length < 2) {
+                    // if input was : then result 00, if :1 then result 10, if :2 then result 20, etc
+                    gmMinutesResult = gmMinutesResult + '0';
+                }
+            }
+            else {
+                // there is no colon in the input so best-effort to find minutes characters
+                if (gmTimeString.length == 2) {
+                    // 11 is 11, 22 is 22 etc
+                    gmMinutesResult = gmTimeString;
+                }
+                if (gmTimeString.length > 2) {
+                    // just take the last two characters there is no way to tell user intent anymore
+                    gmMinutesResult = gmTimeString.slice(gmTimeString.length - 2, gmTimeString.length);
+                }
+                if (gmTimeString.length == 1) {
+                    // if no colon then 1 is 01 minutes, 2 is 02 minutes, etc
+                    gmMinutesResult = "0" + gmTimeString;
+                }
             }
 
-            var myCallsignElement = document.getElementById('myCallsign');
-            myCallsignElement.addEventListener('blur', function () {
-                this.value = normalizeCallsign(this.value);
+            return gmMinutesResult;
+        }
+
+        // return a valid value for hours or minutes based on maxValue
+        function sanitizeTimeUnits(stuTimeString, maxValue) {
+            var stuTimeNum = Number.parseInt(stuTimeString, 10);
+
+            if (stuTimeNum === undefined || Number.isNaN(stuTimeNum) || stuTimeNum < 0) {
+                stuTimeNum == '00';
+            }
+
+            if (stuTimeNum > maxValue) {
+                stuTimeNum = maxValue;
+            }
+
+            var stuResult = stuTimeNum.toString();
+
+            while (stuResult.length < 2) {
+                stuResult = '0' + stuResult;
+            }
+
+            return stuResult;
+        }
+
+        // take a string and attempt to format it as HHMM using helper methods
+        function formatTimeValue(ftvTimeString) {
+            // eliminate all non-time characters from the string maintaining only numbers and colon character
+            var ftvHoursMins = ftvTimeString.replace(/[^\d:]/g, '');
+            // get hours and minutes, sanitize the numbers, then concatenate and return
+            var ftvHours = getHoursFromTimeString(ftvHoursMins);
+            var ftvMinutes = getMinutesFromTimeString(ftvHoursMins);
+            var ftvSanitizedHours = sanitizeTimeUnits(ftvHours, 23);
+            var ftvSanitizedMinutes = sanitizeTimeUnits(ftvMinutes, 59);
+            return ftvSanitizedHours + ftvSanitizedMinutes;
+        }
+
+        function getDayOfMonth(date) {
+            var today = date.getDate();
+            var day = GetElementById('yesterday').checked ? (today === 1 ? 31 : today - 1) : today;
+            var result = day.toString();
+
+            if (result.length < 2) {
+                result = "0" + result;
+            }
+
+            return result;
+        }
+
+        function ResetForm() {
+            ['RiderNum', 'TimeField'].forEach(id => GetElementById(id).value = '');
+            GetElementById('yesterday').checked = false;
+            GetElementById('RiderNum').focus();
+            GetElementById('comment').value = '';
+        }
+
+        // validate bib number and time then add bib record to csv and tab record elements
+        function handleAddBib(bibAction) {
+            const riderNum = GetElementById('RiderNum').value;
+            if (riderNum && bibAction != undefined && bibAction.length > 0) {
+                // let time = formatCurrentTime(GetElementById('TimeField').value);
+                var time = formatTimeValue(GetElementById('TimeField').value);
+                let dayOfMonth = getDayOfMonth(new Date());
+                let locationVal = GetElementById('Location').value;
+                let shortLoc = shortenLocation(locationVal);
+                storePreviousRecord(riderNum, bibAction, time, dayOfMonth, shortLoc);
+                updateCsvAndTabRecordsElement(riderNum, bibAction, time, dayOfMonth, shortLoc);
+                ResetForm();
+                cleanAndCountCsvData();
+            } else {
+                alert('Enter Runner/Bib number');
+                GetElementById('RiderNum').focus();
+            }
+        }
+
+        function elementValuesToLocalStorage() {
+            let addressFormatted = GetElementById('address');
+            localStorage.setItem('RTrackeradd', addressFormatted.value);
+            let locationFormatted = GetElementById('Location');
+            localStorage.setItem('RTrackerloc', locationFormatted.value);
+            let eventTitleFormatted = GetElementById('EventTitle');
+            localStorage.setItem('RTrackertitle', eventTitleFormatted.value);
+            let msgNumFormatted = GetElementById('MessageNumber');
+            localStorage.setItem('MessageNumber', msgNumFormatted.value);
+            let locationLong = lengthenLocation(locationFormatted.value);
+            let regulartitle = GetElementById('EventTitle').value + ' ' + locationLong + ' Message #' + msgNumFormatted.value;
+            GetElementById('msgsubject').value = regulartitle;
+        }
+
+        function shortenLocation(locationVal) {
+            let underscoreIdx = locationVal.indexOf('_');
+            return locationVal.slice(0, underscoreIdx);
+        }
+
+        function lengthenLocation(locationVal) {
+            if (!locationVal) {
+                return ' ';
+            }
+            let underscoreIdx = locationVal.indexOf('_') + 1;
+            return locationVal.slice(underscoreIdx);
+        }
+
+        // set form elements with the values stored in local storage
+        function setFormElementsWithLsValues() {
+            let storedAddress = localStorage.getItem('RTrackeradd');
+            GetElementById('address').value = storedAddress;
+            let storedLocation = localStorage.getItem('RTrackerloc');
+
+            if (storedLocation !== '') {
+                GetElementById('Location').value = storedLocation;
+            } else {
+                GetElementById('Location').value = '--Choose a station--';
+            }
+
+            let storedTitle = localStorage.getItem('RTrackertitle');
+            GetElementById('EventTitle').value = storedTitle;
+            let storedMsgNumber = localStorage.getItem('MessageNumber');
+            GetElementById('MessageNumber').value = storedMsgNumber;
+            let locationLong = lengthenLocation(storedLocation);
+            let regulartitle = '' + storedTitle + ' ' + locationLong + ' Message #' + storedMsgNumber;
+            GetElementById('msgsubject').value = regulartitle;
+            GetElementById('MessageNumber').value = storedMsgNumber;
+            copyPreviousRecordFromLsToElement();
+        }
+
+        function copyPreviousRecordFromLsToElement() {
+            // if previous record key exists in local storage populate the element with string formatted value
+            if (localStorage.getItem('previousRecord')) {
+                const previousItem = JSON.parse(localStorage.getItem('previousRecord'));
+                const prevRunner = previousItem.runner || 'none';
+                const prevAction = previousItem.action || 'none';
+                const prevTime = previousItem.time || 'none';
+                const prevDOM = previousItem.dayOfMonth || 'none';
+                const prevMsgNum = previousItem.messageNumber || 'none';
+                console.log('previous Runner, Action, Time, DOM, MsgNum', prevRunner, prevAction, prevTime, prevDOM, prevMsgNum);
+                const previousRecordString = '#' + previousItem.runner + ', ' + previousItem.action + ', ' + prevTime + ', D:' + previousItem.dayOfMonth + ', M#' + previousItem.messageNumber;
+                GetElementById('endOfPriorBatch').value = previousRecordString;
+            }
+        }
+
+        function clearParticipantData() {
+            if (confirm('Clear all participant data?')) {
+                GetElementById('TheData').value = '';
+                GetElementById('TheCsvData').value = '';
+                GetElementById('Inbtn').disabled = false;
+                GetElementById('Outbtn').disabled = false;
+                GetElementById('Dropbtn').disabled = false;
+                GetElementById('entryCount').disabled = false;
+                GetElementById('entryCount').value = '0';
+                ResetForm();
+            }
+        }
+
+        // gets, formats, and returns the current clock time in HHMM format
+        function getCurrentTime() {
+            var currentDateResult = new Date();
+            var dateResultHoursOnly = currentDateResult.getHours();
+            var dateResultMinutesOnly = currentDateResult.getMinutes();
+            var currentHour = dateResultHoursOnly.toString();
+
+            while (currentHour.length < 2) {
+                currentHour = "0" + currentHour;
+            }
+
+            var currentMinute = dateResultMinutesOnly.toString();
+
+            while (currentMinute.length < 2) {
+                currentMinute = "0" + currentMinute;
+            }
+
+            var resultGctTime = currentHour + ':' + currentMinute;
+            return resultGctTime;
+        }
+
+        function addIn() {
+            handleAddBib('IN');
+        }
+
+        function addOut() {
+            handleAddBib('OUT');
+        }
+
+        function addDrop() {
+            handleAddBib('DROP');
+        }
+
+        function storePreviousRecord(bibNumber, action, timestamp, dayOfMonth, location) {
+            // capture the current message number to store with the previous record
+            const messageNumber = GetElementById('MessageNumber').value;
+            // initialize a new object and store bibNumber, action, timestamp, dayOfMonth, and location variables as properties
+            let previousRecord = {
+                runner: bibNumber,
+                action: action,
+                time: timestamp,
+                dayOfMonth: dayOfMonth,
+                location: location,
+                messageNumber: messageNumber,
+            };
+
+            // store this object into localStorage
+            localStorage.setItem('previousRecord', JSON.stringify(previousRecord));
+        }
+
+        // separator is either '\t' or ', ' depending on format needed
+        function formatBibRecord(pTime, tRunner, action, tTime, doM, loc, separator) {
+            if (separator !== '\t' && separator !== ', ') {
+                separator = '\t';
+            }
+
+            storePreviousRecord(tRunner, action, tTime, doM, loc);
+            newTime = String(tTime);
+
+            if (tTime.indexOf(':') > -1) {
+                newTime = tTime.replace(':', '');
+            }
+
+            return (
+                tRunner +
+                separator +
+                action +
+                separator +
+                newTime +
+                separator +
+                doM +
+                separator +
+                loc +
+                '\n' +
+                pTime
+            );
+        }
+
+        // converts bib records in TheData element from tab-separated to comma-separated values
+        function convertRawBibRecordsToArray() {
+            let bibRecordsRaw = GetElementById('TheData').value;
+            const bibRecordsArray = bibRecordsRaw.split('\n');
+            const cleanBibRecordsArray = [];
+
+            bibRecordsArray.forEach(record => {
+                if (record.length > 0) {
+                    let csvRecord = record.replace(/\t/g, ', ');
+                    cleanBibRecordsArray.push(csvRecord);
+                }
             });
 
-            var yourCallsignElement = document.getElementById('yourCallsign');
-            yourCallsignElement.addEventListener('blur', function () {
-                this.value = normalizeCallsign(this.value);
+            return cleanBibRecordsArray;
+        }
+
+        function createJsonObjectFromFormElements(cleanBibRecordsArray) {
+            const jsonObject = {
+                FormVersion: GetElementById('FormVersion').value,
+                EventTitle: GetElementById('EventTitle').value,
+                MessageNumber: GetElementById('MessageNumber').value,
+                address: GetElementById('address').value,
+                Location: GetElementById('Location').value,
+                msgsubject: GetElementById('msgsubject').value,
+                entryCount: GetElementById('entryCount').value,
+                Comment: GetElementById('comment').value,
+                TheCsvData: cleanBibRecordsArray
+            };
+
+            return jsonObject;
+        }
+
+        function saveTextAsFile() {
+            let fileNameToSaveAs = 'Bigfoot Bib Data ' + dateStampForFile() + '.txt';
+            fileNameToSaveAs = prompt('', fileNameToSaveAs);
+            const cleanBibRecords = convertRawBibRecordsToArray();
+            let formElementsAsJson = createJsonObjectFromFormElements(cleanBibRecords);
+            let textToWrite = JSON.stringify(formElementsAsJson, null, 2);
+
+            let textFileAsBlob = new Blob([textToWrite], {
+                type: 'application/json',
             });
 
-            function getDateTimeStamp() {
-                let d = new Date();
-                let thisYear = d.getFullYear();
-                let thisMonth = d.getMonth() + 1;
-                let thisDay = d.getDate();
-                let hours = (d.getHours() < 10 ? '0' : '') + d.getHours();
-                let minutes = (d.getMinutes() < 10 ? '0' : '') + d.getMinutes();
-
-                thisMonth = thisMonth < 10 ? thisMonth = '0' + thisMonth : thisMonth;
-                thisDay = thisDay < 10 ? thisDay = '0' + thisDay : thisDay;
-
-                var dateTimeStamp = `${thisYear}-${thisMonth}-${thisDay} ${hours}_${minutes}`;
-                console.log('returning date-time stamp: ', dateTimeStamp);
-                return dateTimeStamp;
-            }
-
-            function createJsonObjectFromFormElements() {
-                const jsonObject = {
-                    MyCallsign: document.getElementById('myCallsign').value,
-                    YourCallsign: document.getElementById('yourCallsign').value,
-                    IsAnExerciseText: document.getElementById('IsExer').value
-                };
-
-                console.log('returning jsonobject:', jsonObject);
-                return jsonObject;
-            }
-
-            function saveFormInputElementsToFile() {
-                let dateTimeStamp = getDateTimeStamp();
-                let filenameToSaveAs = `Form-saved-data ${dateTimeStamp}.txt`;
-
-                let formElementsAsJson = createJsonObjectFromFormElements();
-                let textToWrite = JSON.stringify(formElementsAsJson, null, 2);
-                let textFileAsBlob = new Blob([textToWrite], {type: 'application/json'});
-
+            if (navigator.msSaveBlob) {
+                navigator.msSaveBlob(textFileAsBlob, fileNameToSaveAs);
+            } else {
                 let downloadLink = document.createElement('a');
-                downloadLink.download = filenameToSaveAs;
+                downloadLink.download = fileNameToSaveAs;
                 downloadLink.href = URL.createObjectURL(textFileAsBlob);
-
                 downloadLink.onclick = function (e) {
                     document.body.removeChild(e.target);
                 };
-
                 downloadLink.style.display = 'none';
                 document.body.appendChild(downloadLink);
                 downloadLink.click();
             }
+        }
 
-            document.getElementById('saveButton').addEventListener('click', () => {
-                saveFormInputElementsToFile();
+        function dateStampForFile() {
+            let d = new Date();
+            let thisyear = d.getFullYear();
+            let thismonth = d.getMonth() + 1;
+            let thisday = d.getDate();
+            let h = (d.getHours() < 10 ? '0' : '') + d.getHours();
+            let m = (d.getMinutes() < 10 ? '0' : '') + d.getMinutes();
+
+            if (thismonth < 10) {
+                thismonth = '0' + thismonth;
+            }
+
+            if (thisday < 10) {
+                thisday = '0' + thisday;
+            }
+
+            return '' + thisyear + '-' + thismonth + '-' + thisday + ' ' + h + '_' + m;
+        }
+
+        // captures each form element value in a JSON object and stores it in hidden element 'parseme'
+        function storeFormValuesToHiddenElement() {
+            const FormVersion = GetElementById('FormVersion').value;
+            const EventTitle = GetElementById('EventTitle').value;
+            const MessageNumber = GetElementById('MessageNumber').value;
+            const address = GetElementById('address').value;
+            const Location = GetElementById('Location').value;
+            const msgsubject = GetElementById('msgsubject').value;
+            const entryCount = GetElementById('entryCount').value;
+            const TheData = GetElementById('TheData').value;
+            const Comment = GetElementById('comment').value;
+            const previousRecord = JSON.parse(localStorage.getItem('previousRecord'));
+
+            const formObject = JSON.stringify({
+                FormVersion,
+                EventTitle,
+                MessageNumber,
+                address,
+                Location,
+                msgsubject,
+                entryCount,
+                TheData,
+                Comment,
+                previousRecord,
             });
 
-            // constant values for repeated use
-            const IsAnExerciseText = "*** THIS IS AN EXERCISE ***";
-            const NotAnExerciseText = "";
-            
-            document.getElementById('ExerciseCheckbox').addEventListener('click', () => {
-                // ref hidden element
-                const isExerElement = document.getElementById('IsExer');
-                // checkbox.checked has a non-boolean startup state of 'undefined'
-                if(this.checked || this.checked === undefined) {
-                    this.checked = false;
-                    // hidden element value is text (a string)
-                    isExerElement.value = NotAnExerciseText;
-                } else {
-                    this.checked = true;
-                    isExerElement.value = IsAnExerciseText;
-                }
+            GetElementById('parseme').value = formObject;
+        }
+
+        // takes values stored in parseme hidden element, iterates through form elements and populates them with values
+        function populateForm(jsonStringData) {
+            if (jsonStringData === undefined || jsonStringData.length < 1) {
+                console.log('jsonStringData is empty. Exiting function.');
+            } else {
+                GetElementById('EventTitle').value = jsonStringData.EventTitle;
+                GetElementById('MessageNumber').value = jsonStringData.MessageNumber ? jsonStringData.MessageNumber : 1;
+                GetElementById('address').value = jsonStringData.address ? jsonStringData.address : '';
+                GetElementById('Location').value = jsonStringData.Location ? jsonStringData.Location : '';
+                GetElementById('msgsubject').value = jsonStringData.msgsubject ? jsonStringData.msgsubject : '';
+                GetElementById('entryCount').value = jsonStringData.entryCount ? jsonStringData.entryCount : 0;
+                GetElementById('comment').value = jsonStringData.Comment ? jsonStringData.Comment : '';
+                GetElementById('endOfPriorBatch').value = jsonStringData.previousRecord ? jsonStringData.previousRecord : '';
+
+                const theCsvDataRaw = jsonStringData.TheCsvData;
+                let csvData = theCsvDataRaw.join('\n');
+                GetElementById('TheCsvData').value = csvData;
+
+                let tabbedData = theCsvDataRaw.map(item => {
+                    if (item !== undefined && item.length > 0) {
+                        return item.replace(/, /g, '\t');
+                    }
+                }).join('\n');
+
+                GetElementById('TheData').value = tabbedData;
+                copyPreviousRecordFromLsToElement();
+            }
+        }
+
+        function SaveData() {
+            storeFormValuesToHiddenElement();
+            elementValuesToLocalStorage();  // update localstorage values
+            saveTextAsFile();
+        }
+
+        function incrementMsgNum() {
+            const formMsgNum = Number.parseInt(GetElementById('MessageNumber').value, 10);
+            const lsMsgNum = Number.parseInt(localStorage.getItem('MessageNumber'), 10);
+            const incrMsgNum = formMsgNum ? formMsgNum + 1 : 1;
+            GetElementById('MessageNumber').value = incrMsgNum;
+            elementValuesToLocalStorage();
+        }
+
+        window.addEventListener('load', function () {
+            const formVersion = '0.0.1';
+            document.getElementById('thisVersion').innerText = 'Version ' + formVersion;
+            document.getElementById('FormVersion').value = formVersion;
+            localStorage.setItem('Form Version', formVersion);
+
+            // set tabindex to -1 on all focusable elements within #pop1
+            getFocusableElements('pop1').forEach(el => {
+                el.setAttribute('tabindex', '-1');
             });
 
-            window.addEventListener('load', function () {
-                document.getElementById('IsExer').value = IsAnExerciseText;
+            // Check the support for the File API
+            if (window.File && window.FileReader && window.FileList && window.Blob) {
+                let fileSelected = GetElementById('txtfiletoread');
+
+                // begin fileSelected Change Event Listener
+                fileSelected.addEventListener('change', function (e) {
+                    // Set the extension for the file
+                    let fileExtension = /text.*/;
+                    // Get the file object
+                    let fileTobeRead = fileSelected.files[0];
+                    // Check if the extension matches
+                    if (fileTobeRead.type.match(fileExtension)) {
+                        // Initialize the FileReader object to read the file data
+                        let fileReader = new FileReader();
+
+                        fileReader.onload = function (e) {
+                            document.getElementById('parseme').value = fileReader.result;
+
+                            try {
+                                let jsonData = JSON.parse(document.getElementById('parseme').value);
+                                // console.log('filereader.onload json parse of parseme element value: ', jsonData);
+                                populateForm(jsonData);
+                            } catch (err) {
+                                console.error('An error occurred while parsing the JSON data: ', err);
+                            }
+                        };
+
+                        fileReader.readAsText(fileTobeRead);
+                    } else {
+                        alert('Please select a text file');
+                    }
+                });
+                // end fileSelected Change Event Listener
+            } else {
+                alert('Files are not supported');
+            }
+
+            setFormElementsWithLsValues();
+        });
+
+    </script>
+
+    <style type="text/css">
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 18px;
+            background-color: rgb(220, 220, 220);
+        }
+
+        @media screen and (width < 650px) {
+
+            label,
+            input,
+            textarea,
+            select,
+            button {
+                font-size: .7em;
+            }
+
+            input {
+                margin: 0.2em 0.2em;
+            }
+
+            input[type="checkbox"] {
+                width: 1em;
+                height: 1em;
+            }
+
+            .formTitleHeader {
+                font-size: 2em;
+            }
+
+            .bibEntries {
+                min-height: 3em;
+                max-height: 6em;
+            }
+
+            .msgHeaderTitle {
+                font-size: 0.7em;
+            }
+
+            .addressInput {
+                min-width: 65%;
+            }
+
+            .block-line-div {
+                display: block;
+            }
+
+            .readOnlyText {
+                font-size: 0.6em;
+            }
+
+            #closePopBtn {
+                margin-left: 1rem;
+                margin-top: 0.5rem;
+            }
+            .input-container {
+                width: 100%;
+                margin: auto;
+                text-align: left;
+                padding: .05em;
+            }
+        }
+
+        @media screen and (width >=650px) {
+
+            label,
+            input,
+            textarea,
+            select,
+            button {
+                font-size: 1em;
+            }
+
+            input {
+                margin: 0.3em 0.3em;
+            }
+
+            input[type="checkbox"] {
+                width: 1.2em;
+                height: 1.2em;
+            }
+
+            .formTitleHeader {
+                font-size: 3em;
+            }
+
+            .bibEntries {
+                min-height: 4em;
+                max-height: 10em;
+            }
+
+            .msgHeaderTitle {
+                font-size: 1.1em;
+            }
+
+            .addressInput {
+                max-width: 75%;
+            }
+
+            .block-line-div {
+                display: inline;
+            }
+
+            #closePopBtn {
+                margin-left: 75vw;
+                margin-top: 0.5rem;
+            }
+            .input-container {
+                width: 100%;
+                margin: auto;
+                text-align: left;
+                padding: .1em;
+            }
+        }
+
+        hr {
+            height: 0.1em;
+            width: 90%;
+        }
+
+        textarea {
+            width: 80%;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        li {
+            padding: 0.2rem;
+        }
+
+        input {
+            padding: 0.2em;
+            border-radius: 0.5rem;
+        }
+
+        input[type='submit'] {
+            font-weight: bold;
+            background-color: rgb(113, 169, 253);
+        }
+
+        input[type='button'],
+        input[type='submit'] {
+            color: rgb(10, 10, 10);
+            padding-left: 0.8em;
+            padding-right: 0.8em;
+        }
+
+        textarea,
+        select {
+            padding: 0.3em 0.3em;
+            border: solid 0.15em rgb(10, 10, 10);
+            border-radius: 0.5rem;
+        }
+
+        input:hover,
+        textarea:hover,
+        select:hover {
+            cursor: pointer;
+            opacity: 0.8;
+            outline: solid 2px rgb(255, 153, 0);
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: solid 3px rgb(255, 153, 0);
+        }
+
+        #comment {
+            width: 80%;
+            display: block;
+            margin: auto;
+        }
+
+        #commentLabel {
+            display: block;
+            margin: .3em auto;
+        }
+
+        #MessageNumber {
+            max-width: 10em;
+        }
+
+        #txtfiletoread,
+        #parseme,
+        #TheData {
+            display: none;
+        }
+
+        #RiderNum,
+        #TimeField {
+            max-width: 6em;
+        }
+
+        .div-across-auto-align {
+            width: 100%;
+            margin: auto;
+            text-align: center;
+        }
+
+        .formTitleHeader {
+            display: block;
+            text-align: center;
+            color: rgb(255, 0, 0);
+            font-style: italic;
+        }
+
+        .formReadVersion {
+            text-align: center;
+        }
+
+        .msgHeaderTitle {
+            color: rgb(255, 0, 0);
+            text-align: center;
+        }
+
+        .msgSubjElement {
+            width: 70vw;
+            outline-style: none !important;
+        }
+
+        .readOnlyText {
+            color: rgb(84, 84, 84) !important;
+            outline-style: none !important;
+            cursor: default !important;
+            opacity: unset !important;
+        }
+
+        /* Pop-up content shifted off-screen when not in view. Still readable by screen-reader software. When targeted it fills the browser window. */
+        .pop-up {
+            position: absolute;
+            top: 0em;
+            left: -500em;
+        }
+
+        .pop-up:target {
+            position: static;
+            left: 0em;
+        }
+
+        /* The pop-up itself */
+        .popBox {
+            background: rgb(240, 240, 240);
+            position: absolute;
+            left: 2em;
+            right: 2em;
+            top: 2em;
+            bottom: 2em;
+            z-index: 10;
+            border: 3px solid rgb(150, 150, 150);
+            border-radius: 1rem;
+            box-shadow: 0.4rem 0.4rem 0.5rem 0.8rem rgb(150, 150, 150);
+            opacity: 0;
+            transition: opacity 0.8s ease-out;
+        }
+
+        :target .popBox {
+            position: fixed;
+            opacity: 1;
+        }
+
+        .close:hover,
+        .close:active,
+        .close:focus {
+            box-shadow: 0rem 0rem 0.5rem 0.5rem;
+            background-color: rgb(192, 192, 192);
+            color: rgb(10, 10, 10);
+        }
+
+        .close span {
+            text-indent: -200em;
+            display: block;
+        }
+
+        /* The pop-up content div will scroll if it has too much content */
+        .popScroll {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            right: 1rem;
+            bottom: 1rem;
+            overflow-y: auto;
+            padding-right: 0.5em;
+            margin-top: 2rem;
+        }
+
+        .clearDataButton {
+            color: rgb(10, 10, 10);
+            background-color: rgb(255, 153, 0);
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <section id="close">
+        <form
+            onsubmit="return confirm('To complete your form submission, click OK and close the browser tab. You will return to the new message window so you can post your message to the outbox.');"
+            method="post" id="myform" enctype="multipart/form-data" action="http://{FormServer}:{FormPort}">
+            <label class="formTitleHeader">Seattle Fire Department Incident Card</label>
+            <div class="formReadVersion">
+                <input type="button" value="Form Information - READ" id="formInfoReadBtn" />
+                <label id="thisVersion"></label>
+            </div>
+
+            <hr />
+
+            <div class="msgHeaderTitle">Message Header</div>
+            <div class="input-container">
+
+                    <label for="From">From (tactical/mycall):</label>
+                    <input name="From" type="text" id="From" maxlength="40"
+                        onchange="elementValuesToLocalStorage();" placeholder="Station 00 / AB7XYZ" required />
+            </div>
+            <div class="input-container">
+                    <label for="address">Send to (Winlink Radio Call or Email):</label>
+                    <input name="address" type="text" id="address" class="addressInput" maxlength="40"
+                        onchange="elementValuesToLocalStorage();"
+                        title="Separate multiple calls or addresses with a semicolon;"
+                        placeholder="W7ACS" required />
+            </div>
+
+            <div class="input-container">
+                    <label for="MessageNumber">ACS Message # (e.g. STN00-0001)</label>
+                    <input name="MessageNumber" type="text" id="MessageNumber" class="addressInput" maxlength="11"
+                        onchange="elementValuesToLocalStorage();" placeholder="STN00-0001" required />
+                <input type="checkbox" id="exercise" name="exercise" value="Exercise" />
+                <label for="exercise">This is An Exercise</label>
+
+            </div>
+
+            <!-- hidden elements -->
+            <input name="FormVersion" type="hidden" id="FormVersion" />
+            <input type="file" id="txtfiletoread" accept=".txt" />
+            <input name="sendto" type="hidden" id="sendto" />
+            <textarea name="parseme" id="parseme"></textarea>
+            <!-- end hidden elements -->
+
+
+
+            <hr />
+
+            <div class="msgHeaderTitle">SFD Incident Card Entry</div>
+
+
+            <div class="input-container">
+                <label for="company">CO:</label>
+                <input type="text" name="company" id="company"
+                    size="5" value=""/>
+                <label for="TimeField">Time:</label>
+                <input name="TimeField" type="text" id="TimeField" maxlength="6" required />
+            </div>
+             <div class="input-container">
+                <label for="location"><b>LOCATION:</b><br></label>
+                <textarea rows="3" cols="55"
+                       name="location" id="location"></textarea>
+            </div>
+            <div class="section">
+                <b>CONDITIONS:</b>
+            </div>
+            <div class="input-container">
+                <label for="collapse-risk">Collapse - &nbsp;&nbsp;&nbsp;&nbsp;risk:</label>
+                <input type="checkbox" name="collapse-risk"
+                    value="collapse-risk"
+                    onclick="if(document.getElementById('IsCollapse-risk').value =='')
+                    {document.getElementById('IsCollapse-risk').value = 'X'}
+                    else { document.getElementById('IsCollapse-risk').value = '';}"/>
+                <input type="hidden" name="IsCollapse-risk"
+                    id="IsCollapse-risk" />
+
+                <label for="collapse-partial">&nbsp;&nbsp;&nbsp;&nbsp;partial:</label>
+                <input type="checkbox" name="collapse-partial"
+                    value="collapse-partial"
+                    onclick="if(document.getElementById('IsCollapse-partial').value =='')
+                    {document.getElementById('IsCollapse-partial').value = 'X'}
+                    else { document.getElementById('IsCollapse-partial').value = '';}"/>
+                <input type="hidden" name="IsCollapse-partial"
+                    id="IsCollapse-partial" />
+
+                <label for="collapse-full">&nbsp;&nbsp;&nbsp;&nbsp;full:</label>
+                <input type="checkbox" name="collapse-full"
+                    value="collapse-full"
+                    onclick="if(document.getElementById('IsCollapse-full').value =='')
+                    {document.getElementById('IsCollapse-full').value = 'X'}
+                    else { document.getElementById('IsCollapse-full').value = '';}"/>
+                <input type="hidden" name="IsCollapse-full"
+                    id="IsCollapse-full" />
+            </div>
+            <div class="input-container">
+                <label for="fire">Fire:</label>
+                <input type="checkbox" name="fire"  value="fire"
+                 onclick="if(document.getElementById('IsFire').value =='')
+                 {document.getElementById('IsFire').value = 'X'}
+                 else { document.getElementById('IsFire').value = '';}"/>
+                <input type="hidden" name="IsFire" id="IsFire" />
+            </div>
+            <div class="input-container">
+                <label for="fuel-gas-water">Fuel/Gas/Water:</label>
+                <input type="checkbox" name="fuel-gas-water" value="fuel-gas-water"
+                 onclick="if(document.getElementById('IsFGW').value =='')
+                 {document.getElementById('IsFGW').value = 'X'}
+                 else { document.getElementById('IsFGW').value = '';}"/>
+                <input type="hidden" name="IsFGW" id="IsFGW" />
+            </div>
+            <div class="input-container">
+                <label for="hazmat">HAZMAT:</label>
+                <input type="checkbox" name="hazmat" value="hazmat"
+                 onclick="if(document.getElementById('IsHazmat').value =='')
+                 {document.getElementById('IsHazmat').value = 'X'}
+                 else { document.getElementById('IsHazmat').value = '';}"/>
+                <input type="hidden" name="IsHazmat" id="IsHazmat" />
+            </div>
+            <div class="input-container">
+                <label for="hazmat">Landslide:</label>
+                <input type="checkbox" name="landslide" value="landslide"
+                 onclick="if(document.getElementById('IsLandslide').value =='')
+                 {document.getElementById('IsLandslide').value = 'X'}
+                 else { document.getElementById('IsLandslide').value = '';}"/>
+                <input type="hidden" name="IsLandslide" id="IsLandslide" />
+            </div>
+            <div class="input-container">
+                <label for="other">Other:</label>
+                <input type="checkbox" name="other"  value="other"
+                 onclick="if(document.getElementById('IsOther').value =='')
+                 {document.getElementById('IsOther').value = 'X'}
+                 else { document.getElementById('Isother').value = '';}"/>
+                <input type="hidden" name="IsOther" id="IsOther" />
+                <label for="other_desc"></label>
+                <input type="text" name="other_desc" id="other_desc" value=""/>
+            </div>
+            <div class="section">
+                <b>LEVELS (resource needs):</b>
+            </div>
+              <div class="input-container">
+                <label for="levels_city">CITY:</label>
+                <input type="text" name="levels_city" id="levels_city"
+                    size="5" value=""/>
+                <label for="levels_bat">BATTALION:</label>
+                <input type="text" name="levels_bat" id="levels_bat"
+                    size="5" value=""/>
+                <label for="levels_company">COMPANY:</label>
+                <input type="text" name="levels_company" id="levels_company"
+                    size="5" value=""/>
+            </div>
+            <div class="input-container">
+                <label for="actions"><b>ACTIONS & NEEDS:<br></b></label>
+                <textarea rows="5" cols="55"
+                       name="actions" id="actions"></textarea>
+            </div>
+            <div class="input-container">
+                <label for="cardid">SFD incident card number:</label>
+                &nbsp;&nbsp;
+                <b>B</b><input type="text" name="cardB" id="CardB" size="1"
+                    value=""/>
+                -<input type="text" name="cardid" id="CardID" size="3"
+                    value=""/>
+                 &nbsp;&nbsp;
+                 <input type="text" name="cardid2" id="CardID2" size="1"
+                    value=""/>
+            </div>
+
+                <input title="After submitting, close browser, then address message for posting" class="SubmitBtn"
+                    enctype="multipart/form-data" id="Submit" method="Post" name="Submit" value="SUBMIT"
+                    type="submit" />
+                <input name="savebtn" type="button" class="saveDataButton" id="savebtn" onclick="SaveData()"
+                    value="Save Data" title="Save data to a file." />
+                <input name="loadbtn" type="button" class="loadDataButton" id="loadbtn"
+                    onclick="document.getElementById('txtfiletoread').click();" value="Load Data"
+                    title="Load data from a file." />
+                <input name="doclear" type="button" id="doclear" onclick="clearParticipantData()" value="Clear Entries"
+                    title="Clear all entries." class="clearDataButton" />
+            </div>
+        </form>
+    </section>
+
+    <section id="pop1" class="pop-up">
+        <!-- The pop-up block -->
+
+        <div class="popBox">
+            <!-- If the content becomes larger than the pop-up this div will scroll the content -->
+            <input type="button" id="closePopBtn" value="Click to close this help" class="close" />
+
+            <div class="popScroll">
+                <h2>Winlink Operator Instructions</h2>
+
+                <h3>About This Form</h3>
+
+                <p>Need to modify to describe SFD form.</p>
+
+            </div>
+        </div>
+
+    </section>
+
+    <script language="javascript" type="text/javascript">
+        // USE THIS SECTION to add event listeners to form elements
+        var defaultTimeString = '00:00';
+        let defaultBibValue = "000";
+        let minFieldLength = 1;
+        let timeFieldElement = GetElementById('TimeField');
+        let riderNumberElement = GetElementById('RiderNum');
+        let csvDataElement = GetElementById('TheCsvData');
+        let inBtnElement = GetElementById('Inbtn');
+        let outBtnElement = GetElementById('Outbtn');
+        let dropBtnElement = GetElementById('Dropbtn');
+
+        // add event listener to csvDataElement: call functions to clean and handle existing csv data
+        csvDataElement.addEventListener('blur', function () {
+            cleanAndCountCsvData();
+            handleCsvDataEdited();
+        });
+
+        // add event listener to Bib Time field: call functions to sanitize and pad user input
+        timeFieldElement.addEventListener('blur', function () {
+            GetElementById('TimeField').value = formatTimeValue(this.value);
+        });
+
+        // add event listener to Rider Number field: set default value if empty or set current clock time to Time field
+        riderNumberElement.addEventListener('blur', function () {
+            this.value = this.value.trim();
+            // set default value if field is empty
+            if (this.value < minFieldLength) {
+                this.value = defaultBibValue;
+            }
+
+            this.value = this.value.toUpperCase();
+            var currTime = getCurrentTime();
+            GetElementById('TimeField').value = formatTimeValue(currTime);
+        });
+
+        // add an event listener to the '+' key that will call handleAddBib("IN") function
+        document.addEventListener('keydown', function (event) {
+            if (event.key === '+' || event.key === '=') {
+                event.preventDefault(); // prevent key character from being entered in the form
+                handleAddBib("IN");
+            } else if (event.key === '-') {
+                event.preventDefault(); // prevent key character from being entered in the form
+                handleAddBib("OUT");
+            } else if (event.key === '/') {
+                event.preventDefault(); // prevent key character from being entered in the form
+                handleAddBib("DROP");
+            }
+        });
+
+        // add event listeners to the IN, OUT, and DROP buttons
+        document.addEventListener('click', function (event) {
+            if (event.target === inBtnElement) {
+                event.preventDefault();
+                handleAddBib("IN");
+            } else if (event.target === outBtnElement) {
+                event.preventDefault();
+                handleAddBib("OUT");
+            } else if (event.target === dropBtnElement) {
+                event.preventDefault();
+                handleAddBib("DROP");
+            }
+        });
+
+        // Add event listeners for "Form Information - READ" and "Close Pop-up" buttons
+        document.getElementById('formInfoReadBtn').addEventListener('click', function () {
+            getFocusableElements('pop1').forEach(el => {
+                el.removeAttribute('tabindex');
             });
-        </script>
-    </body>
+            location.href = '#pop1';
+        });
+        document.getElementById('closePopBtn').addEventListener('click', function () {
+            getFocusableElements('pop1').forEach(el => {
+                el.setAttribute('tabindex', '-1');
+            });
+            location.href = '#close';
+        });
+    </script>
+</body>
+
 </html>
