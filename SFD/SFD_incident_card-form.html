@@ -231,21 +231,25 @@
                 <div class="input-container">
                     <label for="mycall">From (TACTICAL / my callsign):</label>
                     <input type="text" name="mycall" id="myCallsign"
-                        required placeholder="Station 00 / AA7XXX" value=""/>
+                        required placeholder="" value=""/>
                 </div>
                 <div class="input-container">
                     <label for="tocall">To (Winlink address - callsign or email):</label>
                     <input type="text" name="tocall" id="toCallsign"
-                        required placeholder="W7ACS" value=""/>
+                        required placeholder="" value=""/>
                 </div>
                 <div class="input-container">
-                    <label for="acsno">ACS Message Number:</label>
+                    <label for="acsno">ACS Message Number (e.g. STN00-0001):</label>
                     <input type="text" name="acsno" id="ACSno"
-                        required placeholder="STN00-0001" value=""/>
+                        required placeholder="" value=""/>
                 </div>
-                 <div class="input-container">
+
+                <div class="input-container">
                     <label for="Exer">This is an exercise:</label>
-                    <input type="checkbox" name="Exer" id="ExerciseCheckbox" checked />
+                    <input type="checkbox" name="Exer" value=""
+                     onclick="if(document.getElementById('IsExer').value =='')
+                     {document.getElementById('IsExer').value = IsAnExerciseText}
+                     else { document.getElementById('IsExer').value = '';}"/>
                     <input type="hidden" name="IsExer" id="IsExer" />
                 </div>
 
@@ -275,8 +279,7 @@
                 </div>
                 <div class="input-container">
                     <label for="collapse-risk">Collapse --- risk:</label>
-                    <input type="checkbox" name="collapse-risk"
-                        value="collapse-risk"
+                    <input type="checkbox" name="collapse-risk" value=''
                         onclick="if(document.getElementById('IsCollapse_risk').value =='')
                         {document.getElementById('IsCollapse_risk').value = 'X'}
                         else { document.getElementById('IsCollapse_risk').value = '';}"/>
@@ -284,8 +287,7 @@
                         id="IsCollapse_risk" />
 
                     <label for="collapse-partial">partial:</label>
-                    <input type="checkbox" name="collapse-partial"
-                        value="collapse-partial"
+                    <input type="checkbox" name="collapse-partial" value=''
                         onclick="if(document.getElementById('IsCollapse_partial').value =='')
                         {document.getElementById('IsCollapse_partial').value = 'X'}
                         else { document.getElementById('IsCollapse_partial').value = '';}"/>
@@ -293,8 +295,7 @@
                         id="IsCollapse_partial" />
 
                     <label for="collapse-full">full:</label>
-                    <input type="checkbox" name="collapse-full"
-                        value="collapse-full"
+                    <input type="checkbox" name="collapse-full" value=''
                         onclick="if(document.getElementById('IsCollapse_full').value =='')
                         {document.getElementById('IsCollapse_full').value = 'X'}
                         else { document.getElementById('IsCollapse_full').value = '';}"/>
@@ -303,7 +304,7 @@
                 </div>
                 <div class="input-container">
                     <label for="fire">Fire:</label>
-                    <input type="checkbox" name="fire"  value="fire"
+                    <input type="checkbox" name="fire"  value=''
                      onclick="if(document.getElementById('IsFire').value =='')
                      {document.getElementById('IsFire').value = 'X'}
                      else { document.getElementById('IsFire').value = '';}"/>
@@ -311,7 +312,7 @@
                 </div>
                 <div class="input-container">
                     <label for="fuel-gas-water">Fuel/Gas/Water:</label>
-                    <input type="checkbox" name="fuel-gas-water" value="fuel-gas-water"
+                    <input type="checkbox" name="fuel-gas-water" value=''
                      onclick="if(document.getElementById('IsFGW').value =='')
                      {document.getElementById('IsFGW').value = 'X'}
                      else { document.getElementById('IsFGW').value = '';}"/>
@@ -319,15 +320,15 @@
                 </div>
                 <div class="input-container">
                     <label for="hazmat">HAZMAT:</label>
-                    <input type="checkbox" name="hazmat" value="hazmat"
+                    <input type="checkbox" name="hazmat" value=''
                      onclick="if(document.getElementById('IsHazmat').value =='')
                      {document.getElementById('IsHazmat').value = 'X'}
                      else { document.getElementById('IsHazmat').value = '';}"/>
                     <input type="hidden" name="IsHazmat" id="IsHazmat" />
                 </div>
                 <div class="input-container">
-                    <label for="hazmat">Landslide:</label>
-                    <input type="checkbox" name="landslide" value="landslide"
+                    <label for="landslide">Landslide:</label>
+                    <input type="checkbox" name="landslide" value=''
                      onclick="if(document.getElementById('IsLandslide').value =='')
                      {document.getElementById('IsLandslide').value = 'X'}
                      else { document.getElementById('IsLandslide').value = '';}"/>
@@ -335,7 +336,7 @@
                 </div>
                 <div class="input-container">
                     <label for="other">Other:</label>
-                    <input type="checkbox" name="other"  value="other"
+                    <input type="checkbox" name="other"  value=''
                      onclick="if(document.getElementById('IsOther').value =='')
                      {document.getElementById('IsOther').value = 'X'}
                      else { document.getElementById('Isother').value = '';}"/>
@@ -435,7 +436,7 @@
                     MyCallsign: document.getElementById('myCallsign').value,
                     ToCallsign: document.getElementById('toCallsign').value,
                     ACSno: document.getElementById('ACSno').value,
-                    IsAnExerciseText: document.getElementById('IsExer').value,
+                    IsExer: document.getElementById('IsExer').value,
                     company: document.getElementById('company').value,
                     Time: document.getElementById('Time').value,
                     location: document.getElementById('location').value,
@@ -490,19 +491,6 @@
             const IsAnExerciseText = "*** THIS IS AN EXERCISE ***";
             const NotAnExerciseText = "";
 
-            document.getElementById('ExerciseCheckbox').addEventListener('click', () => {
-                // ref hidden element
-                const isExerElement = document.getElementById('IsExer');
-                // checkbox.checked has a non-boolean startup state of 'undefined'
-                if(this.checked || this.checked === undefined) {
-                    this.checked = false;
-                    // hidden element value is text (a string)
-                    isExerElement.value = NotAnExerciseText;
-                } else {
-                    this.checked = true;
-                    isExerElement.value = IsAnExerciseText;
-                }
-            });
 
             window.addEventListener('load', function () {
                 // NEED TO ADD
