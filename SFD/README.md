@@ -34,8 +34,8 @@ above, but if opened from within Winlink the "Submit" button should work to
 translate the html form information into a Winlink message, which you can
 then "Post to Outbox".
 
-The "Save" button should work too and eventually so will the "Load" button,
-but this is not yet implemented.
+The "Save Data" button should work too and eventually so will
+the "Load Data" button, but this is not yet implemented.
 
 Also not yet implemented is a Viewer version that allows an incoming Winlink
 message based on this form to be nicely displayed in a browser.  But a recipient
@@ -60,7 +60,7 @@ If you click "Save Data", a text file with a name like
 {
   "MyCallsign": "STATION 38 / KJ7WLT",
   "ToCallsign": "W7ACS",
-  "ACSno": "STN38-001",
+  "ACSno": "STN38-0001",
   "IsExer": "*** THIS IS AN EXERCISE ***",
   "company": "L3",
   "Time": "0915",
