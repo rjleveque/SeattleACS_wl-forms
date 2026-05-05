@@ -5,14 +5,14 @@ Work in progress to create a Winlink form to automate the process described
 in this page from the Seattle ACS Action Plan for a recent SFD Windshield
 Exercise:
 
-<img src="images/SFD_card_example.jpg" width=400/>
+<img src="images/SFD_card_example.jpg" width=800/>
 
 
 ## Another example incident card
 
 This image has better resolution, note the faint writing:
 
-<img src="images/IMG_1217.jpeg" width=300/>
+<img src="images/IMG_1217.jpeg" width=500/>
 
 ## Draft of 2026-05-04
 
@@ -46,11 +46,11 @@ will see the email message text, as illustrated below.
 
 ### Form input:
 
-<img src="images/draft2_form.jpg" width=300/>
+<img src="images/draft2_form.jpg" width=600/>
 
 ### Resulting Winlink message:
 
-<img src="images/SFDversion2.png" width=300/>
+<img src="images/SFDversion2.png" width=600/>
 
 ### What gets saved:
 
