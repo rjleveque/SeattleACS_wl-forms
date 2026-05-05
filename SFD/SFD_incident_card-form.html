@@ -267,6 +267,11 @@
                         size="5" value=""/>
                 </div>
                 <hr />
+                <div class="input-container">
+                    <label for="PlaceNameBldgType">PLACE NAME / BUILDING TYPE:</label>
+                    <textarea rows="1" cols="40" name="PlaceNameBldgType" id="PNBT"
+                        value=""></textarea>
+                </div>
 
                  <div class="input-container">
                     <label for="location"><b>LOCATION:</b><br></label>
@@ -278,7 +283,7 @@
                     <b>CONDITIONS:</b>
                 </div>
                 <div class="input-container">
-                    <label for="collapse-risk">Collapse --- risk:</label>
+                    <label for="collapse-risk">Collapse --- &nbsp;&nbsp; risk:</label>
                     <input type="checkbox" name="collapse-risk" value=''
                         onclick="if(document.getElementById('IsCollapse_risk').value =='')
                         {document.getElementById('IsCollapse_risk').value = 'X'}
@@ -286,7 +291,7 @@
                     <input type="hidden" name="IsCollapse_risk"
                         id="IsCollapse_risk" />
 
-                    <label for="collapse-partial">partial:</label>
+                    <label for="collapse-partial">&nbsp;&nbsp; partial:</label>
                     <input type="checkbox" name="collapse-partial" value=''
                         onclick="if(document.getElementById('IsCollapse_partial').value =='')
                         {document.getElementById('IsCollapse_partial').value = 'X'}
@@ -294,7 +299,7 @@
                     <input type="hidden" name="IsCollapse_partial"
                         id="IsCollapse_partial" />
 
-                    <label for="collapse-full">full:</label>
+                    <label for="collapse-full">&nbsp;&nbsp; full:</label>
                     <input type="checkbox" name="collapse-full" value=''
                         onclick="if(document.getElementById('IsCollapse_full').value =='')
                         {document.getElementById('IsCollapse_full').value = 'X'}
@@ -367,26 +372,23 @@
                 </div>
                 <div class="input-container">
                     <label for="cardid">SFD incident card number:</label>
-                    <font size=+3><b>B</b></font><input type="text" name="cardB" id="CardB" size="1"
-                        maxlength="1" value=""/>
+                    <font size=+3><b>B</b></font><input type="text" name="cardB"
+                        id="CardB" size="2" maxlength="2" value=""/>
                     -<input type="text" name="cardid" id="CardID" size="3"
                         maxlength="3" value=""/>
                     </div>
 
                     <div class="input-container">
 
-                    <label for="pending">Status -- Pending (empty box):</label>
+                    <label for="pending">STATUS -- &nbsp;&nbsp; Pending (empty box):</label>
                     <input type="radio" name="status" value='pending'
-                    checked
-                    <input type="hidden" name="IsPending" id="IsPending" />
+                    checked />
 
-                    <label for="active">Active (one slash):</label>
-                    <input type="radio" name="status" value='active'
-                    <input type="hidden" name="IsActive" id="IsActive" />
+                    <label for="active">&nbsp;&nbsp; Active (one slash):</label>
+                    <input type="radio" name="status" value='active' />
 
-                    <label for="closed">Closed (full X):</label>
-                    <input type="radio" name="status" value='closed'
-                    <input type="hidden" name="IsClosed" id="IsClosed" />
+                    <label for="closed">&nbsp;&nbsp; Closed (full X):</label>
+                    <input type="radio" name="status" value='closed' />
                 </div>
 
                 <hr />
@@ -458,6 +460,7 @@
                     IsExer: document.getElementById('IsExer').value,
                     company: document.getElementById('company').value,
                     Time: document.getElementById('Time').value,
+                    PlaceNameBuildingType: document.getElementById('PNBT').value,
                     location: document.getElementById('location').value,
                     IsCollapse_risk: document.getElementById('IsCollapse_risk').value,
                     IsCollapse_partial: document.getElementById('IsCollapse_partial').value,
@@ -474,8 +477,6 @@
                     actions: document.getElementById('actions').value,
                     CardB: document.getElementById('CardB').value,
                     CardID: document.getElementById('CardID').value,
-                    IsActive: document.getElementById('IsActive').value,
-                    IsClosed: document.getElementById('IsClosed').value,
                     Status: selected.value,
                 };
 
