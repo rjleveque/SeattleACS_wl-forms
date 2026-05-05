@@ -371,20 +371,35 @@
                         maxlength="1" value=""/>
                     -<input type="text" name="cardid" id="CardID" size="3"
                         maxlength="3" value=""/>
-                     <input type="text" name="cardid2" id="CardID2" size="1"
-                        maxlength="1" value=""/>
+                    </div>
+
+                    <div class="input-container">
+
+                    <label for="pending">Status -- Pending (empty box):</label>
+                    <input type="radio" name="status" value='pending'
+                    checked
+                    <input type="hidden" name="IsPending" id="IsPending" />
+
+                    <label for="active">Active (one slash):</label>
+                    <input type="radio" name="status" value='active'
+                    <input type="hidden" name="IsActive" id="IsActive" />
+
+                    <label for="closed">Closed (full X):</label>
+                    <input type="radio" name="status" value='closed'
+                    <input type="hidden" name="IsClosed" id="IsClosed" />
                 </div>
-	        <div class="input-container">
-                <input type="submit" name="Submit" value="Submit" />
 
-                <input type="button" name="SaveButton" id="saveButton"
-                    value="Save Data" />
-                <input type="button" name="LoadButton" id="loadButton"
-                    onclick="document.getElementById('txtfiletoread').click();"
-                    value="Load Data" />
-            </div>
+                <hr />
+    	        <div class="input-container">
+                    <input type="submit" name="Submit" value="Submit" />
 
-            <input type="file" id="txtfiletoread" accept=".txt" />
+                    <input type="button" name="SaveButton" id="saveButton"
+                        value="Save Data" />
+                    <input type="button" name="LoadButton" id="loadButton"
+                        onclick="document.getElementById('txtfiletoread').click();"
+                        value="Load Data" />
+                </div>
+
 
             </form>
 
@@ -432,6 +447,10 @@
             }
 
             function createJsonObjectFromFormElements() {
+                const selected = document.querySelector('input[name="status"]:checked');
+                if (selected) {
+                    console.log("Selected value:", selected.value);
+                }
                 const jsonObject = {
                     MyCallsign: document.getElementById('myCallsign').value,
                     ToCallsign: document.getElementById('toCallsign').value,
@@ -455,7 +474,9 @@
                     actions: document.getElementById('actions').value,
                     CardB: document.getElementById('CardB').value,
                     CardID: document.getElementById('CardID').value,
-                    CardID2: document.getElementById('CardID2').value
+                    IsActive: document.getElementById('IsActive').value,
+                    IsClosed: document.getElementById('IsClosed').value,
+                    Status: selected.value,
                 };
 
                 console.log('returning jsonobject:', jsonObject);

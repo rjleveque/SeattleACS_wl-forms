@@ -1,12 +1,12 @@
 Form: SFD_incident_card-form.html
 To: <var tocall>
-Subj: Batallion <var cardB> Incident Card <var cardid><var cardid2> --- ACS msg # <var acsno>
+Subj: Batallion <var cardB> Incident Card <var cardid> --- ACS msg # <var acsno>
 Msg:
 
 <var IsExer>
 
 Seattle Fire Department
-Batallion <var cardB> Incident Card <var cardid><var cardid2>  --- ACS msg # <var acsno>
+Batallion <var cardB> Incident Card <var cardid>  --- ACS msg # <var acsno>
 
 ========================
 CO: <var company>   TIME: <var time>
@@ -18,7 +18,7 @@ LOCATION:
 ------------------------
 CONDITIONS:
 
-Collapse -- 
+Collapse --
     risk: <var IsCollapse-risk>
     partial: <var IsCollapse-partial>
     full: <var IsCollapse-full>
@@ -38,7 +38,7 @@ ACTIONS & NEEDS:
 <var actions>
 
 ------------------------
-CARD NUMBER: B<var cardB>-<var cardid><var cardid2>
+CARD NUMBER: B<var cardB>-<var cardid>   <var cardStatus>
 
 ========================
 
