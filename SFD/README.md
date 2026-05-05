@@ -7,68 +7,21 @@ Exercise:
 
 ![](images/SFD_card_example.jpg)
 
+## Another example incident card
 
-## Draft 2026-01-19
+This image has better resolution, note the faint writing:
 
-### Form input:
+![](images/IMG_1217.jpeg)
 
-<img src="images/draft1_form.jpg" width=300/>
+## Draft of 2026-05-04
 
-### Resulting Winlink message:
+### Try out the web browser version
 
-    To: W7ACS;
-    From: KJ7WLT
-    Subject: Batallion 5 Incident Card 001  --- ACS msg # STN38-001
+You can type into [this live sample version](https://faculty.washington.edu/rjl/misc/SFD_incident_card-form.html).  The Submit, and Load buttons do not do anything,
+but the Save button should save a file to your local computer (which could
+later be transferred to Winlink).
 
-
-    ** THIS IS AN EXERCISE **
-
-    Seattle Fire Department
-    Batallion 5 Incident Card 001  --- ACS msg # STN38-001
-
-    ========================
-    CO: L3   TIME: 0915
-
-    ------------------------
-    LOCATION:
-    McDonald International School
-    Latona Ave NE and NE 55th St.
-
-    ------------------------
-    CONDITIONS:
-
-    Collapse --
-        risk:
-        partial: X
-        full:
-
-    Fire: X
-    Fuel/Gas/Water:
-    HAZMAT:
-    Landslide:
-    Other:
-
-    ------------------------
-    LEVELS (resource needs):
-    CITY:     BATTALION:     COMPANY:
-
-    ------------------------
-    ACTIONS & NEEDS:
-    None at this time.
-    Continuing route.
-
-    ------------------------
-    CARD NUMBER: B5-001
-
-    ========================
-
-    Sent by: STATION 38 / KJ7WLT
-    ---
-    Program version:1.7.29.0
-
-## Try it:
-
-You can type in [this live sample version](https://faculty.washington.edu/rjl/misc/SFD_incident_card-form.html).  The Submit, Save, and Load buttons do not do anything.
+### Install in Winlink
 
 To try it in Winlink, copy these files into your Winlink Express `Global Folders\Templates` directory:
 
@@ -76,17 +29,64 @@ To try it in Winlink, copy these files into your Winlink Express `Global Folders
 - SFD_incident_card-template.txt
 
 Then compose a new message, selecting the template under `General Templates`.
+This should open a browser window that looks the same as the sample web version
+above, but if opened from within Winlink the "Submit" button should work to
+translate the html form information into a Winlink message, which you can
+then "Post to Outbox".
+
+The "Save" button should work too and eventually so will the "Load" button,
+but this is not yet implemented.
+
+Also not yet implemented is a Viewer version that allows an incoming Winlink
+message based on this form to be nicely displayed in a browser.  But a recipient
+will see the email message text, as illustrated below.
+
+
+
+### Form input:
+
+<img src="images/draft2_form.jpg" width=300/>
+
+### Resulting Winlink message:
+
+<img src="images/SFDversion2.png" width=300/>
+
+### What gets saved:
+
+If you click "Save Data", a text file with a name like
+`SFD-card-saved-data-2026-05-04-21_23.txt` will be saved, containing
+
+```
+{
+  "MyCallsign": "STATION 38 / KJ7WLT",
+  "ToCallsign": "W7ACS",
+  "ACSno": "STN38-001",
+  "IsExer": "*** THIS IS AN EXERCISE ***",
+  "company": "L3",
+  "Time": "0915",
+  "PlaceNameBuildingType": "McDonald International School",
+  "location": "Latona Ave NE and NE 55th St.",
+  "IsCollapse_risk": "",
+  "IsCollapse_partial": "X",
+  "IsCollapse_full": "",
+  "IsFGW": "",
+  "IsFire": "X",
+  "IsHazmat": "",
+  "IsLandslide": "",
+  "IsOther": "",
+  "other_desc": "",
+  "levels_city": "",
+  "levels_battalion": "",
+  "levels_company": "",
+  "actions": "None at this time.\nContinuing route.",
+  "CardB": "5",
+  "CardID": "001",
+  "Status": "pending"
+}
+```
 
 ## Notes:
 
-- This is a draft. I'm soliciting input, see
-  [issue #1](https://github.com/rjleveque/SeattleACS_wl-forms/issues/1) for some specific questions and more
-  about this draft.
-
-- The Submit button should work if you install
-  these files in Winlink Express.  The Save
-  and Load buttons do not yet work properly.
+- This is a draft. I'm soliciting input.
 
 - Many thanks to Jon K7RMZ for running a workshop and providing several examples at https://github.com/nojronatron/wl-forms-training
-
-- The basic format of the current draft is based on Jon's example [4-form-style](https://github.com/nojronatron/wl-forms-training/tree/main/4-form-style).
