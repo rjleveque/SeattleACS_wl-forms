@@ -509,6 +509,18 @@
                 saveFormInputElementsToFile();
             });
 
+            let currentStatus = 'pending'; // Your variable
+
+            // Select all buttons in the group
+            const radios = document.querySelectorAll('input[name="status"]');
+
+            radios.forEach(radio => {
+              radio.addEventListener('change', (e) => {
+                currentStatus = e.target.value; // Update variable on every click
+                console.log("Variable updated to:", currentStatus);
+              });
+            });
+
             // constant values for repeated use
             const IsAnExerciseText = "*** THIS IS AN EXERCISE ***";
             const NotAnExerciseText = "";
