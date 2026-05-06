@@ -90,4 +90,9 @@ If you click "Save Data", a text file with a name like
 
 - This is a draft. I'm soliciting input.
 
-- Many thanks to Jon K7RMZ for running a workshop and providing several examples at https://github.com/nojronatron/wl-forms-training
+- The "Load Data" button doesn't work yet.
+
+- There's no Viewer form yet for converting an incoming Winlink message to a nice html version.
+
+- Many thanks to Jon K7RMZ for running a workshop and providing several examples at
+  https://github.com/nojronatron/wl-forms-training.  Some ideas also adapted from his [Bigfoot bib tracker form](https://github.com/nojronatron/Bigfoot-Bib-Report-WL-Form) and from some info on the Winlink pages, e.g. [create_template.pdf](https://winlink.org/sites/default/files/RMSE_FORMS/create_templates.pdf).
