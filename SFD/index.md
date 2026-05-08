@@ -6,7 +6,7 @@ for background information and some screen shots.
 
 ## Try it out
 
-[Click here](https://rjleveque.github.io/SeattleACS_wl-forms/SFD/SFD_incident_card-form.html)
+[Click here](https://rjleveque.github.io/SeattleACS_wl-forms/SFD/SFD_incident_card-form-draft260508.html)
 to open a form in your browser that you can try filling out.
 
 In this version the "Submit" and "Load Data" buttons do not work, but you
@@ -48,8 +48,8 @@ proper directory [add the path]:
 - `SFD_incident_card-template.txt` is a file that tells Winlink how to
   compose a Winlink message based on the data in the form.
 
-- [`SFD_incident_card.zip`](https://rjleveque.github.io/SeattleACS_wl-forms/SFD/SFD_incident_card.zip)
-  is a zip file that contains the two files.
+- [`SFD_incident_card-draft260508.zip`](https://faculty.washington.edu/rjl/hamradio/SFD_incident_card-draft260508.zip)
+  is a zip file that contains the two files (draft versions).
 
   **WARNING:** This is a test version and a better version will be
   available in the future.
