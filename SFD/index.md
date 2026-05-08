@@ -7,16 +7,17 @@ for background information and some screen shots.
 ## Try it out
 
 [Click here](https://rjleveque.github.io/SeattleACS_wl-forms/SFD/SFD_incident_card-form-draft260508.html)
-to open a form in your browser that you can try filling out.
+to open an html form in your browser that you can try filling out.
 
 In this version the "Submit" and "Load Data" buttons do not work, but you
-can "Save Data" and it should create a small json file and save it to your
+can "Save Data" and it should create a small JSON (JavaScript Object Notation)
+data file and save it to your
 own computer with a filename based on the date and time.  Later you could
 upload one or more of these to a computer running Winlink for submission.
 
 ### Save the html file on a laptop, tablet, or cell phone
 
-Trying out the form linked about requires an internet connection to the
+Trying out the form linked above requires an internet connection to the
 computer where it is hosted.
 
 For field applications you might want to have this html file on your own
