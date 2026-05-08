@@ -40,7 +40,7 @@ input data in the field for later transfer to a radio operator.
 ## Installing as a custom form in Winlink
 
 If you want to use this form in Winlink you need to copy two files to the
-proper directory [add the path]:
+proper directory [RMS Express\Global Folders\Templates]:
 
 - `SFD_incident_card-form.html` is the html form that you see when you
   compose a message.  (This is essentially the same file you can open in any 
