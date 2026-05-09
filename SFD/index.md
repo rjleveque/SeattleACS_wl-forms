@@ -62,6 +62,17 @@ the radio for transmission is not bogged down by the need to type in the data.
 The html form could also potentially be used directly by SFD personnel to
 input data in the field for later transfer to a radio operator.
 
+### RadioMail
+
+The RadioMail app for iOS can be used to do Winlink on an iPhone (you also
+need a TNC to connect to the phone by bluetooth and appropriate cable to
+connect it to your radio, or you can use Winlink Telnet, e.g. if you have
+HamWAN access). The app
+costs a bit and then you also need a subscription if you want to use forms
+on it.  If so, it has all the standard form (e.g. ICS forms) as well as
+Washington State forms, and you can install custom forms. See
+the [RadioMail website](https://radiomail.app/help/forms) for more
+information.
 
 ## The code
 
