@@ -6,7 +6,7 @@ for background information and some screen shots.
 
 ## Try it out
 
-[Click here](https://rjleveque.github.io/SeattleACS_wl-forms/SFD/SFD_incident_card-form-draft260508.html)
+[Click here](https://rjleveque.github.io/SeattleACS_wl-forms/SFD/SFD_incident_card-form.html)
 to open an html form in your browser that you can try filling out.
 
 In this version the "Submit" and "Load Data" buttons do not work, but you
