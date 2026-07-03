@@ -222,8 +222,6 @@
                 method="post" id="myform" enctype="multipart/form-data" action="http://{FormServer}:{FormPort}">
                 <label class="formTitleHeader">Seattle Fire Department Incident Card</label>
 
-                </div>
-
                 <hr />
 
                 <div class="msgHeaderTitle">Message Header</div>
@@ -344,7 +342,7 @@
                     <input type="checkbox" name="other"  value=''
                      onclick="if(document.getElementById('IsOther').value =='')
                      {document.getElementById('IsOther').value = 'X'}
-                     else { document.getElementById('Isother').value = '';}"/>
+                     else { document.getElementById('IsOther').value = '';}"/>
                     <input type="hidden" name="IsOther" id="IsOther" />
                     <label for="other_desc"></label>
                     <input type="text" name="other_desc" id="other_desc" value=""/>
@@ -405,7 +403,7 @@
 
             </form>
 
-        </div>
+        </section>
 
         <script>
 
@@ -509,38 +507,8 @@
                 saveFormInputElementsToFile();
             });
 
-            let currentStatus = 'pending'; // Your variable
-
-            // Select all buttons in the group
-            const radios = document.querySelectorAll('input[name="status"]');
-
-            radios.forEach(radio => {
-              radio.addEventListener('change', (e) => {
-                currentStatus = e.target.value; // Update variable on every click
-                console.log("Variable updated to:", currentStatus);
-              });
-            });
-
             // constant values for repeated use
             const IsAnExerciseText = "*** THIS IS AN EXERCISE ***";
-            const NotAnExerciseText = "";
-
-
-            window.addEventListener('load', function () {
-                // NEED TO ADD
-            });
-
-            function Checkifinbrowser() {
-                // Should check if in browser as in other Winlink forms,
-                // but I couldn't get this to work.
-                var x= document.getElementById("testCall").value;
-                var n = x.search("{Msg");
-                if (n>-1) {
-                document.getElementById('Submit').style.visibility='hidden';
-                alert('You are running this form outside of Winlink.\n \nWhen you have completed the form, SAVE the data and then give or send the SAVED data file to the radio operator. The operator will load the SAVED data into the correct form and send via winlink. ');
-                } else {document.getElementById('Submit').style.visibility='visible';  }
-            }
-
 
             function Checkifinbrowser2() {
                 // For now, always print this alert:
