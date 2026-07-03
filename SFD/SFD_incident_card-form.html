@@ -391,13 +391,15 @@
 
                 <hr />
     	        <div class="input-container">
-                    <input type="submit" name="Submit" value="Submit" />
+                    <input type="submit" name="Submit" id="Submit" value="Submit" />
 
                     <input type="button" name="SaveButton" id="saveButton"
                         value="Save Data" />
                     <input type="button" name="LoadButton" id="loadButton"
                         onclick="document.getElementById('txtfiletoread').click();"
                         value="Load Data" />
+
+                    <input name="testCall" type="hidden" id="testCall" value="{MsgSender}" size="14" maxlength="13" />
                 </div>
 
 
@@ -510,15 +512,20 @@
             // constant values for repeated use
             const IsAnExerciseText = "*** THIS IS AN EXERCISE ***";
 
-            function Checkifinbrowser2() {
-                // For now, always print this alert:
-                alert('If you are running this form outside of Winlink:\n \nWhen you have completed the form, SAVE the data and then give or send the SAVED data file to the radio operator. The operator will load the SAVED data into the correct form and send via winlink. ');
+            function Checkifinbrowser() {
+                var x = document.getElementById("testCall").value;
+                var n = x.search("{Msg");
+                if (n > -1) {
+                    document.getElementById('Submit').style.visibility = 'hidden';
+                    alert('You are running this form outside of Winlink.\n \nWhen you have completed the form, SAVE the data and then give or send the SAVED data file to the radio operator. The operator will load the SAVED data into the correct form and send via winlink. ');
+                } else {
+                    document.getElementById('Submit').style.visibility = 'visible';
+                }
             }
-
 
         window.addEventListener('load', (event) => {
             console.log('Page is loaded');
-            Checkifinbrowser2();
+            Checkifinbrowser();
         });
 
         </script>
