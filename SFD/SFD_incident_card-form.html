@@ -398,6 +398,8 @@
                     <input type="button" name="LoadButton" id="loadButton"
                         onclick="document.getElementById('txtfiletoread').click();"
                         value="Load Data" />
+                    <input type="file" id="txtfiletoread" accept=".txt,application/json"
+                        style="display: none;" />
 
                     <input name="testCall" type="hidden" id="testCall" value="{MsgSender}" size="14" maxlength="13" />
                 </div>
@@ -507,6 +509,71 @@
 
             document.getElementById('saveButton').addEventListener('click', () => {
                 saveFormInputElementsToFile();
+            });
+
+            function setCheckboxFromHiddenValue(checkboxName, hiddenId, value) {
+                document.getElementById(hiddenId).value = value ?? '';
+                document.querySelector(`input[name="${checkboxName}"]`).checked = !!value;
+            }
+
+            function populateFormFromJsonObject(o) {
+                document.getElementById('myCallsign').value = o.MyCallsign ?? '';
+                document.getElementById('toCallsign').value = o.ToCallsign ?? '';
+                document.getElementById('ACSno').value = o.ACSno ?? '';
+                setCheckboxFromHiddenValue('Exer', 'IsExer', o.IsExer);
+
+                document.getElementById('company').value = o.company ?? '';
+                document.getElementById('Time').value = o.Time ?? '';
+                document.getElementById('PNBT').value = o.PlaceNameBuildingType ?? '';
+                document.getElementById('location').value = o.location ?? '';
+
+                setCheckboxFromHiddenValue('collapse-risk', 'IsCollapse_risk', o.IsCollapse_risk);
+                setCheckboxFromHiddenValue('collapse-partial', 'IsCollapse_partial', o.IsCollapse_partial);
+                setCheckboxFromHiddenValue('collapse-full', 'IsCollapse_full', o.IsCollapse_full);
+                setCheckboxFromHiddenValue('fire', 'IsFire', o.IsFire);
+                setCheckboxFromHiddenValue('fuel-gas-water', 'IsFGW', o.IsFGW);
+                setCheckboxFromHiddenValue('hazmat', 'IsHazmat', o.IsHazmat);
+                setCheckboxFromHiddenValue('landslide', 'IsLandslide', o.IsLandslide);
+                setCheckboxFromHiddenValue('other', 'IsOther', o.IsOther);
+                document.getElementById('other_desc').value = o.other_desc ?? '';
+
+                document.getElementById('levels_city').value = o.levels_city ?? '';
+                document.getElementById('levels_battalion').value = o.levels_battalion ?? '';
+                document.getElementById('levels_company').value = o.levels_company ?? '';
+
+                document.getElementById('actions').value = o.actions ?? '';
+
+                document.getElementById('CardB').value = o.CardB ?? '';
+                document.getElementById('CardID').value = o.CardID ?? '';
+
+                if (o.Status) {
+                    const radio = document.querySelector(`input[name="status"][value="${o.Status}"]`);
+                    if (radio) radio.checked = true;
+                }
+
+                console.log('populated form from loaded jsonobject:', o);
+            }
+
+            function loadFormInputElementsFromFile(fileToLoad) {
+                const fileReader = new FileReader();
+                fileReader.onload = function (event) {
+                    try {
+                        const loadedJsonObject = JSON.parse(event.target.result);
+                        populateFormFromJsonObject(loadedJsonObject);
+                    } catch (err) {
+                        console.error('Failed to parse loaded file:', err);
+                        alert('Could not load this file: it does not look like valid saved form data.');
+                    }
+                };
+                fileReader.readAsText(fileToLoad);
+            }
+
+            document.getElementById('txtfiletoread').addEventListener('change', (e) => {
+                const fileToLoad = e.target.files[0];
+                if (fileToLoad) {
+                    loadFormInputElementsFromFile(fileToLoad);
+                }
+                e.target.value = '';
             });
 
             // constant values for repeated use
