@@ -654,6 +654,18 @@
                 <div class="msgHeaderTitle">Message Footer</div>
 
                 <div class="input-container">
+                    <label for="update"><b>UPDATE:</b></label>
+                    <input type="checkbox" name="update" value=''
+                     onclick="if(document.getElementById('IsUpdate').value =='')
+                     {document.getElementById('IsUpdate').value = 'X'}
+                     else { document.getElementById('IsUpdate').value = '';}"/>
+                    <input type="hidden" name="IsUpdate" id="IsUpdate" />
+                    <label for="update">check if this is an update to existing card with this number:</label>
+                </div>
+
+                <br />
+
+                <div class="input-container">
                     <label for="remarks"><b>ADDITIONAL INFORMATION OR REMARKS:<br></b></label>
                     <textarea rows="5" cols="55"
                            name="remarks" id="remarks"></textarea>
@@ -887,6 +899,7 @@
                     remarks: document.getElementById('remarks').value,
                     CardB: document.getElementById('CardB').value,
                     CardID: document.getElementById('CardID').value,
+                    IsUpdate: document.getElementById('IsUpdate').value,
                     Status: selected.value,
                 };
 
@@ -957,6 +970,7 @@
 
                 document.getElementById('CardB').value = o.CardB ?? '';
                 document.getElementById('CardID').value = o.CardID ?? '';
+                setCheckboxFromHiddenValue('update', 'IsUpdate', o.IsUpdate);
 
                 if (o.Status) {
                     const radio = document.querySelector(`input[name="status"][value="${o.Status}"]`);
