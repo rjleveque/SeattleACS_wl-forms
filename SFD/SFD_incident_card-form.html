@@ -450,9 +450,18 @@
                 thisMonth = thisMonth < 10 ? thisMonth = '0' + thisMonth : thisMonth;
                 thisDay = thisDay < 10 ? thisDay = '0' + thisDay : thisDay;
 
-                var dateTimeStamp = `${thisYear}-${thisMonth}-${thisDay}-${hours}_${minutes}`;
+                var dateTimeStamp = `${thisYear}-${thisMonth}-${thisDay}-${hours}${minutes}`;
                 console.log('returning date-time stamp: ', dateTimeStamp);
                 return dateTimeStamp;
+            }
+
+            function getCardDesignation() {
+                let cardB = document.getElementById('CardB').value.trim();
+                let cardID = document.getElementById('CardID').value.trim();
+                if (!cardB) {
+                    return 'BX-XXX';
+                }
+                return `B${cardB}-${cardID || 'XXX'}`;
             }
 
             function createJsonObjectFromFormElements() {
@@ -494,7 +503,8 @@
 
             function saveFormInputElementsToFile() {
                 let dateTimeStamp = getDateTimeStamp();
-                let filenameToSaveAs = `SFD-card-saved-data-${dateTimeStamp}.txt`;
+                let cardDesignation = getCardDesignation();
+                let filenameToSaveAs = `SFD_${cardDesignation}_${dateTimeStamp}.txt`;
 
                 let formElementsAsJson = createJsonObjectFromFormElements();
                 let textToWrite = JSON.stringify(formElementsAsJson, null, 2);
