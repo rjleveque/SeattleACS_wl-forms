@@ -39,6 +39,10 @@ ACTIONS & NEEDS:
 <var actions>
 
 ------------------------
+REMARKS:
+<var remarks>
+
+------------------------
 CARD NUMBER: B<var cardB>-<var cardid>   Status: <var Status>
 
 ========================

@@ -369,6 +369,11 @@
                            name="actions" id="actions"></textarea>
                 </div>
                 <div class="input-container">
+                    <label for="remarks"><b>REMARKS:<br></b></label>
+                    <textarea rows="5" cols="55"
+                           name="remarks" id="remarks"></textarea>
+                </div>
+                <div class="input-container">
                     <label for="cardid">SFD incident card number:</label>
                     <font size=+3><b>B</b></font><input type="text" name="cardB"
                         id="CardB" size="2" maxlength="2" value=""/>
@@ -477,6 +482,7 @@
                     levels_battalion: document.getElementById('levels_battalion').value,
                     levels_company: document.getElementById('levels_company').value,
                     actions: document.getElementById('actions').value,
+                    remarks: document.getElementById('remarks').value,
                     CardB: document.getElementById('CardB').value,
                     CardID: document.getElementById('CardID').value,
                     Status: selected.value,
@@ -542,6 +548,7 @@
                 document.getElementById('levels_company').value = o.levels_company ?? '';
 
                 document.getElementById('actions').value = o.actions ?? '';
+                document.getElementById('remarks').value = o.remarks ?? '';
 
                 document.getElementById('CardB').value = o.CardB ?? '';
                 document.getElementById('CardID').value = o.CardID ?? '';
