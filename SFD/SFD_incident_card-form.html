@@ -460,9 +460,11 @@
                 let cardIDElement = document.getElementById('CardID');
                 if (!cardBElement.value.trim()) {
                     cardBElement.value = 'X';
+                    cardBElement.setAttribute('value', 'X');
                 }
                 if (!cardIDElement.value.trim()) {
                     cardIDElement.value = 'XXX';
+                    cardIDElement.setAttribute('value', 'XXX');
                 }
             }
 
@@ -622,6 +624,7 @@
 
         window.addEventListener('load', (event) => {
             console.log('Page is loaded');
+            applyCardNumberDefaults();
             Checkifinbrowser();
         });
 
