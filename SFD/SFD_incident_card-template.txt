@@ -46,6 +46,6 @@ CARD NUMBER: B<var cardB>-<var cardid>   Status: <var Status>   Update: <var IsU
 ADDITIONAL INFORMATION OR REMARKS:
 <var remarks>
 
-Sent by: <var mycall>
+Submitted by: <var mycall>
 ---
 Program version:<ProgramVersion>

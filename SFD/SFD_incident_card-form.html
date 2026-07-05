@@ -416,6 +416,11 @@
                 font-weight: bold;
             }
 
+            #printCard .card-update-mark {
+                font-weight: normal;
+                margin-left: 0.15in;
+            }
+
             #printCard .card-status-box {
                 width: 0.5in;
                 height: 0.5in;
@@ -482,13 +487,8 @@
 
                 <hr />
 
-                <div class="msgHeaderTitle">Message Header</div>
+                <div class="msgHeaderTitle">Message Header (for Winlink submission)</div>
 
-                <div class="input-container">
-                    <label for="mycall">From (TACTICAL / my callsign):</label>
-                    <input type="text" name="mycall" id="myCallsign"
-                        placeholder="" value=""/>
-                </div>
                 <div class="input-container">
                     <label for="tocall">To (Winlink address - callsign or email):</label>
                     <input type="text" name="tocall" id="toCallsign"
@@ -671,6 +671,12 @@
                            name="remarks" id="remarks"></textarea>
                 </div>
 
+                <div class="input-container">
+                    <label for="mycall"><b>SUBMITTED BY:</b></label>
+                    <input type="text" name="mycall" id="myCallsign" size="30"
+                        placeholder="" value=""/>
+                </div>
+
                 <hr />
     	        <div class="input-container">
                     <input type="submit" name="Submit" id="Submit" value="Submit" />
@@ -758,7 +764,7 @@
             </div>
 
             <div class="card-row card-row-footer">
-                <div class="card-number">B<span id="print-cardB"></span>-<span id="print-cardID"></span></div>
+                <div class="card-number">B<span id="print-cardB"></span>-<span id="print-cardID"></span><span class="card-update-mark" id="print-update-mark"></span></div>
                 <div class="card-status-box">
                     <svg viewBox="0 0 100 100" width="100%" height="100%" preserveAspectRatio="none">
                         <rect x="1" y="1" width="98" height="98" fill="none" stroke="#000" stroke-width="2" />
@@ -779,16 +785,18 @@
             <h2>Additional Message Info (not on physical card)</h2>
             <div class="print-extra-row">
                 <div class="print-extra-field">
-                    <div class="print-extra-label">FROM (TACTICAL / callsign):</div>
-                    <div class="print-extra-value" id="print-mycall"></div>
-                </div>
-                <div class="print-extra-field">
                     <div class="print-extra-label">TO (Winlink address):</div>
                     <div class="print-extra-value" id="print-tocall"></div>
                 </div>
                 <div class="print-extra-field">
                     <div class="print-extra-label">ACS MESSAGE NUMBER:</div>
                     <div class="print-extra-value" id="print-acsno"></div>
+                </div>
+            </div>
+            <div class="print-extra-row">
+                <div class="print-extra-field">
+                    <div class="print-extra-label">SUBMITTED BY:</div>
+                    <div class="print-extra-value" id="print-mycall"></div>
                 </div>
             </div>
             <div class="print-extra-row">
@@ -1066,6 +1074,8 @@
 
                 document.getElementById('print-cardB').textContent = document.getElementById('CardB').value;
                 document.getElementById('print-cardID').textContent = document.getElementById('CardID').value;
+                document.getElementById('print-update-mark').textContent =
+                    document.getElementById('IsUpdate').value ? '(update)' : '';
 
                 const selectedStatus = document.querySelector('input[name="status"]:checked');
                 updateStatusBox(selectedStatus ? selectedStatus.value : 'Pending');
