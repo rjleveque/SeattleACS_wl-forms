@@ -6,6 +6,11 @@ for background information and some screen shots.
 
 ## Try it out
 
+**Note:**
+This form was recently updated but the documentation has not been yet!
+There is now a viewer and also a "print card" option to create a pdf file
+that mimics the physical card.
+
 [CLICK HERE](https://rjleveque.github.io/SeattleACS_wl-forms/SFD/SFD_incident_card-form.html)
 to open an html form in your browser that you can try filling out.
 

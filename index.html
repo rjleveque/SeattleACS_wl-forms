@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="Docutils 0.21.2: https://docutils.sourceforge.io/" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Winlink Form for SFD Incident Card</title>
+<title>SeattleACS_wl-forms repository</title>
 <style type="text/css">
 
 /* Minimal style sheet for the HTML output of Docutils.                    */
@@ -615,102 +615,18 @@ a { text-decoration: none; }
 </style>
 </head>
 <body>
-<main id="winlink-form-for-sfd-incident-card">
-<h1 class="title">Winlink Form for SFD Incident Card</h1>
+<main id="seattleacs-wl-forms-repository">
+<h1 class="title">SeattleACS_wl-forms repository</h1>
 
-<p>Scroll down on <a class="reference external" href="https://github.com/rjleveque/SeattleACS_wl-forms/tree/main/SFD">the repository README
-page</a>
-for background information and some screen shots.</p>
-<section id="try-it-out">
-<h2>Try it out</h2>
-<p><strong>Note:</strong>
-This form was recently updated but the documentation has not been yet!
-There is now a viewer and also a &quot;print card&quot; option to create a pdf file
-that mimics the physical card.</p>
-<p><a class="reference external" href="https://rjleveque.github.io/SeattleACS_wl-forms/SFD/SFD_incident_card-form.html">CLICK HERE</a>
-to open an html form in your browser that you can try filling out.</p>
-<p>In this version the &quot;Submit&quot; and &quot;Load Data&quot; buttons do not work, but you
-can &quot;Save Data&quot; and it should create a small JSON (JavaScript Object Notation)
-data file and save it to your
-own computer with a filename based on the date and time.  Later you could
-upload one or more of these to a computer running Winlink for submission.</p>
-</section>
-<section id="installing-as-a-custom-form-in-winlink">
-<h2>Installing as a custom form in Winlink</h2>
-<p>To use this form in Winlink, you need to copy two files to the
-proper directory<br />
-[<span class="docutils literal">RMS Express\Global Folders\Templates</span>]:</p>
-<ul class="simple">
-<li><p><span class="docutils literal"><span class="pre">SFD_incident_card-form.html</span></span> is the html form that you see when you
-compose a message.  (This is the same file that is opened on a website
-if you test this with the link above.)</p></li>
-<li><p><span class="docutils literal"><span class="pre">SFD_incident_card-template.txt</span></span> is a file that tells Winlink how to
-compose a Winlink message based on the data in the form.</p></li>
-</ul>
-<p>Eventually a third file will also be included:</p>
-<ul class="simple">
-<li><p><span class="docutils literal"><span class="pre">SFD_incident_card-viewer.html</span></span> will be used to take an <em>incoming</em> Winlink
-message using this form and reformat it as a nice webpage for viewing.
-Even without this form, you can see all the information in the main body
-of the incoming Winlink message.</p></li>
-</ul>
-<p>You can download these files from the <a class="reference external" href="https://github.com/rjleveque/SeattleACS_wl-forms/tree/main/SFD">Github
-repository</a>
-for testing, but they are not fully functional yet.
-Versions for members to use will be provided later, along with more detailed instructions.</p>
-</section>
-<section id="save-the-html-file-on-a-laptop-tablet-or-cell-phone">
-<h2>Save the html file on a laptop, tablet, or cell phone</h2>
-<p>Experimenting with the test form
-linked above requires an internet connection to the
-computer where the html file it is hosted.</p>
-<p>For field applications, you might want to have this html file on your own
-laptop, tablet, or cell phone so that you can input data and save the files
-even if you don't have Winlink (e.g. on a Mac or iOS).  The resulting JSON
-files can then
-be transferred later (e.g. using bluetooth or a USB thumbdrive)
-to a different computer for submission into Winlink and sending.</p>
-<p>This could be useful for radio operators who are out on a route with SFD and
-do not have Winlink access until they return to the station, or for operators
-at a station who are dealing with many cards, so that the computer hooked to
-the radio for transmission is not bogged down by the need to type in the data.</p>
-<p>The html form could also potentially be used directly by SFD personnel to
-input data in the field for later transfer to a radio operator.</p>
-<section id="radiomail">
-<h3>RadioMail</h3>
-<p>The RadioMail app for iOS can be used to do Winlink on an iPhone (you also
-need a TNC to connect to the phone by bluetooth and appropriate cable to
-connect it to your radio, or you can use Winlink Telnet, e.g. if you have
-HamWAN access). The app
-costs a bit and then you also need a subscription if you want to use forms
-on it.  If so, it has all the standard form (e.g. ICS forms) as well as
-Washington State forms, and you can install custom forms. See
-the <a class="reference external" href="https://radiomail.app/help/forms">RadioMail website</a> for more
-information.</p>
-</section>
-</section>
-<section id="the-code">
-<h2>The code</h2>
-<p>The code is in this Github repository:
+<p>Notes for the Github repository
 <a class="reference external" href="https://github.com/rjleveque/SeattleACS_wl-forms/">github.com/rjleveque/SeattleACS_wl-forms</a></p>
-<p>The <span class="docutils literal">.html</span> and <span class="docutils literal">.txt</span> files are also in <a class="reference external" href="https://faculty.washington.edu/rjl/hamradio/SFD_incident_card-form.zip">this zip
-file</a>.
-You are welcome to test it, but note that this is still Work in Progress,
-and not yet intended for general distribution to the ACS membership.
-Better versions and more information on installation will be distributed
-later.</p>
-<p>If you have problems with it, or have suggestions, you are welcome to <a class="reference external" href="https://github.com/rjleveque/SeattleACS_wl-forms/issues">raise an
-issue</a> (which
-requires a free Github account) or send email to Randy KJ7WLT.</p>
-<p>If you want to help develop it further, feel free to reach out or modify the
-code and submit a pull request.</p>
-<p>The forms would benefit from more work by someone with javascript
-experience; this is not my native language!</p>
-<section id="update-based-on-feedback-from-the-may-acs-meeting">
-<h3>Update based on feedback from the May ACS meeting</h3>
-<p>Some additional ideas for additions and modifications are summarized in <a class="reference external" href="https://github.com/rjleveque/SeattleACS_wl-forms/issues/4">Issue #4</a>.</p>
-<p>ACS members can also find a slide deck and brief instructional video in the Google Drive folder for the May 2026 meeting.</p>
-</section>
+<section id="sfd-incident-cards">
+<h2>SFD Incident Cards</h2>
+<p>The subdirectory SFD contains
+work in progress for Seattle Fire Department Incident Cards.
+Visit the
+<a class="reference external" href="https://rjleveque.github.io/SeattleACS_wl-forms/SFD/index.html">SFD page</a>
+for more information.</p>
 </section>
 </main>
 </body>
