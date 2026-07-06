@@ -500,26 +500,26 @@
             <form
                 onsubmit="return confirmSubmit();"
                 method="post" id="myform" enctype="multipart/form-data" action="http://{FormServer}:{FormPort}">
-                <label class="formTitleHeader">Seattle Fire Department Incident Card</label>
+                <div class="formTitleHeader">Seattle Fire Department Incident Card</div>
 
                 <hr />
 
                 <div class="msgHeaderTitle">Message Header (for Winlink submission)</div>
 
                 <div class="input-container">
-                    <label for="tocall"><b>To</b> (Winlink address - callsign or email):</label>
+                    <label for="toCallsign"><b>To</b> (Winlink address - callsign or email):</label>
                     <input type="text" name="tocall" id="toCallsign"
                         placeholder="" value=""/>
                 </div>
                 <div class="input-container">
-                    <label for="acsno"><b>ACS Message Number</b> (e.g. STN00-0001):</label>
+                    <label for="ACSno"><b>ACS Message Number</b> (e.g. STN00-0001):</label>
                     <input type="text" name="acsno" id="ACSno"
                         placeholder="" value=""/>
                 </div>
 
                 <div class="input-container">
                     <label for="Exer"><b>This is an exercise</b>:</label>
-                    <input type="checkbox" name="Exer" value=""
+                    <input type="checkbox" name="Exer" value="" id="Exer"
                      onclick="if(document.getElementById('IsExer').value =='')
                      {document.getElementById('IsExer').value = IsAnExerciseText}
                      else { document.getElementById('IsExer').value = '';}"/>
@@ -535,13 +535,13 @@
                     <label for="company">CO:</label>
                     <input type="text" name="company" id="company"
                         size="5" value=""/>
-                    <label for="time">TIME:</label>
+                    <label for="Time">TIME:</label>
                     <input type="text" name="time" id="Time"
                         size="5" value=""/>
                 </div>
                 <hr />
                 <div class="input-container">
-                    <label for="PlaceNameBldgType">PLACE NAME / BUILDING TYPE:</label>
+                    <label for="PNBT">PLACE NAME / BUILDING TYPE:</label>
                     <textarea rows="1" cols="40" name="PlaceNameBldgType" id="PNBT"
                         value=""></textarea>
                 </div>
@@ -556,8 +556,9 @@
                     <b>CONDITIONS:</b>
                 </div>
                 <div class="input-container">
-                    <label for="collapse-risk">Collapse --- &nbsp;&nbsp; risk:</label>
-                    <input type="checkbox" name="collapse-risk" value=''
+                    <span>Collapse --- </span>
+                    <label for="collapse-risk">risk:</label>
+                    <input type="checkbox" name="collapse-risk" value='' id="collapse-risk"
                         onclick="if(document.getElementById('IsCollapse_risk').value =='')
                         {document.getElementById('IsCollapse_risk').value = 'X'}
                         else { document.getElementById('IsCollapse_risk').value = '';}"/>
@@ -565,7 +566,7 @@
                         id="IsCollapse_risk" />
 
                     <label for="collapse-partial">&nbsp;&nbsp; partial:</label>
-                    <input type="checkbox" name="collapse-partial" value=''
+                    <input type="checkbox" name="collapse-partial" value='' id="collapse-partial"
                         onclick="if(document.getElementById('IsCollapse_partial').value =='')
                         {document.getElementById('IsCollapse_partial').value = 'X'}
                         else { document.getElementById('IsCollapse_partial').value = '';}"/>
@@ -573,7 +574,7 @@
                         id="IsCollapse_partial" />
 
                     <label for="collapse-full">&nbsp;&nbsp; full:</label>
-                    <input type="checkbox" name="collapse-full" value=''
+                    <input type="checkbox" name="collapse-full" value='' id="collapse-full"
                         onclick="if(document.getElementById('IsCollapse_full').value =='')
                         {document.getElementById('IsCollapse_full').value = 'X'}
                         else { document.getElementById('IsCollapse_full').value = '';}"/>
@@ -582,7 +583,7 @@
                 </div>
                 <div class="input-container">
                     <label for="fire">Fire:</label>
-                    <input type="checkbox" name="fire"  value=''
+                    <input type="checkbox" name="fire"  value='' id="fire"
                      onclick="if(document.getElementById('IsFire').value =='')
                      {document.getElementById('IsFire').value = 'X'}
                      else { document.getElementById('IsFire').value = '';}"/>
@@ -590,7 +591,7 @@
                 </div>
                 <div class="input-container">
                     <label for="fuel-gas-water">Fuel/Gas/Water:</label>
-                    <input type="checkbox" name="fuel-gas-water" value=''
+                    <input type="checkbox" name="fuel-gas-water" value='' id="fuel-gas-water"
                      onclick="if(document.getElementById('IsFGW').value =='')
                      {document.getElementById('IsFGW').value = 'X'}
                      else { document.getElementById('IsFGW').value = '';}"/>
@@ -598,7 +599,7 @@
                 </div>
                 <div class="input-container">
                     <label for="hazmat">HAZMAT:</label>
-                    <input type="checkbox" name="hazmat" value=''
+                    <input type="checkbox" name="hazmat" value='' id="hazmat"
                      onclick="if(document.getElementById('IsHazmat').value =='')
                      {document.getElementById('IsHazmat').value = 'X'}
                      else { document.getElementById('IsHazmat').value = '';}"/>
@@ -606,7 +607,7 @@
                 </div>
                 <div class="input-container">
                     <label for="landslide">Landslide:</label>
-                    <input type="checkbox" name="landslide" value=''
+                    <input type="checkbox" name="landslide" value='' id="landslide"
                      onclick="if(document.getElementById('IsLandslide').value =='')
                      {document.getElementById('IsLandslide').value = 'X'}
                      else { document.getElementById('IsLandslide').value = '';}"/>
@@ -614,7 +615,7 @@
                 </div>
                 <div class="input-container">
                     <label for="other">Other:</label>
-                    <input type="checkbox" name="other"  value=''
+                    <input type="checkbox" name="other"  value='' id="other"
                      onclick="if(document.getElementById('IsOther').value =='')
                      {document.getElementById('IsOther').value = 'X'}
                      else { document.getElementById('IsOther').value = '';}"/>
@@ -644,25 +645,25 @@
                            name="actions" id="actions"></textarea>
                 </div>
                 <div class="input-container">
-                    <label for="cardid"><b>SFD incident card number</b>:</label>
+                    <label for="CardB"><b>SFD incident card number</b>:</label>
                     <font size=+3><b style="position: relative; top: 0.15em;">B</b></font><input type="text" name="cardB"
                         id="CardB" size="2" maxlength="2" value=""/>
                     -<input type="text" name="cardid" id="CardID" size="3"
                         maxlength="3" value=""/>
                     &nbsp;<span>(replace Xs once assigned)</span>
-                    </div>
+                </div>
 
-                    <div class="input-container">
+                <div class="input-container">
 
                     <label for="pending"><b>STATUS:</b> &nbsp;&nbsp; Pending (empty box):</label>
-                    <input type="radio" name="status" value='Pending'
+                    <input type="radio" name="status" value='Pending' id="pending"
                     checked />
 
                     <label for="active">&nbsp;&nbsp; Active (one slash):</label>
-                    <input type="radio" name="status" value='Active' />
+                    <input type="radio" name="status" value='Active' id="active" />
 
                     <label for="closed">&nbsp;&nbsp; Closed (full X):</label>
-                    <input type="radio" name="status" value='Closed' />
+                    <input type="radio" name="status" value='Closed' id="closed" />
                 </div>
 
                 <br />
@@ -671,13 +672,13 @@
                 <div class="msgHeaderTitle">Message Footer</div>
 
                 <div class="input-container">
-                    <label for="update"><b>UPDATE:</b></label>
-                    <input type="checkbox" name="update" value=''
+                    <label for="update-existing"><b>UPDATE:</b></label>
+                    <input type="checkbox" name="update" value='' id="update-existing"
                      onclick="if(document.getElementById('IsUpdate').value =='')
                      {document.getElementById('IsUpdate').value = 'X'}
                      else { document.getElementById('IsUpdate').value = '';}"/>
                     <input type="hidden" name="IsUpdate" id="IsUpdate" />
-                    <label for="update">check if this is an update to existing card</label>
+                    <label for="update-existing">check if this is an update to existing card</label>
                 </div>
 
                 <br />
@@ -689,7 +690,7 @@
                 </div>
 
                 <div class="input-container">
-                    <label for="mycall"><b>SUBMITTED BY:</b></label>
+                    <label for="myCallsign"><b>SUBMITTED BY (fcc callsign):</b></label>
                     <input type="text" name="mycall" id="myCallsign" size="30"
                         placeholder="" value=""/>
                 </div>
