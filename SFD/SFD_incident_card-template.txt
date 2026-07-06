@@ -1,4 +1,4 @@
-Form: SFD_incident_card-form.html
+Form: SFD_incident_card-form.html,SFD_incident_card-viewer.html
 To: <var tocall>
 Subj: Batallion <var cardB> Incident Card <var cardid> --- ACS msg # <var acsno>
 Msg:
@@ -39,10 +39,13 @@ ACTIONS & NEEDS:
 <var actions>
 
 ------------------------
-CARD NUMBER: B<var cardB>-<var cardid>   Status: <var Status>
+CARD NUMBER: B<var cardB>-<var cardid>   Status: <var status>   Update: <var IsUpdate>
 
 ========================
 
-Sent by: <var mycall>
+ADDITIONAL INFORMATION OR REMARKS:
+<var remarks>
+
+Submitted by: <var mycall>
 ---
 Program version:<ProgramVersion>

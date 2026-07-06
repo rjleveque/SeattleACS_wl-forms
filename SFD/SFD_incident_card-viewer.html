@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>SFD Incident Card</title>
+        <title>SFD Incident Card - Viewer</title>
         <style type='text/css'>
             body {
                 font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
@@ -57,7 +57,8 @@
                 margin: 0.2em 0.2em;
             }
 
-            input[type="checkbox"] {
+            input[type="checkbox"],
+            input[type="radio"] {
                 width: 1em;
                 height: 1em;
             }
@@ -69,10 +70,6 @@
 
             .msgHeaderTitle {
                 font-size: 0.7em;
-            }
-
-            .addressInput {
-                min-width: 65%;
             }
 
             .input-container {
@@ -99,7 +96,8 @@
                 margin: 0.3em 0.3em;
             }
 
-            input[type="checkbox"] {
+            input[type="checkbox"],
+            input[type="radio"] {
                 width: 1.2em;
                 height: 1.2em;
             }
@@ -111,11 +109,6 @@
             .msgHeaderTitle {
                 font-size: 1.1em;
             }
-
-            .addressInput {
-                max-width: 75%;
-            }
-
 
             .input-container {
                 width: 100%;
@@ -140,13 +133,9 @@
             border-radius: 0.5rem;
         }
 
-        input[type='submit'] {
+        input[type='button'] {
             font-weight: bold;
             background-color: rgb(113, 169, 253);
-        }
-
-        input[type='button'],
-        input[type='submit'] {
             color: rgb(10, 10, 10);
             padding-left: 0.8em;
             padding-right: 0.8em;
@@ -159,52 +148,6 @@
             border-radius: 0.5rem;
         }
 
-        input:hover,
-        textarea:hover,
-        select:hover {
-            cursor: pointer;
-            opacity: 0.8;
-            outline: solid 2px rgb(255, 153, 0);
-        }
-
-        input::placeholder {
-            color: red;
-            opacity: 0.4
-        }
-
-        input:focus,
-        textarea:focus,
-        select:focus {
-            outline: solid 3px rgb(255, 153, 0);
-        }
-        .close:hover,
-        .close:active,
-        .close:focus {
-            box-shadow: 0rem 0rem 0.5rem 0.5rem;
-            background-color: rgb(192, 192, 192);
-            color: rgb(10, 10, 10);
-        }
-
-        .close span {
-            text-indent: -200em;
-            display: block;
-        }
-
-        #comment {
-            width: 80%;
-            display: block;
-            margin: auto;
-        }
-
-        #commentLabel {
-            display: block;
-            margin: .3em auto;
-        }
-
-        #MessageNumber {
-            max-width: 10em;
-        }
-
         .formTitleHeader {
             display: block;
             text-align: center;
@@ -213,6 +156,17 @@
         }
         .msgHeaderTitle {
             color: rgb(255, 0, 0);
+            text-align: center;
+        }
+
+        .viewerNote {
+            text-align: center;
+            font-style: italic;
+        }
+
+        .exercise-banner {
+            font-weight: bold;
+            color: #b00000;
             text-align: center;
         }
 
@@ -497,33 +451,29 @@
 
     <body>
         <section id="close">
-            <form
-                onsubmit="return confirmSubmit();"
-                method="post" id="myform" enctype="multipart/form-data" action="http://{FormServer}:{FormPort}">
+            <form id="viewerform">
                 <label class="formTitleHeader">Seattle Fire Department Incident Card</label>
+                <div class="viewerNote">(Viewer &mdash; received message, read only)</div>
+
+                <div class="exercise-banner" id="viewer-exercise-banner"></div>
 
                 <hr />
 
-                <div class="msgHeaderTitle">Message Header (for Winlink submission)</div>
+                <div class="msgHeaderTitle">Message Header</div>
 
                 <div class="input-container">
-                    <label for="tocall"><b>To</b> (Winlink address - callsign or email):</label>
-                    <input type="text" name="tocall" id="toCallsign"
-                        placeholder="" value=""/>
+                    <label for="toCallsign"><b>To</b> (Winlink address - callsign or email):</label>
+                    <input type="text" id="toCallsign" readonly value="{var tocall}"/>
                 </div>
                 <div class="input-container">
-                    <label for="acsno"><b>ACS Message Number</b> (e.g. STN00-0001):</label>
-                    <input type="text" name="acsno" id="ACSno"
-                        placeholder="" value=""/>
+                    <label for="ACSno"><b>ACS Message Number</b>:</label>
+                    <input type="text" id="ACSno" readonly value="{var acsno}"/>
                 </div>
 
                 <div class="input-container">
-                    <label for="Exer"><b>This is an exercise</b>:</label>
-                    <input type="checkbox" name="Exer" value=""
-                     onclick="if(document.getElementById('IsExer').value =='')
-                     {document.getElementById('IsExer').value = IsAnExerciseText}
-                     else { document.getElementById('IsExer').value = '';}"/>
-                    <input type="hidden" name="IsExer" id="IsExer" />
+                    <label><b>This is an exercise</b>:</label>
+                    <input type="checkbox" id="chk-exer" disabled />
+                    <input type="hidden" id="IsExer" value="{var IsExer}" />
                 </div>
 
                 <hr />
@@ -533,94 +483,64 @@
 
                 <div class="input-container">
                     <label for="company">CO:</label>
-                    <input type="text" name="company" id="company"
-                        size="5" value=""/>
-                    <label for="time">TIME:</label>
-                    <input type="text" name="time" id="Time"
-                        size="5" value=""/>
+                    <input type="text" id="company" readonly
+                        size="5" value="{var company}"/>
+                    <label for="Time">TIME:</label>
+                    <input type="text" id="Time" readonly
+                        size="5" value="{var time}"/>
                 </div>
                 <hr />
                 <div class="input-container">
-                    <label for="PlaceNameBldgType">PLACE NAME / BUILDING TYPE:</label>
-                    <textarea rows="1" cols="40" name="PlaceNameBldgType" id="PNBT"
-                        value=""></textarea>
+                    <label for="PNBT">PLACE NAME / BUILDING TYPE:</label>
+                    <textarea rows="1" cols="40" id="PNBT" readonly>{var PlaceNameBldgType}</textarea>
                 </div>
 
                  <div class="input-container">
                     <label for="location"><b>LOCATION:</b><br></label>
-                    <textarea rows="3" cols="55"
-                           name="location" id="location"></textarea>
+                    <textarea rows="3" cols="55" id="location" readonly>{var location}</textarea>
                 </div>
                 <hr />
                 <div class="section">
                     <b>CONDITIONS:</b>
                 </div>
                 <div class="input-container">
-                    <label for="collapse-risk">Collapse --- &nbsp;&nbsp; risk:</label>
-                    <input type="checkbox" name="collapse-risk" value=''
-                        onclick="if(document.getElementById('IsCollapse_risk').value =='')
-                        {document.getElementById('IsCollapse_risk').value = 'X'}
-                        else { document.getElementById('IsCollapse_risk').value = '';}"/>
-                    <input type="hidden" name="IsCollapse_risk"
-                        id="IsCollapse_risk" />
+                    <label>Collapse --- &nbsp;&nbsp; risk:</label>
+                    <input type="checkbox" id="chk-collapse-risk" disabled />
+                    <input type="hidden" id="IsCollapse_risk" value="{var IsCollapse_risk}" />
 
-                    <label for="collapse-partial">&nbsp;&nbsp; partial:</label>
-                    <input type="checkbox" name="collapse-partial" value=''
-                        onclick="if(document.getElementById('IsCollapse_partial').value =='')
-                        {document.getElementById('IsCollapse_partial').value = 'X'}
-                        else { document.getElementById('IsCollapse_partial').value = '';}"/>
-                    <input type="hidden" name="IsCollapse_partial"
-                        id="IsCollapse_partial" />
+                    <label>&nbsp;&nbsp; partial:</label>
+                    <input type="checkbox" id="chk-collapse-partial" disabled />
+                    <input type="hidden" id="IsCollapse_partial" value="{var IsCollapse_partial}" />
 
-                    <label for="collapse-full">&nbsp;&nbsp; full:</label>
-                    <input type="checkbox" name="collapse-full" value=''
-                        onclick="if(document.getElementById('IsCollapse_full').value =='')
-                        {document.getElementById('IsCollapse_full').value = 'X'}
-                        else { document.getElementById('IsCollapse_full').value = '';}"/>
-                    <input type="hidden" name="IsCollapse_full"
-                        id="IsCollapse_full" />
+                    <label>&nbsp;&nbsp; full:</label>
+                    <input type="checkbox" id="chk-collapse-full" disabled />
+                    <input type="hidden" id="IsCollapse_full" value="{var IsCollapse_full}" />
                 </div>
                 <div class="input-container">
-                    <label for="fire">Fire:</label>
-                    <input type="checkbox" name="fire"  value=''
-                     onclick="if(document.getElementById('IsFire').value =='')
-                     {document.getElementById('IsFire').value = 'X'}
-                     else { document.getElementById('IsFire').value = '';}"/>
-                    <input type="hidden" name="IsFire" id="IsFire" />
+                    <label>Fire:</label>
+                    <input type="checkbox" id="chk-fire" disabled />
+                    <input type="hidden" id="IsFire" value="{var IsFire}" />
                 </div>
                 <div class="input-container">
-                    <label for="fuel-gas-water">Fuel/Gas/Water:</label>
-                    <input type="checkbox" name="fuel-gas-water" value=''
-                     onclick="if(document.getElementById('IsFGW').value =='')
-                     {document.getElementById('IsFGW').value = 'X'}
-                     else { document.getElementById('IsFGW').value = '';}"/>
-                    <input type="hidden" name="IsFGW" id="IsFGW" />
+                    <label>Fuel/Gas/Water:</label>
+                    <input type="checkbox" id="chk-fgw" disabled />
+                    <input type="hidden" id="IsFGW" value="{var IsFGW}" />
                 </div>
                 <div class="input-container">
-                    <label for="hazmat">HAZMAT:</label>
-                    <input type="checkbox" name="hazmat" value=''
-                     onclick="if(document.getElementById('IsHazmat').value =='')
-                     {document.getElementById('IsHazmat').value = 'X'}
-                     else { document.getElementById('IsHazmat').value = '';}"/>
-                    <input type="hidden" name="IsHazmat" id="IsHazmat" />
+                    <label>HAZMAT:</label>
+                    <input type="checkbox" id="chk-hazmat" disabled />
+                    <input type="hidden" id="IsHazmat" value="{var IsHazmat}" />
                 </div>
                 <div class="input-container">
-                    <label for="landslide">Landslide:</label>
-                    <input type="checkbox" name="landslide" value=''
-                     onclick="if(document.getElementById('IsLandslide').value =='')
-                     {document.getElementById('IsLandslide').value = 'X'}
-                     else { document.getElementById('IsLandslide').value = '';}"/>
-                    <input type="hidden" name="IsLandslide" id="IsLandslide" />
+                    <label>Landslide:</label>
+                    <input type="checkbox" id="chk-landslide" disabled />
+                    <input type="hidden" id="IsLandslide" value="{var IsLandslide}" />
                 </div>
                 <div class="input-container">
-                    <label for="other">Other:</label>
-                    <input type="checkbox" name="other"  value=''
-                     onclick="if(document.getElementById('IsOther').value =='')
-                     {document.getElementById('IsOther').value = 'X'}
-                     else { document.getElementById('IsOther').value = '';}"/>
-                    <input type="hidden" name="IsOther" id="IsOther" />
-                    <label for="other_desc"></label>
-                    <input type="text" name="other_desc" id="other_desc" value=""/>
+                    <label>Other:</label>
+                    <input type="checkbox" id="chk-other" disabled />
+                    <input type="hidden" id="IsOther" value="{var IsOther}" />
+                    <input type="text" id="other_desc" readonly value="{var other_desc}"/>
                 </div>
                 <hr />
                 <div class="section">
@@ -628,41 +548,39 @@
                 </div>
                   <div class="input-container">
                     <label for="levels_city">CITY:</label>
-                    <input type="text" name="levels_city" id="levels_city"
-                        size="5" value=""/>
+                    <input type="text" id="levels_city" readonly
+                        size="5" value="{var levels_city}"/>
                     <label for="levels_battalion">BATTALION:</label>
-                    <input type="text" name="levels_battalion" id="levels_battalion"
-                        size="5" value=""/>
+                    <input type="text" id="levels_battalion" readonly
+                        size="5" value="{var levels_battalion}"/>
                     <label for="levels_company">COMPANY:</label>
-                    <input type="text" name="levels_company" id="levels_company"
-                        size="5" value=""/>
+                    <input type="text" id="levels_company" readonly
+                        size="5" value="{var levels_company}"/>
                 </div>
                 <hr />
                 <div class="input-container">
                     <label for="actions"><b>ACTIONS & NEEDS:<br></b></label>
-                    <textarea rows="5" cols="55"
-                           name="actions" id="actions"></textarea>
+                    <textarea rows="5" cols="55" id="actions" readonly>{var actions}</textarea>
                 </div>
                 <div class="input-container">
-                    <label for="cardid"><b>SFD incident card number</b>:</label>
-                    <font size=+3><b style="position: relative; top: 0.15em;">B</b></font><input type="text" name="cardB"
-                        id="CardB" size="2" maxlength="2" value=""/>
-                    -<input type="text" name="cardid" id="CardID" size="3"
-                        maxlength="3" value=""/>
-                    &nbsp;<span>(replace Xs once assigned)</span>
+                    <label><b>SFD incident card number</b>:</label>
+                    <font size=+3><b style="position: relative; top: 0.15em;">B</b></font><input type="text"
+                        id="CardB" readonly size="2" value="{var cardB}"/>
+                    -<input type="text" id="CardID" readonly size="3" value="{var cardid}"/>
                     </div>
 
                     <div class="input-container">
 
-                    <label for="pending"><b>STATUS:</b> &nbsp;&nbsp; Pending (empty box):</label>
-                    <input type="radio" name="status" value='Pending'
+                    <label><b>STATUS:</b> &nbsp;&nbsp; Pending (empty box):</label>
+                    <input type="radio" name="status" value='Pending' disabled
                     checked />
 
-                    <label for="active">&nbsp;&nbsp; Active (one slash):</label>
-                    <input type="radio" name="status" value='Active' />
+                    <label>&nbsp;&nbsp; Active (one slash):</label>
+                    <input type="radio" name="status" value='Active' disabled />
 
-                    <label for="closed">&nbsp;&nbsp; Closed (full X):</label>
-                    <input type="radio" name="status" value='Closed' />
+                    <label>&nbsp;&nbsp; Closed (full X):</label>
+                    <input type="radio" name="status" value='Closed' disabled />
+                    <input type="hidden" id="Status" value="{var status}" />
                 </div>
 
                 <br />
@@ -671,47 +589,28 @@
                 <div class="msgHeaderTitle">Message Footer</div>
 
                 <div class="input-container">
-                    <label for="update"><b>UPDATE:</b></label>
-                    <input type="checkbox" name="update" value=''
-                     onclick="if(document.getElementById('IsUpdate').value =='')
-                     {document.getElementById('IsUpdate').value = 'X'}
-                     else { document.getElementById('IsUpdate').value = '';}"/>
-                    <input type="hidden" name="IsUpdate" id="IsUpdate" />
-                    <label for="update">check if this is an update to existing card</label>
+                    <label><b>UPDATE:</b></label>
+                    <input type="checkbox" id="chk-update" disabled />
+                    <input type="hidden" id="IsUpdate" value="{var IsUpdate}" />
+                    <label>check if this is an update to existing card</label>
                 </div>
 
                 <br />
 
                 <div class="input-container">
                     <label for="remarks"><b>ADDITIONAL INFORMATION OR REMARKS:<br></b></label>
-                    <textarea rows="5" cols="55"
-                           name="remarks" id="remarks"></textarea>
+                    <textarea rows="5" cols="55" id="remarks" readonly>{var remarks}</textarea>
                 </div>
 
                 <div class="input-container">
-                    <label for="mycall"><b>SUBMITTED BY:</b></label>
-                    <input type="text" name="mycall" id="myCallsign" size="30"
-                        placeholder="" value=""/>
+                    <label><b>SUBMITTED BY:</b></label>
+                    <input type="text" id="myCallsign" readonly size="30" value="{var mycall}"/>
                 </div>
 
                 <hr />
-    	        <div class="input-container">
-                    <input type="submit" name="Submit" id="Submit" value="Submit" />
-
-                    <input type="button" name="SaveButton" id="saveButton"
-                        value="Save Data" />
-                    <input type="button" name="LoadButton" id="loadButton"
-                        onclick="document.getElementById('txtfiletoread').click();"
-                        value="Load Data" />
-                    <input type="file" id="txtfiletoread" accept=".txt,application/json"
-                        style="display: none;" />
-
-                    <input type="button" name="PrintButton" id="printButton"
-                        value="Print Card" />
-
-                    <input name="testCall" type="hidden" id="testCall" value="{MsgSender}" size="14" maxlength="13" />
+                <div class="input-container">
+                    <input type="button" id="printButton" value="Print Card" />
                 </div>
-
 
             </form>
 
@@ -834,200 +733,6 @@
 
         <script>
 
-
-            function normalizeCallsign(callsign) {
-                var callsignTrimmed = callsign.trim();
-                var callsignUpper = callsignTrimmed.toUpperCase();
-                console.log("Upper-casing callsign:", callsignUpper);
-                return callsignUpper;
-            }
-
-            var myCallsignElement = document.getElementById('myCallsign');
-            myCallsignElement.addEventListener('blur', function () {
-                this.value = normalizeCallsign(this.value);
-            });
-
-            var toCallsignElement = document.getElementById('toCallsign');
-            toCallsignElement.addEventListener('blur', function () {
-                this.value = normalizeCallsign(this.value);
-            });
-
-            var ACSnoElement = document.getElementById('ACSno');
-            ACSnoElement.addEventListener('blur', function () {
-                this.value = normalizeCallsign(this.value);
-            });
-
-            function getDateTimeStamp() {
-                let d = new Date();
-                let thisYear = d.getFullYear();
-                let thisMonth = d.getMonth() + 1;
-                let thisDay = d.getDate();
-                let hours = (d.getHours() < 10 ? '0' : '') + d.getHours();
-                let minutes = (d.getMinutes() < 10 ? '0' : '') + d.getMinutes();
-
-                thisMonth = thisMonth < 10 ? thisMonth = '0' + thisMonth : thisMonth;
-                thisDay = thisDay < 10 ? thisDay = '0' + thisDay : thisDay;
-
-                var dateTimeStamp = `${thisYear}-${thisMonth}-${thisDay}-${hours}${minutes}`;
-                console.log('returning date-time stamp: ', dateTimeStamp);
-                return dateTimeStamp;
-            }
-
-            function applyCardNumberDefaults() {
-                let cardBElement = document.getElementById('CardB');
-                let cardIDElement = document.getElementById('CardID');
-                if (!cardBElement.value.trim()) {
-                    cardBElement.value = 'X';
-                    cardBElement.setAttribute('value', 'X');
-                }
-                if (!cardIDElement.value.trim()) {
-                    cardIDElement.value = 'XXX';
-                    cardIDElement.setAttribute('value', 'XXX');
-                }
-            }
-
-            function getCardDesignation() {
-                return `B${document.getElementById('CardB').value}-${document.getElementById('CardID').value}`;
-            }
-
-            function confirmSubmit() {
-                applyCardNumberDefaults();
-                return confirm('To complete your form submission, click OK and close the browser tab. You will return to the new message window so you can post your message to the outbox.');
-            }
-
-            function createJsonObjectFromFormElements() {
-                const selected = document.querySelector('input[name="status"]:checked');
-                if (selected) {
-                    console.log("Selected value:", selected.value);
-                }
-                const jsonObject = {
-                    MyCallsign: document.getElementById('myCallsign').value,
-                    ToCallsign: document.getElementById('toCallsign').value,
-                    ACSno: document.getElementById('ACSno').value,
-                    IsExer: document.getElementById('IsExer').value,
-                    company: document.getElementById('company').value,
-                    Time: document.getElementById('Time').value,
-                    PlaceNameBuildingType: document.getElementById('PNBT').value,
-                    location: document.getElementById('location').value,
-                    IsCollapse_risk: document.getElementById('IsCollapse_risk').value,
-                    IsCollapse_partial: document.getElementById('IsCollapse_partial').value,
-                    IsCollapse_full: document.getElementById('IsCollapse_full').value,
-                    IsFGW: document.getElementById('IsFGW').value,
-                    IsFire: document.getElementById('IsFire').value,
-                    IsHazmat: document.getElementById('IsHazmat').value,
-                    IsLandslide: document.getElementById('IsLandslide').value,
-                    IsOther: document.getElementById('IsOther').value,
-                    other_desc: document.getElementById('other_desc').value,
-                    levels_city: document.getElementById('levels_city').value,
-                    levels_battalion: document.getElementById('levels_battalion').value,
-                    levels_company: document.getElementById('levels_company').value,
-                    actions: document.getElementById('actions').value,
-                    remarks: document.getElementById('remarks').value,
-                    CardB: document.getElementById('CardB').value,
-                    CardID: document.getElementById('CardID').value,
-                    IsUpdate: document.getElementById('IsUpdate').value,
-                    Status: selected.value,
-                };
-
-                console.log('returning jsonobject:', jsonObject);
-                return jsonObject;
-            }
-
-            function saveFormInputElementsToFile() {
-                applyCardNumberDefaults();
-
-                let dateTimeStamp = getDateTimeStamp();
-                let cardDesignation = getCardDesignation();
-                let filenameToSaveAs = `SFD_${cardDesignation}_${dateTimeStamp}.txt`;
-
-                let formElementsAsJson = createJsonObjectFromFormElements();
-                let textToWrite = JSON.stringify(formElementsAsJson, null, 2);
-                let textFileAsBlob = new Blob([textToWrite], {type: 'application/json'});
-
-                let downloadLink = document.createElement('a');
-                downloadLink.download = filenameToSaveAs;
-                downloadLink.href = URL.createObjectURL(textFileAsBlob);
-
-                downloadLink.onclick = function (e) {
-                    document.body.removeChild(e.target);
-                };
-
-                downloadLink.style.display = 'none';
-                document.body.appendChild(downloadLink);
-                downloadLink.click();
-            }
-
-            document.getElementById('saveButton').addEventListener('click', () => {
-                saveFormInputElementsToFile();
-            });
-
-            function setCheckboxFromHiddenValue(checkboxName, hiddenId, value) {
-                document.getElementById(hiddenId).value = value ?? '';
-                document.querySelector(`input[name="${checkboxName}"]`).checked = !!value;
-            }
-
-            function populateFormFromJsonObject(o) {
-                document.getElementById('myCallsign').value = o.MyCallsign ?? '';
-                document.getElementById('toCallsign').value = o.ToCallsign ?? '';
-                document.getElementById('ACSno').value = o.ACSno ?? '';
-                setCheckboxFromHiddenValue('Exer', 'IsExer', o.IsExer);
-
-                document.getElementById('company').value = o.company ?? '';
-                document.getElementById('Time').value = o.Time ?? '';
-                document.getElementById('PNBT').value = o.PlaceNameBuildingType ?? '';
-                document.getElementById('location').value = o.location ?? '';
-
-                setCheckboxFromHiddenValue('collapse-risk', 'IsCollapse_risk', o.IsCollapse_risk);
-                setCheckboxFromHiddenValue('collapse-partial', 'IsCollapse_partial', o.IsCollapse_partial);
-                setCheckboxFromHiddenValue('collapse-full', 'IsCollapse_full', o.IsCollapse_full);
-                setCheckboxFromHiddenValue('fire', 'IsFire', o.IsFire);
-                setCheckboxFromHiddenValue('fuel-gas-water', 'IsFGW', o.IsFGW);
-                setCheckboxFromHiddenValue('hazmat', 'IsHazmat', o.IsHazmat);
-                setCheckboxFromHiddenValue('landslide', 'IsLandslide', o.IsLandslide);
-                setCheckboxFromHiddenValue('other', 'IsOther', o.IsOther);
-                document.getElementById('other_desc').value = o.other_desc ?? '';
-
-                document.getElementById('levels_city').value = o.levels_city ?? '';
-                document.getElementById('levels_battalion').value = o.levels_battalion ?? '';
-                document.getElementById('levels_company').value = o.levels_company ?? '';
-
-                document.getElementById('actions').value = o.actions ?? '';
-                document.getElementById('remarks').value = o.remarks ?? '';
-
-                document.getElementById('CardB').value = o.CardB ?? '';
-                document.getElementById('CardID').value = o.CardID ?? '';
-                setCheckboxFromHiddenValue('update', 'IsUpdate', o.IsUpdate);
-
-                if (o.Status) {
-                    const radio = document.querySelector(`input[name="status"][value="${o.Status}"]`);
-                    if (radio) radio.checked = true;
-                }
-
-                console.log('populated form from loaded jsonobject:', o);
-            }
-
-            function loadFormInputElementsFromFile(fileToLoad) {
-                const fileReader = new FileReader();
-                fileReader.onload = function (event) {
-                    try {
-                        const loadedJsonObject = JSON.parse(event.target.result);
-                        populateFormFromJsonObject(loadedJsonObject);
-                    } catch (err) {
-                        console.error('Failed to parse loaded file:', err);
-                        alert('Could not load this file: it does not look like valid saved form data.');
-                    }
-                };
-                fileReader.readAsText(fileToLoad);
-            }
-
-            document.getElementById('txtfiletoread').addEventListener('change', (e) => {
-                const fileToLoad = e.target.files[0];
-                if (fileToLoad) {
-                    loadFormInputElementsFromFile(fileToLoad);
-                }
-                e.target.value = '';
-            });
-
             function markX(value) {
                 return value ? '☒' : '☐';
             }
@@ -1112,7 +817,6 @@
             }
 
             function printCard() {
-                applyCardNumberDefaults();
                 populatePrintCard();
                 window.print();
             }
@@ -1124,22 +828,29 @@
             // constant values for repeated use
             const IsAnExerciseText = "*** THIS IS AN EXERCISE ***";
 
-            function Checkifinbrowser() {
-                var x = document.getElementById("testCall").value;
-                var n = x.search("{Msg");
-                if (n > -1) {
-                    document.getElementById('Submit').style.visibility = 'hidden';
-                    alert('You are running this form outside of Winlink.\n \nWhen you have completed the form, SAVE the data and then give or send the SAVED data file to the radio operator. The operator will load the SAVED data into the correct form and send via winlink. ');
-                } else {
-                    document.getElementById('Submit').style.visibility = 'visible';
-                }
+            function initializeViewer() {
+                document.getElementById('chk-exer').checked = !!document.getElementById('IsExer').value;
+                document.getElementById('chk-collapse-risk').checked = !!document.getElementById('IsCollapse_risk').value;
+                document.getElementById('chk-collapse-partial').checked = !!document.getElementById('IsCollapse_partial').value;
+                document.getElementById('chk-collapse-full').checked = !!document.getElementById('IsCollapse_full').value;
+                document.getElementById('chk-fire').checked = !!document.getElementById('IsFire').value;
+                document.getElementById('chk-fgw').checked = !!document.getElementById('IsFGW').value;
+                document.getElementById('chk-hazmat').checked = !!document.getElementById('IsHazmat').value;
+                document.getElementById('chk-landslide').checked = !!document.getElementById('IsLandslide').value;
+                document.getElementById('chk-other').checked = !!document.getElementById('IsOther').value;
+                document.getElementById('chk-update').checked = !!document.getElementById('IsUpdate').value;
+
+                const statusValue = document.getElementById('Status').value || 'Pending';
+                const statusRadio = document.querySelector(`input[name="status"][value="${statusValue}"]`);
+                if (statusRadio) statusRadio.checked = true;
+
+                document.getElementById('viewer-exercise-banner').textContent =
+                    document.getElementById('IsExer').value ? IsAnExerciseText : '';
+
+                populatePrintCard();
             }
 
-        window.addEventListener('load', (event) => {
-            console.log('Page is loaded');
-            applyCardNumberDefaults();
-            Checkifinbrowser();
-        });
+            window.addEventListener('load', initializeViewer);
 
         </script>
     </body>
