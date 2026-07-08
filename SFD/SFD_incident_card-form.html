@@ -391,6 +391,14 @@
                 width: 1em;
             }
 
+            #printCard .collapse-mark-active {
+                font-weight: bold;
+                display: inline-block;
+                border: 1.5pt solid #000;
+                border-radius: 0.3em;
+                padding: 0 0.25em;
+            }
+
             #printCard .card-levels {
                 width: 1.6in;
                 border-left: 1px solid #000;
@@ -1152,16 +1160,16 @@
                 const fullChecked = !!document.getElementById('IsCollapse_full').value;
 
                 const riskMarkElement = document.getElementById('print-collapse-risk-mark');
-                riskMarkElement.textContent = riskChecked ? '[RISK]' : 'RISK';
-                riskMarkElement.style.fontWeight = riskChecked ? 'bold' : 'normal';
+                riskMarkElement.textContent = 'RISK';
+                riskMarkElement.classList.toggle('collapse-mark-active', riskChecked);
 
                 const partialMarkElement = document.getElementById('print-collapse-partial-mark');
-                partialMarkElement.textContent = partialChecked ? '[PARTIAL]' : 'PARTIAL';
-                partialMarkElement.style.fontWeight = partialChecked ? 'bold' : 'normal';
+                partialMarkElement.textContent = 'PARTIAL';
+                partialMarkElement.classList.toggle('collapse-mark-active', partialChecked);
 
                 const fullMarkElement = document.getElementById('print-collapse-full-mark');
-                fullMarkElement.textContent = fullChecked ? '[FULL]' : 'FULL';
-                fullMarkElement.style.fontWeight = fullChecked ? 'bold' : 'normal';
+                fullMarkElement.textContent = 'FULL';
+                fullMarkElement.classList.toggle('collapse-mark-active', fullChecked);
 
                 document.getElementById('print-levels-city').textContent = document.getElementById('levels_city').value;
                 document.getElementById('print-levels-battalion').textContent = document.getElementById('levels_battalion').value;
