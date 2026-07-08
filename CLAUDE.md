@@ -157,6 +157,45 @@ anyone touching this again:
   so changes to this feature can only be verified by the human tester
   actually printing/previewing — don't claim a visual/layout result is
   correct without that confirmation.
+- The multi-line card fields (`location`, `actions`, `PNBT`) each have a
+  hard max-line cap enforced on input (reverting the field to its last
+  valid value if a keystroke/paste would exceed the cap), plus a matching
+  on-screen `max-width` (in inches, set per `#id`) chosen to approximate
+  the printed box's proportions so wrapping on screen previews what will
+  happen when printed. Current caps: Location 4 lines (box `max-width:
+  8.25in`), Actions & Needs 9 lines (same `8.25in` width as Location),
+  PNBT 2 lines (`4.125in`, half of Location's width).
+- Line counting is done by a shared `countTextareaLines(textarea)` helper
+  (duplicated in both files, like the rest of the print JS). It reads
+  `scrollHeight` against the computed `line-height`/padding — but a
+  textarea's default height is driven by its `rows` attribute, so
+  `scrollHeight` alone always reports the `rows`-sized height regardless
+  of how much text is actually present. The helper works around this by
+  temporarily setting `textarea.style.height = '0px'` (forcing the box
+  smaller than its content) immediately before reading `scrollHeight`,
+  then restoring the original inline height. Setting the height to
+  `'auto'` instead does **not** work for this — `'auto'` is the same
+  default sizing driven by `rows`, so it doesn't force a re-measurement
+  (a real bug hit and fixed this session; watch for it if this helper is
+  ever copied elsewhere).
+- Each of these fields uses a two-tier print font size: the normal size
+  fits up to its max-minus-one line count; a smaller size (toggled via a
+  `.small-text` class the JS adds to the `#print-*` element) only kicks
+  in at the true max line count, so a full field never gets clipped by
+  its row's fixed `@media print` height. The exact point sizes
+  (Location 12pt→8pt, Actions 12pt→8pt, PNBT 13pt→10pt) were tuned
+  against the maintainer's actual print-test feedback rather than pure
+  CSS-geometry arithmetic — a naive pt/line-height calculation from the
+  row heights predicted the 12pt baseline would already overflow at 3
+  lines, but real printing showed it fits fine, so don't rederive these
+  numbers from scratch without a real print test backing the change.
+- The collapse risk/partial/full marks (meant to mimic "circle this
+  word" on the physical card) are rendered as bold text inside a
+  rounded-corner border box via a `.collapse-mark-active` class the JS
+  toggles onto the `#print-collapse-*-mark` span, not literal bracket
+  characters — if adding similar "mark visually" indicators elsewhere on
+  the card, prefer this class-toggle + CSS border pattern over building
+  the marker into the text content.
 
 ## Installing/testing a form in Winlink
 
