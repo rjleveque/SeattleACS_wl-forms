@@ -43,7 +43,10 @@ proper directory\
 
 You can download these files from the [Github
 repository](https://github.com/rjleveque/SeattleACS_wl-forms/tree/main/SFD)
-for testing, but this is still work in progress.
+for testing, or all three are also in
+[this zip
+file](https://faculty.washington.edu/rjl/hamradio/SFD_incident_card-form.zip), which may not be up to date
+with the repository.  This is still work in progress.
 
 There is also
 Versions for members to use will be provided later, along with more detailed instructions.
@@ -107,5 +110,8 @@ experience; this is not my native language!
 ### Update based on feedback from the May ACS meeting
 
 Some additional ideas for additions and modifications are summarized in [Issue #4](https://github.com/rjleveque/SeattleACS_wl-forms/issues/4).
+
+Update from July, 2026: Most of these ideas have been
+implemented, with lots of help from Claude Code.
 
 ACS members can also find a slide deck and brief instructional video in the Google Drive folder for the May 2026 meeting.
