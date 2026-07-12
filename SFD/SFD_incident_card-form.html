@@ -963,9 +963,7 @@
             });
 
             function setCheckboxFromHiddenValue(checkboxName, hiddenId, value) {
-                // console.log(`setCheckboxFromHiddenValue params => checkboxName:${checkboxName}; hiddenId: ${hiddenId}; value: ${value}`);
                 document.getElementById(hiddenId).value = value ?? '';
-                // document.querySelector(`input[name="${checkboxName}"]`).checked = !!value;
                 document.querySelector(`input[name="${checkboxName}"]`).checked =
                     document.getElementById(hiddenId).value == '' ? false : true;
             }
@@ -1199,9 +1197,7 @@
 
             for (const el of clickableCheckboxElements) {
                 if (el.id == "IsExer") {
-                    // console.log("Detected IsExer element! Adding Event Listener.");
                     el.addEventListener("click", () => {
-                        // console.log(`checkbox ${el.getAttribute("id")} clicked`);
                         if (el.value == '') {
                             el.value = IsAnExerciseText;
                         } else {
@@ -1210,7 +1206,6 @@
                     });
                 } else {
                     el.addEventListener("click", () => {
-                        // console.log(`checkbox ${el.getAttribute("id")} clicked`);
                         setCheckboxState(el.getAttribute("id"));
                     });
                 }
@@ -1218,14 +1213,11 @@
         }
 
         function setCheckboxState(elementId) {
-            // console.log(`setCheckboxState function called with arg ${elementId}. Checkbox state is ${document.getElementById(elementId).checked}`);
             let hiddenElementId = `Is${elementId}`;
 
             if (document.getElementById(elementId).checked) {
-                // console.log(`setting hiddenElementId ${hiddenElementId} to X`);
                 document.getElementById(hiddenElementId).setAttribute('value', 'X');
             } else {
-                // console.log(`setting hiddenElementId ${hiddenElementId} to (space)`);
                 document.getElementById(hiddenElementId).setAttribute('value', '');
             }
         }
