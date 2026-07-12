@@ -1119,14 +1119,15 @@
                 document.getElementById('print-check-other').textContent = markX(document.getElementById('IsOther').value);
                 document.getElementById('print-other-desc').textContent = document.getElementById('other_desc').value;
 
-                const collapseAny = document.getElementById('IsCollapse_risk').value ||
-                    document.getElementById('IsCollapse_partial').value ||
-                    document.getElementById('IsCollapse_full').value;
+                const collapseAny = 
+                    document.getElementById('IsCollapseRisk').value ||
+                    document.getElementById('IsCollapsePartial').value ||
+                    document.getElementById('IsCollapseFull').value;
                 document.getElementById('print-check-collapse').textContent = markX(collapseAny);
 
-                const riskChecked = !!document.getElementById('IsCollapse_risk').value;
-                const partialChecked = !!document.getElementById('IsCollapse_partial').value;
-                const fullChecked = !!document.getElementById('IsCollapse_full').value;
+                const riskChecked = !!document.getElementById('IsCollapseRisk').value;
+                const partialChecked = !!document.getElementById('IsCollapsePartial').value;
+                const fullChecked = !!document.getElementById('IsCollapseFull').value;
 
                 const riskMarkElement = document.getElementById('print-collapse-risk-mark');
                 riskMarkElement.textContent = 'RISK';
@@ -1151,7 +1152,7 @@
                 document.getElementById('print-cardB').textContent = document.getElementById('CardB').value;
                 document.getElementById('print-cardID').textContent = document.getElementById('CardID').value;
                 document.getElementById('print-update-mark').textContent =
-                    document.getElementById('IsUpdate').value ? '(update)' : '';
+                    document.getElementById('IsUpdateExisting').value ? '(update)' : '';
 
                 const selectedStatus = document.querySelector('input[name="status"]:checked');
                 updateStatusBox(selectedStatus ? selectedStatus.value : 'Pending');
