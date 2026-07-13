@@ -974,6 +974,10 @@
                 document.getElementById('ACSno').value = o.ACSno ?? '';
                 setCheckboxFromHiddenValue('Exer', 'IsExer', o.IsExer);
 
+                if (o.IsExer.toUpperCase() === "X") {
+                    document.getElementById('Exer').value = IsAnExerciseText;
+                }
+
                 document.getElementById('company').value = o.company ?? '';
                 document.getElementById('Time').value = o.Time ?? '';
                 document.getElementById('PNBT').value = o.PlaceNameBuildingType ?? '';
@@ -1196,12 +1200,16 @@
             let clickableCheckboxElements = document.getElementsByClassName('clickable-checkbox');
 
             for (const el of clickableCheckboxElements) {
-                if (el.id == "IsExer") {
+                if (el.id == "Exer") {
+                    let exEl = document.getElementById('IsExer');
+                    
                     el.addEventListener("click", () => {
                         if (el.value == '') {
                             el.value = IsAnExerciseText;
+                            exEl.value = 'X';
                         } else {
                             el.value = '';
+                            exEl.value = '';
                         }
                     });
                 } else {
