@@ -553,11 +553,8 @@
 
                 <div class="input-container">
                     <label for="Exer"><b>This is an exercise</b>:</label>
-                    <input type="checkbox" name="Exer" value="" id="Exer"
-                     onclick="if(document.getElementById('IsExer').value =='')
-                     {document.getElementById('IsExer').value = IsAnExerciseText}
-                     else { document.getElementById('IsExer').value = '';}"/>
-                    <input type="hidden" name="IsExer" id="IsExer" />
+                    <input type="checkbox" name="Exer" value="" id="Exer"  class="clickable-checkbox" />
+                    <input type="hidden" name="IsExer" value="" id="IsExer" />
                 </div>
 
                 <hr />
@@ -592,68 +589,41 @@
                 <div class="input-container">
                     <span>Collapse --- </span>
                     <label for="collapse-risk">risk:</label>
-                    <input type="checkbox" name="collapse-risk" value='' id="collapse-risk"
-                        onclick="if(document.getElementById('IsCollapse_risk').value =='')
-                        {document.getElementById('IsCollapse_risk').value = 'X'}
-                        else { document.getElementById('IsCollapse_risk').value = '';}"/>
-                    <input type="hidden" name="IsCollapse_risk"
-                        id="IsCollapse_risk" />
+                    <input type="checkbox" name="collapse-risk" value="" id="CollapseRisk" class="clickable-checkbox" />
+                    <input type="hidden" name="IsCollapse_risk" value="" id="IsCollapseRisk" />
 
                     <label for="collapse-partial">&nbsp;&nbsp; partial:</label>
-                    <input type="checkbox" name="collapse-partial" value='' id="collapse-partial"
-                        onclick="if(document.getElementById('IsCollapse_partial').value =='')
-                        {document.getElementById('IsCollapse_partial').value = 'X'}
-                        else { document.getElementById('IsCollapse_partial').value = '';}"/>
-                    <input type="hidden" name="IsCollapse_partial"
-                        id="IsCollapse_partial" />
+                    <input type="checkbox" name="collapse-partial" value="" id="CollapsePartial" class="clickable-checkbox" />
+                    <input type="hidden" name="IsCollapse_partial" value="" id="IsCollapsePartial" />
 
                     <label for="collapse-full">&nbsp;&nbsp; full:</label>
-                    <input type="checkbox" name="collapse-full" value='' id="collapse-full"
-                        onclick="if(document.getElementById('IsCollapse_full').value =='')
-                        {document.getElementById('IsCollapse_full').value = 'X'}
-                        else { document.getElementById('IsCollapse_full').value = '';}"/>
-                    <input type="hidden" name="IsCollapse_full"
-                        id="IsCollapse_full" />
+                    <input type="checkbox" name="collapse-full" value="" id="CollapseFull" class="clickable-checkbox" />
+                    <input type="hidden" name="IsCollapse_full" value="" id="IsCollapseFull" />
                 </div>
                 <div class="input-container">
                     <label for="fire">Fire:</label>
-                    <input type="checkbox" name="fire"  value='' id="fire"
-                     onclick="if(document.getElementById('IsFire').value =='')
-                     {document.getElementById('IsFire').value = 'X'}
-                     else { document.getElementById('IsFire').value = '';}"/>
-                    <input type="hidden" name="IsFire" id="IsFire" />
+                    <input type="checkbox" name="fire" value="" id="Fire" class="clickable-checkbox" />
+                    <input type="hidden" name="IsFire" value="" id="IsFire" />
                 </div>
                 <div class="input-container">
                     <label for="fuel-gas-water">Fuel/Gas/Water:</label>
-                    <input type="checkbox" name="fuel-gas-water" value='' id="fuel-gas-water"
-                     onclick="if(document.getElementById('IsFGW').value =='')
-                     {document.getElementById('IsFGW').value = 'X'}
-                     else { document.getElementById('IsFGW').value = '';}"/>
-                    <input type="hidden" name="IsFGW" id="IsFGW" />
+                    <input type="checkbox" name="fuel-gas-water" value="" id="FuelGasWater" class="clickable-checkbox" />
+                    <input type="hidden" name="IsFGW" value="" id="IsFuelGasWater" />
                 </div>
                 <div class="input-container">
                     <label for="hazmat">HAZMAT:</label>
-                    <input type="checkbox" name="hazmat" value='' id="hazmat"
-                     onclick="if(document.getElementById('IsHazmat').value =='')
-                     {document.getElementById('IsHazmat').value = 'X'}
-                     else { document.getElementById('IsHazmat').value = '';}"/>
-                    <input type="hidden" name="IsHazmat" id="IsHazmat" />
+                    <input type="checkbox" name="hazmat" value="" id="Hazmat" class="clickable-checkbox" />
+                    <input type="hidden" name="IsHazmat" value="" id="IsHazmat" />
                 </div>
                 <div class="input-container">
                     <label for="landslide">Landslide:</label>
-                    <input type="checkbox" name="landslide" value='' id="landslide"
-                     onclick="if(document.getElementById('IsLandslide').value =='')
-                     {document.getElementById('IsLandslide').value = 'X'}
-                     else { document.getElementById('IsLandslide').value = '';}"/>
-                    <input type="hidden" name="IsLandslide" id="IsLandslide" />
+                    <input type="checkbox" name="landslide" value="" id="Landslide" class="clickable-checkbox" />
+                    <input type="hidden" name="IsLandslide" value="" id="IsLandslide" />
                 </div>
                 <div class="input-container">
                     <label for="other">Other:</label>
-                    <input type="checkbox" name="other"  value='' id="other"
-                     onclick="if(document.getElementById('IsOther').value =='')
-                     {document.getElementById('IsOther').value = 'X'}
-                     else { document.getElementById('IsOther').value = '';}"/>
-                    <input type="hidden" name="IsOther" id="IsOther" />
+                    <input type="checkbox" name="other" value="" id="Other" class="clickable-checkbox" />
+                    <input type="hidden" name="IsOther" value="" id="IsOther" />
                     <label for="other_desc"></label>
                     <input type="text" name="other_desc" id="other_desc" value=""/>
                 </div>
@@ -707,12 +677,9 @@
 
                 <div class="input-container">
                     <label for="update-existing"><b>UPDATE:</b></label>
-                    <input type="checkbox" name="update" value='' id="update-existing"
-                     onclick="if(document.getElementById('IsUpdate').value =='')
-                     {document.getElementById('IsUpdate').value = 'X'}
-                     else { document.getElementById('IsUpdate').value = '';}"/>
-                    <input type="hidden" name="IsUpdate" id="IsUpdate" />
-                    <label for="update-existing">check if this is an update to existing card</label>
+                    <input type="checkbox" name="update-existing" value="" id="UpdateExisting" class="clickable-checkbox" />
+                    <input type="hidden" name="IsUpdate" value="" id="IsUpdateExisting" />
+                    <label for="IsUpdate">check if this is an update to existing card</label>
                 </div>
 
                 <br />
@@ -736,7 +703,6 @@
                     <input type="button" name="SaveButton" id="saveButton"
                         value="Save Data" />
                     <input type="button" name="LoadButton" id="loadButton"
-                        onclick="document.getElementById('txtfiletoread').click();"
                         value="Load Data" />
                     <input type="file" id="txtfiletoread" accept=".txt,application/json"
                         style="display: none;" />
@@ -944,10 +910,10 @@
                     Time: document.getElementById('Time').value,
                     PlaceNameBuildingType: document.getElementById('PNBT').value,
                     location: document.getElementById('location').value,
-                    IsCollapse_risk: document.getElementById('IsCollapse_risk').value,
-                    IsCollapse_partial: document.getElementById('IsCollapse_partial').value,
-                    IsCollapse_full: document.getElementById('IsCollapse_full').value,
-                    IsFGW: document.getElementById('IsFGW').value,
+                    IsCollapse_risk: document.getElementById('IsCollapseRisk').value,
+                    IsCollapse_partial: document.getElementById('IsCollapsePartial').value,
+                    IsCollapse_full: document.getElementById('IsCollapseFull').value,
+                    IsFuelGasWater: document.getElementById('IsFuelGasWater').value,
                     IsFire: document.getElementById('IsFire').value,
                     IsHazmat: document.getElementById('IsHazmat').value,
                     IsLandslide: document.getElementById('IsLandslide').value,
@@ -960,7 +926,7 @@
                     remarks: document.getElementById('remarks').value,
                     CardB: document.getElementById('CardB').value,
                     CardID: document.getElementById('CardID').value,
-                    IsUpdate: document.getElementById('IsUpdate').value,
+                    IsUpdate: document.getElementById('IsUpdateExisting').value,
                     Status: selected.value,
                 };
 
@@ -998,7 +964,8 @@
 
             function setCheckboxFromHiddenValue(checkboxName, hiddenId, value) {
                 document.getElementById(hiddenId).value = value ?? '';
-                document.querySelector(`input[name="${checkboxName}"]`).checked = !!value;
+                document.querySelector(`input[name="${checkboxName}"]`).checked =
+                    document.getElementById(hiddenId).value == '' ? false : true;
             }
 
             function populateFormFromJsonObject(o) {
@@ -1007,16 +974,20 @@
                 document.getElementById('ACSno').value = o.ACSno ?? '';
                 setCheckboxFromHiddenValue('Exer', 'IsExer', o.IsExer);
 
+                if (o.IsExer.toUpperCase() === "X") {
+                    document.getElementById('Exer').value = IsAnExerciseText;
+                }
+
                 document.getElementById('company').value = o.company ?? '';
                 document.getElementById('Time').value = o.Time ?? '';
                 document.getElementById('PNBT').value = o.PlaceNameBuildingType ?? '';
                 document.getElementById('location').value = o.location ?? '';
 
-                setCheckboxFromHiddenValue('collapse-risk', 'IsCollapse_risk', o.IsCollapse_risk);
-                setCheckboxFromHiddenValue('collapse-partial', 'IsCollapse_partial', o.IsCollapse_partial);
-                setCheckboxFromHiddenValue('collapse-full', 'IsCollapse_full', o.IsCollapse_full);
+                setCheckboxFromHiddenValue('collapse-risk', 'IsCollapseRisk', o.IsCollapse_risk);
+                setCheckboxFromHiddenValue('collapse-partial', 'IsCollapsePartial', o.IsCollapse_partial);
+                setCheckboxFromHiddenValue('collapse-full', 'IsCollapseFull', o.IsCollapse_full);
                 setCheckboxFromHiddenValue('fire', 'IsFire', o.IsFire);
-                setCheckboxFromHiddenValue('fuel-gas-water', 'IsFGW', o.IsFGW);
+                setCheckboxFromHiddenValue('fuel-gas-water', 'IsFuelGasWater', o.IsFuelGasWater);
                 setCheckboxFromHiddenValue('hazmat', 'IsHazmat', o.IsHazmat);
                 setCheckboxFromHiddenValue('landslide', 'IsLandslide', o.IsLandslide);
                 setCheckboxFromHiddenValue('other', 'IsOther', o.IsOther);
@@ -1031,7 +1002,7 @@
 
                 document.getElementById('CardB').value = o.CardB ?? '';
                 document.getElementById('CardID').value = o.CardID ?? '';
-                setCheckboxFromHiddenValue('update', 'IsUpdate', o.IsUpdate);
+                setCheckboxFromHiddenValue('update-existing', 'IsUpdateExisting', o.IsUpdate);
 
                 if (o.Status) {
                     const radio = document.querySelector(`input[name="status"][value="${o.Status}"]`);
@@ -1144,20 +1115,21 @@
                 printLocation.classList.toggle('small-text', countTextareaLines(locationField) > 3);
 
                 document.getElementById('print-check-fire').textContent = markX(document.getElementById('IsFire').value);
-                document.getElementById('print-check-fgw').textContent = markX(document.getElementById('IsFGW').value);
+                document.getElementById('print-check-fgw').textContent = markX(document.getElementById('IsFuelGasWater').value);
                 document.getElementById('print-check-hazmat').textContent = markX(document.getElementById('IsHazmat').value);
                 document.getElementById('print-check-landslide').textContent = markX(document.getElementById('IsLandslide').value);
                 document.getElementById('print-check-other').textContent = markX(document.getElementById('IsOther').value);
                 document.getElementById('print-other-desc').textContent = document.getElementById('other_desc').value;
 
-                const collapseAny = document.getElementById('IsCollapse_risk').value ||
-                    document.getElementById('IsCollapse_partial').value ||
-                    document.getElementById('IsCollapse_full').value;
+                const collapseAny = 
+                    document.getElementById('IsCollapseRisk').value ||
+                    document.getElementById('IsCollapsePartial').value ||
+                    document.getElementById('IsCollapseFull').value;
                 document.getElementById('print-check-collapse').textContent = markX(collapseAny);
 
-                const riskChecked = !!document.getElementById('IsCollapse_risk').value;
-                const partialChecked = !!document.getElementById('IsCollapse_partial').value;
-                const fullChecked = !!document.getElementById('IsCollapse_full').value;
+                const riskChecked = !!document.getElementById('IsCollapseRisk').value;
+                const partialChecked = !!document.getElementById('IsCollapsePartial').value;
+                const fullChecked = !!document.getElementById('IsCollapseFull').value;
 
                 const riskMarkElement = document.getElementById('print-collapse-risk-mark');
                 riskMarkElement.textContent = 'RISK';
@@ -1182,7 +1154,7 @@
                 document.getElementById('print-cardB').textContent = document.getElementById('CardB').value;
                 document.getElementById('print-cardID').textContent = document.getElementById('CardID').value;
                 document.getElementById('print-update-mark').textContent =
-                    document.getElementById('IsUpdate').value ? '(update)' : '';
+                    document.getElementById('IsUpdateExisting').value ? '(update)' : '';
 
                 const selectedStatus = document.querySelector('input[name="status"]:checked');
                 updateStatusBox(selectedStatus ? selectedStatus.value : 'Pending');
@@ -1223,10 +1195,62 @@
                     document.getElementById('Submit').style.visibility = 'visible';
                 }
             }
+        
+        function setCheckboxEventListeners() {
+            let clickableCheckboxElements = document.getElementsByClassName('clickable-checkbox');
+
+            for (const el of clickableCheckboxElements) {
+                if (el.id == "Exer") {
+                    let exEl = document.getElementById('IsExer');
+                    
+                    el.addEventListener("click", () => {
+                        if (el.value == '') {
+                            el.value = IsAnExerciseText;
+                            exEl.value = 'X';
+                        } else {
+                            el.value = '';
+                            exEl.value = '';
+                        }
+                    });
+                } else {
+                    el.addEventListener("click", () => {
+                        setCheckboxState(el.getAttribute("id"));
+                    });
+                }
+            };
+        }
+
+        function setCheckboxState(elementId) {
+            let hiddenElementId = `Is${elementId}`;
+
+            if (document.getElementById(elementId).checked) {
+                document.getElementById(hiddenElementId).setAttribute('value', 'X');
+            } else {
+                document.getElementById(hiddenElementId).setAttribute('value', '');
+            }
+        }
+
+        function setHiddenCheckboxesDefaults() {
+            let cardBElement = document.getElementById('CardB');
+            let cardIDElement = document.getElementById('CardID');
+            if (!cardBElement.value.trim()) {
+                cardBElement.value = 'X';
+                cardBElement.setAttribute('value', 'X');
+            }
+            if (!cardIDElement.value.trim()) {
+                cardIDElement.value = 'XXX';
+                cardIDElement.setAttribute('value', 'XXX');
+            }
+        }
+        
+        document.getElementById('loadButton').addEventListener('click', () => {
+            document.getElementById('txtfiletoread').click();
+        });
 
         window.addEventListener('load', (event) => {
             console.log('Page is loaded');
             applyCardNumberDefaults();
+            setCheckboxEventListeners();
             Checkifinbrowser();
         });
 

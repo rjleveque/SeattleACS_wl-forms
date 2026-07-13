@@ -2,8 +2,7 @@ Form: SFD_incident_card-form.html,SFD_incident_card-viewer.html
 To: <var tocall>
 Subj: Batallion <var cardB> Incident Card <var cardid> --- ACS msg # <var acsno>
 Msg:
-
-<var IsExer>
+<var Exer>
 
 Seattle Fire Department
 Batallion <var cardB> Incident Card <var cardid>  --- ACS msg # <var acsno>
