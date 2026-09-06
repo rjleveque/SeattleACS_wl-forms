@@ -18,7 +18,7 @@ LOCATION:
 ------------------------
 CONDITIONS:
 
-Collapse --
+Collapse: <var IsCollapse> --
     risk: <var IsCollapse_risk>
     partial: <var IsCollapse_partial>
     full: <var IsCollapse_full>

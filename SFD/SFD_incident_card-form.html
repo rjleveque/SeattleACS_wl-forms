@@ -587,7 +587,10 @@
                     <b>CONDITIONS:</b>
                 </div>
                 <div class="input-container">
-                    <span>Collapse --- </span>
+                    <label for="collapse">Collapse:</label>
+                    <input type="checkbox" name="collapse" value="" id="Collapse" class="clickable-checkbox" />
+                    <input type="hidden" name="IsCollapse" value="" id="IsCollapse" />
+                    <span> --- </span>
                     <label for="collapse-risk">risk:</label>
                     <input type="checkbox" name="collapse-risk" value="" id="CollapseRisk" class="clickable-checkbox" />
                     <input type="hidden" name="IsCollapse_risk" value="" id="IsCollapseRisk" />
@@ -910,6 +913,7 @@
                     Time: document.getElementById('Time').value,
                     PlaceNameBuildingType: document.getElementById('PNBT').value,
                     location: document.getElementById('location').value,
+                    IsCollapse: document.getElementById('IsCollapse').value,
                     IsCollapse_risk: document.getElementById('IsCollapseRisk').value,
                     IsCollapse_partial: document.getElementById('IsCollapsePartial').value,
                     IsCollapse_full: document.getElementById('IsCollapseFull').value,
@@ -983,6 +987,7 @@
                 document.getElementById('PNBT').value = o.PlaceNameBuildingType ?? '';
                 document.getElementById('location').value = o.location ?? '';
 
+                setCheckboxFromHiddenValue('collapse', 'IsCollapse', o.IsCollapse);
                 setCheckboxFromHiddenValue('collapse-risk', 'IsCollapseRisk', o.IsCollapse_risk);
                 setCheckboxFromHiddenValue('collapse-partial', 'IsCollapsePartial', o.IsCollapse_partial);
                 setCheckboxFromHiddenValue('collapse-full', 'IsCollapseFull', o.IsCollapse_full);
@@ -1121,11 +1126,7 @@
                 document.getElementById('print-check-other').textContent = markX(document.getElementById('IsOther').value);
                 document.getElementById('print-other-desc').textContent = document.getElementById('other_desc').value;
 
-                const collapseAny = 
-                    document.getElementById('IsCollapseRisk').value ||
-                    document.getElementById('IsCollapsePartial').value ||
-                    document.getElementById('IsCollapseFull').value;
-                document.getElementById('print-check-collapse').textContent = markX(collapseAny);
+                document.getElementById('print-check-collapse').textContent = markX(document.getElementById('IsCollapse').value);
 
                 const riskChecked = !!document.getElementById('IsCollapseRisk').value;
                 const partialChecked = !!document.getElementById('IsCollapsePartial').value;

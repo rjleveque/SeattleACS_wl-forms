@@ -538,7 +538,10 @@
                     <b>CONDITIONS:</b>
                 </div>
                 <div class="input-container">
-                    <label>Collapse --- &nbsp;&nbsp; risk:</label>
+                    <label>Collapse:</label>
+                    <input type="checkbox" id="chk-collapse" disabled />
+                    <input type="hidden" id="IsCollapse" value="{var IsCollapse}" />
+                    <label>&nbsp;&nbsp; risk:</label>
                     <input type="checkbox" id="chk-collapse-risk" disabled />
                     <input type="hidden" id="IsCollapse_risk" value="{var IsCollapse_risk}" />
 
@@ -820,10 +823,7 @@
                 document.getElementById('print-check-other').textContent = markX(document.getElementById('IsOther').value);
                 document.getElementById('print-other-desc').textContent = document.getElementById('other_desc').value;
 
-                const collapseAny = document.getElementById('IsCollapse_risk').value ||
-                    document.getElementById('IsCollapse_partial').value ||
-                    document.getElementById('IsCollapse_full').value;
-                document.getElementById('print-check-collapse').textContent = markX(collapseAny);
+                document.getElementById('print-check-collapse').textContent = markX(document.getElementById('IsCollapse').value);
 
                 const riskChecked = !!document.getElementById('IsCollapse_risk').value;
                 const partialChecked = !!document.getElementById('IsCollapse_partial').value;
@@ -885,6 +885,7 @@
 
             function initializeViewer() {
                 document.getElementById('chk-exer').checked = !!document.getElementById('IsExer').value;
+                document.getElementById('chk-collapse').checked = !!document.getElementById('IsCollapse').value;
                 document.getElementById('chk-collapse-risk').checked = !!document.getElementById('IsCollapse_risk').value;
                 document.getElementById('chk-collapse-partial').checked = !!document.getElementById('IsCollapse_partial').value;
                 document.getElementById('chk-collapse-full').checked = !!document.getElementById('IsCollapse_full').value;
