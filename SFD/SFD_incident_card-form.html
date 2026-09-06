@@ -555,6 +555,7 @@
                     <label for="Exer"><b>This is an exercise</b>:</label>
                     <input type="checkbox" name="Exer" value="" id="Exer"  class="clickable-checkbox" />
                     <input type="hidden" name="IsExer" value="" id="IsExer" />
+                    <input type="hidden" name="ExerBanner" value="" id="ExerBanner" />
                 </div>
 
                 <hr />
@@ -980,6 +981,9 @@
 
                 if (o.IsExer.toUpperCase() === "X") {
                     document.getElementById('Exer').value = IsAnExerciseText;
+                    document.getElementById('ExerBanner').value = IsAnExerciseText;
+                } else {
+                    document.getElementById('ExerBanner').value = '';
                 }
 
                 document.getElementById('company').value = o.company ?? '';
@@ -1203,14 +1207,17 @@
             for (const el of clickableCheckboxElements) {
                 if (el.id == "Exer") {
                     let exEl = document.getElementById('IsExer');
-                    
+                    let bannerEl = document.getElementById('ExerBanner');
+
                     el.addEventListener("click", () => {
                         if (el.value == '') {
                             el.value = IsAnExerciseText;
                             exEl.value = 'X';
+                            bannerEl.value = IsAnExerciseText;
                         } else {
                             el.value = '';
                             exEl.value = '';
+                            bannerEl.value = '';
                         }
                     });
                 } else {
