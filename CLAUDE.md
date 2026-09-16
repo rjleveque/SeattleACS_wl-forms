@@ -46,6 +46,21 @@ their field names in sync:
   HTML `name=` attributes (case-sensitive). The first line
   (`Form: <initial-html>[,<viewer-html>]`) declares which HTML file(s) the
   template pairs with.
+  - **`*-template.txt` must use CRLF (`\r\n`) line endings, not LF.**
+    Winlink Express's template parser appears to require CRLF; with LF-only
+    endings the `Form:` line's two-token (initial+viewer) parse doesn't
+    find its terminator and silently consumes into the next line. Symptom
+    seen once: composing/sending worked fine (so the HTML forms themselves
+    tolerate LF), but on the *receiving* side Winlink Express failed to
+    open the viewer with an error like `The required display html page is
+    not available: SFD_incident_card-viewer.html To: <var tocall` — that
+    garbled tail is literally `Form:` line 1 run into `To:` line 2 with no
+    break between them. Confirmed by comparing byte-for-byte against the
+    reference templates in `WAforms/` (e.g. `WA ICS213RR.txt`), which are
+    100% CRLF; ours was 100% LF. Fixed by converting the file's line
+    endings to CRLF (content unchanged). If this template is ever
+    re-edited with a tool/editor that normalizes to LF, re-check/reconvert
+    before testing in Winlink — this is easy to silently reintroduce.
 - **`*-viewer.html`** — reformats a *received* Winlink message back into a
   readable HTML view. Implemented as `SFD_incident_card-viewer.html`.
   Reference examples showing the Initial/Viewer split exist under
@@ -83,12 +98,34 @@ their field names in sync:
   is still present, the form is being viewed in a plain browser (not
   Winlink), so the Submit button is hidden and an alert is shown. SFD's form
   now uses this same pattern.
-- Checkboxes are implemented as a visible `<input type="checkbox">` paired
-  with a hidden `<input type="hidden" name="...">` whose value is toggled via
-  an inline `onclick` handler (there's an open question in
-  `SFD/issue1.md` about doing this the more idiomatic way with
-  `addEventListener`, which the author couldn't get working — see the
-  `checkbox` branch for a WIP attempt).
+- Checkboxes are a visible `<input type="checkbox" id="Foo" class="clickable-checkbox">`
+  paired with a hidden `<input type="hidden" id="IsFoo" name="...">`. Wiring
+  is generic, not per-field: `setCheckboxEventListeners()` attaches a click
+  listener to every `.clickable-checkbox` element, and `setCheckboxState()`
+  derives the hidden field's id as `` `Is${elementId}` `` and sets its value
+  to `'X'`/`''`. This means adding a new simple checkbox (form.html only —
+  the read-only viewer doesn't need this wiring, just the markup) only
+  requires the two inputs with matching `id`/`Is`-prefixed `id` and the
+  `clickable-checkbox` class — no JS changes — *unless* it needs special
+  behavior, in which case add a branch in `setCheckboxEventListeners()`
+  keyed on `el.id` (see the `Exer` case, which sets a banner-text value
+  instead of `'X'`). This generic scheme replaced an older one-`onclick`
+  per-checkbox approach.
+- Two distinct print treatments exist for checkboxes, and adding a field
+  means picking the right one:
+  - Simple yes/no fields (Fire, HAZMAT, Landslide, Other, Collapse) each
+    have their own `<span class="checkbox-box" id="print-check-foo">`
+    that `populatePrintCard()` fills with `markX(...)` (an X or blank) —
+    for these, `IsFoo` maps 1:1 to one print glyph.
+  - Mutually-exclusive-ish groups meant to be "circled" on the printed
+    card (currently only Collapse's risk/partial/full) instead render as
+    plain text with a `.collapse-mark-active` class toggled per option —
+    see the Print Card section below. Don't derive one of these two
+    patterns from the other: an earlier version of the Collapse checkbox
+    computed its `print-check-collapse` glyph as OR-of-risk/partial/full
+    because there was no real "Collapse" field yet; once a real `Collapse`
+    checkbox was added (its own `IsCollapse` hidden field), the glyph was
+    switched to read that field directly instead.
 - The "Save Data" button serializes current form values to a JSON `.txt` file
   client-side (`saveFormInputElementsToFile()` in the form's `<script>`)
   named with a timestamp, so field data can be saved offline and later
